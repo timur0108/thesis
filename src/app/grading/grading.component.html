@@ -1,0 +1,148 @@
+<form [formGroup]="gradeForm">
+  <button mat-icon-button (click)="showGradingGuide()">
+            <mat-icon>help_outline</mat-icon>
+          </button>
+
+<mat-vertical-stepper [linear]="true" #stepper>
+  
+  <mat-step [stepControl]="gradeForm.controls['evaluationSummary']">
+    
+      <ng-template matStepLabel>Evaluation summary</ng-template>
+
+      <mat-card class="grade-section">
+        <mat-card-header>
+          <mat-card-title>Evaluation summary</mat-card-title>
+          
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="full-width">
+            <textarea formControlName="evaluationSummary" matInput rows="3"></textarea>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    
+  </mat-step>
+
+  <!-- Step 1: Content -->
+  <mat-step [stepControl]="gradeForm.controls['contentScore']">
+    
+      <ng-template matStepLabel>Content</ng-template>
+
+      <mat-card class="grade-section">
+        <mat-card-header>
+          <mat-card-title>Content</mat-card-title>
+          
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Grade</mat-label>
+            <input formControlName="contentScore" matInput type="number" min="1" max="5" placeholder="1 - 5">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Reasoning</mat-label>
+            <textarea formControlName="contentReasoning" matInput rows="3"></textarea>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+   
+  </mat-step>
+
+  <!-- Step 2: Complexity -->
+  <mat-step [stepControl]="gradeForm.controls['complexityScore']">
+    
+      <ng-template matStepLabel>Complexity</ng-template>
+
+      <mat-card class="grade-section">
+        <mat-card-header>
+          <mat-card-title>Complexity</mat-card-title>
+
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Grade</mat-label>
+            <input formControlName="complexityScore" matInput type="number" min="1" max="5" placeholder="1 - 5">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Reasoning</mat-label>
+            <textarea formControlName="complexityReasoning" matInput rows="3"></textarea>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    
+  </mat-step>
+
+  <!-- Step 3: Appearance -->
+  <mat-step [stepControl]="gradeForm.controls['appearanceScore']">
+    
+      <ng-template matStepLabel>Appearance</ng-template>
+
+      <mat-card class="grade-section">
+        <mat-card-header>
+          <mat-card-title>Appearance</mat-card-title>
+          
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Grade</mat-label>
+            <input formControlName="appearanceScore" matInput type="number" min="1" max="5" placeholder="1 - 5">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Reasoning</mat-label>
+            <textarea formControlName="appearanceReasoning" matInput rows="3"></textarea>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+   
+  </mat-step>
+
+  <mat-step [stepControl]="gradeForm.controls['questions']">
+    
+      <ng-template matStepLabel>Questions</ng-template>
+
+      <mat-card class="grade-section">
+        <mat-card-header>
+          <mat-card-title>Questions</mat-card-title>
+          
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="full-width">
+            <textarea formControlName="questions" matInput rows="3"></textarea>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="submitGrades()">Submit</button>
+      </div>
+    
+  </mat-step>
+
+</mat-vertical-stepper>
+</form>

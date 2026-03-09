@@ -1,0 +1,31 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+.content {
+  padding: 20px;
+}
+
+/* Sidenav background */
+mat-sidenav {
+  background-color: rgb(44, 86, 150);
+}
+
+/* Nav list items */
+mat-nav-list a.mat-list-item {
+  color: white;              /* Text color */
+}
+
+/* Icons inside nav list items */
+mat-nav-list a.mat-list-item mat-icon {
+  color: white;              /* Icon color */
+}
+
+/* Optional: highlight active link */
+mat-nav-list a.mat-list-item.active-link {
+  background-color: rgba(255, 255, 255, 0.2);
+}
