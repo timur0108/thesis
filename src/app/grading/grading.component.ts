@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit, output } from '@angular/core';
 import { ReviewerGrade } from './grade';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -12,18 +12,22 @@ import { ContentGradeDescriptionDialogComponent } from './content-grade-descript
 import { MatStepperModule } from '@angular/material/stepper';
 import { Thesis } from '../thesis/thesis';
 import { GradingService } from './grading.service';
+import { HasAuthorityDirective } from '../auth/has-authority.directive';
 
 @Component({
   selector: 'app-grading',
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatCardModule, MatButtonModule, MatIconModule, ReactiveFormsModule, MatDialogModule, MatStepperModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatCardModule, MatButtonModule, MatIconModule, ReactiveFormsModule, MatDialogModule, MatStepperModule, HasAuthorityDirective],
   templateUrl: './grading.component.html',
   styleUrl: './grading.component.css'
 })
-export class GradingComponent {
+export class GradingComponent implements OnInit{
+  
+  @Input() thesis!: Thesis;
   
   readonly dialog = inject(MatDialog);
-  @Input() thesis!: Thesis;
   private gradingService: GradingService = inject(GradingService);
+  gradeSubmitted = output<ReviewerGrade>();
+  grade!: ReviewerGrade | null;
 
   gradeForm = new FormGroup({
     contentScore: new FormControl<number>(0, { nonNullable: true }),
@@ -35,6 +39,14 @@ export class GradingComponent {
     evaluationSummary: new FormControl<string>('', { nonNullable: true }),
     questions: new FormControl<string>('', { nonNullable: true })
   });
+
+  ngOnInit(): void {
+    this.gradingService.getReviewerGrade(this.thesis.id).subscribe({
+      next: (data) => {
+        this.grade = data;
+      }
+    })
+  }
   
   showGradingGuide(): void {
     const dialogRef = this.dialog.open(ContentGradeDescriptionDialogComponent);
@@ -56,7 +68,11 @@ export class GradingComponent {
         formValue.evaluationSummary
       );
 
-    this.gradingService.submitReviewerGrade(grade).subscribe();
+    this.gradingService.submitReviewerGrade(grade).subscribe({
+      next: (data) => {
+        this.gradeSubmitted.emit(data);
+      }
+    });
       
     } else {
       console.warn('Form is invalid');

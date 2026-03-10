@@ -1,31 +1,57 @@
 @if (thesis()) {
   <mat-card class="thesis-card">
-    <mat-card-header>
-      <mat-card-title>{{ thesis()!.titleEnglish }}</mat-card-title>
-      <mat-card-subtitle>{{ thesis()!.titleEstonian }}</mat-card-subtitle>
-    </mat-card-header>
 
-    <mat-divider></mat-divider>
+  <mat-card-header>
+    <mat-card-title>{{ thesis()!.titleEnglish }}</mat-card-title>
+    <mat-card-subtitle>{{ thesis()!.titleEstonian }}</mat-card-subtitle>
+  </mat-card-header>
 
-    <mat-card-content>
-      <div class="info-row"><span class="label">Student:</span> <span>{{ thesis()!.studentName }}</span></div>
-      <div class="info-row"><span class="label">Supervisor:</span> <span>{{ thesis()!.supervisorName }}</span></div>
-      <div class="info-row"><span class="label">Level:</span> <span>{{ thesis()!.levelOfStudies }}</span></div>
-      <div class="info-row"><span class="label">Language:</span> <span>{{ thesis()!.languageOfThesis }}</span></div>
-      <div class="info-row"><span class="label">Volume:</span> <span>{{ thesis()!.volumeEcts }} ECTS</span></div>
-    </mat-card-content>
+  <mat-divider></mat-divider>
 
-    
-  </mat-card>
+  <mat-card-content>
+
+    <div class="thesis-meta">
+
+      <div class="meta-item">
+        <span class="meta-label">Student</span>
+        <span class="meta-value">{{ thesis()!.studentName }}</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-label">Supervisor</span>
+        <span class="meta-value">{{ thesis()!.supervisorName }}</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-label">Level</span>
+        <span class="meta-value">{{ thesis()!.levelOfStudies }}</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-label">Language</span>
+        <span class="meta-value">{{ thesis()!.languageOfThesis }}</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-label">Volume</span>
+        <span class="meta-value">{{ thesis()!.volumeEcts }} ECTS</span>
+      </div>
+
+    </div>
+
+  </mat-card-content>
+
+</mat-card>
+
+ 
+
+  <ng-container *appHasAuthority="'REVIEWER'">
+  <app-reviewer-thesis-view [thesis]="thesis()!"></app-reviewer-thesis-view>
+</ng-container>
 
 
-  <button mat-raised-button color="basic" (click)="showGrading = !showGrading">
-        {{ showGrading ? 'Hide Grading' : 'Start Grading' }}
-      </button>
- <div [@expandCollapse]="showGrading ? 'expanded' : 'collapsed'" class="grading-container">
-    <app-grading [thesis]="thesis()!"></app-grading>
-  </div>
 } @else {
-  <mat-spinner></mat-spinner>
-
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
 }

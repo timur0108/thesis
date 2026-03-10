@@ -12,19 +12,19 @@ export class AuthService {
 
     private httpClient = inject(HttpClient);
     private _roles = new Map();
-     _authenticatedUser!: User;
-
-    setAuthenticatedUser(user: User) {
-        this._authenticatedUser = user;
-    }
+     
 
     public login(credentials: { email: string; password: string}): Observable<User> {
         return this.httpClient.post<User>(this.baseUrl, credentials).pipe(
-            tap(user => this._authenticatedUser = user)
+            tap(user => localStorage.setItem("user", JSON.stringify(user)))
         );
     }
 
     isGranted(role: string): boolean {
-        return this._authenticatedUser.role === role;
+        const userJSON = localStorage.getItem("user");
+        if (userJSON) {
+            return JSON.parse(userJSON).role === role
+        }
+        return false;
     }
 }

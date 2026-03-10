@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, ComponentRef, inject, input, OnInit, signal, ViewContainerRef } from '@angular/core';
 import { Thesis } from './thesis';
 import { ActivatedRoute } from '@angular/router';
 import { ThesisService } from './thesis.service';
@@ -13,10 +13,12 @@ import {ChangeDetectionStrategy} from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MatButton } from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { HasAuthorityDirective } from '../auth/has-authority.directive';
+import { ReviewerThesisViewComponent } from './reviewer-thesis-view/reviewer-thesis-view.component';
 
 @Component({
   selector: 'app-thesis',
-  imports: [DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent, CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule],
+  imports: [DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent, CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule, HasAuthorityDirective, ReviewerThesisViewComponent],
   templateUrl: './thesis.component.html',
   styleUrl: './thesis.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

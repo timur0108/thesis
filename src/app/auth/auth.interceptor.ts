@@ -10,7 +10,7 @@ export function authInterceptor(
     next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
     const authService = inject(AuthService);
-    if (authService._authenticatedUser !== null) {
+    if (localStorage.getItem("user")) {
         const cloned = req.clone({ withCredentials: true });
         return next(cloned);
     }

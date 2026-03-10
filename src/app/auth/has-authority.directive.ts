@@ -6,7 +6,8 @@ import { User } from './types';
 import { Input } from '@angular/core';
 
 @Directive({
-  selector: '[appHasAuthority]'
+  selector: '[appHasAuthority]',
+  standalone: true,
 })
 export class HasAuthorityDirective {
 
@@ -15,7 +16,7 @@ export class HasAuthorityDirective {
   private _viewContainer = inject(ViewContainerRef);
   private _roleOrPermission!: string;
 
-  @Input()
+  @Input('appHasAuthority')
   set isGranted(roleOrPermission: string) {
     this._roleOrPermission = roleOrPermission;
   }
