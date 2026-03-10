@@ -25,4 +25,8 @@ export class GradingService {
     getCommitteeMemberOwnnGrade(thesisId: number): Observable<CommitteeMemberGrade> {
         return this.httpClient.get<CommitteeMemberGrade>(this.baseUrl + "/committee-member/own-grade/" + thesisId);
     }
+
+    getCommitteeMemberGradesOfOtherMembers(theisId: number): Observable<CommitteeMemberGrade[]> {
+        return this.httpClient.get<CommitteeMemberGrade[]>(this.baseUrl + "/committee-member/other-members/" + theisId);
+    }
 }

@@ -1,0 +1,14 @@
+.scores-table, .committee-table {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.own-grade {
+  background-color: #e3f2fd; /* Light blue highlight */
+  font-weight: 600;
+}
+
+.reviewer-section h3 {
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
