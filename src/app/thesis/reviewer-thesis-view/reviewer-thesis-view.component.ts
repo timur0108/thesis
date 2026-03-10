@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-reviewer-thesis-view',
@@ -28,20 +28,13 @@ export class ReviewerThesisViewComponent implements OnInit{
   gradingService: GradingService = inject(GradingService);
   openGradingForm = false;
 
-  displayedColumns: string[] = ['content', 'complexity', 'appearance'];
+  displayedColumns: string[] = [ 'content', 'complexity', 'appearance',  ];
 
-get scores() {
-  const g = this.grade();
-  if (!g) return [];
-
-  return [
-    {
-      content: g.contentScore,
-      complexity: g.complexityScore,
-      appearance: g.appearanceScore
+  get scores() {
+     const g = this.grade(); 
+     if (!g) return []; 
+     return [ { content: g.contentScore, complexity: g.complexityScore, appearance: g.appearanceScore } ]; 
     }
-  ];
-}
 
   ngOnInit(): void {
     this.gradingService.getReviewerGrade(this.thesis.id).subscribe({

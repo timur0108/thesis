@@ -49,6 +49,10 @@
   <app-reviewer-thesis-view [thesis]="thesis()!"></app-reviewer-thesis-view>
 </ng-container>
 
+  <ng-container *appHasAuthority="'COMMITTEE_MEMBER'">
+  <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
+</ng-container>
+
 
 } @else {
   <div class="spinner-container">

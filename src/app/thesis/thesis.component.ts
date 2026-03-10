@@ -15,10 +15,11 @@ import { MatButton } from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HasAuthorityDirective } from '../auth/has-authority.directive';
 import { ReviewerThesisViewComponent } from './reviewer-thesis-view/reviewer-thesis-view.component';
+import { CommitteeMemberThesisViewComponent } from './committee-member-thesis-view/committee-member-thesis-view.component';
 
 @Component({
   selector: 'app-thesis',
-  imports: [DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent, CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule, HasAuthorityDirective, ReviewerThesisViewComponent],
+  imports: [DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent, CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule, HasAuthorityDirective, ReviewerThesisViewComponent, CommitteeMemberThesisViewComponent],
   templateUrl: './thesis.component.html',
   styleUrl: './thesis.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
