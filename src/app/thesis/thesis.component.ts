@@ -21,7 +21,7 @@ import { CommitteeMemberThesisViewComponent } from './committee-member-thesis-vi
   selector: 'app-thesis',
   imports: [DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent, CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule, HasAuthorityDirective, ReviewerThesisViewComponent, CommitteeMemberThesisViewComponent],
   templateUrl: './thesis.component.html',
-  styleUrl: './thesis.component.css',
+  styleUrl: './thesis.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('expandCollapse', [

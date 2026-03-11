@@ -4,6 +4,8 @@ export class CommitteeMemberGrade {
     public contentScore: number,
     public complexityScore: number,
     public appearanceScore: number,
-    public presentationScore: number
+    public presentationScore: number,
+    public name: string,
+    public secondName: string
   ) {}
 }
