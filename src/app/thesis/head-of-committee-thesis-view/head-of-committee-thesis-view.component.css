@@ -1,0 +1,30 @@
+.scores-table, .committee-table {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.own-grade {
+  background-color: #e3f2fd;
+  font-weight: 600;
+}
+
+.reviewer-section h3 {
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+.grades-table {
+  border-collapse: collapse; 
+  width: 100%;
+}
+
+.grades-table th,
+.grades-table td {
+  border: 1px solid #ccc; 
+  padding: 8px;
+  text-align: center;
+}
+
+.grades-table th {
+  background-color: #f5f5f5;
+}

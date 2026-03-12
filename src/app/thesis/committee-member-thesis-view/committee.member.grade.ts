@@ -6,6 +6,7 @@ export class CommitteeMemberGrade {
     public appearanceScore: number,
     public presentationScore: number,
     public name: string,
-    public secondName: string
+    public secondName: string,
+    public visibleToOthers: boolean
   ) {}
 }

@@ -8,14 +8,14 @@ import { Observable, pipe, tap } from "rxjs";
 })
 export class AuthService {
 
-    private readonly baseUrl: string = 'http://localhost:8080/api/auth/login';
+    private readonly baseUrl: string = 'http://localhost:8080/api/auth';
 
     private httpClient = inject(HttpClient);
     private _roles = new Map();
      
 
     public login(credentials: { email: string; password: string}): Observable<User> {
-        return this.httpClient.post<User>(this.baseUrl, credentials).pipe(
+        return this.httpClient.post<User>(this.baseUrl + "/login", credentials).pipe(
             tap(user => localStorage.setItem("user", JSON.stringify(user)))
         );
     }
@@ -26,5 +26,9 @@ export class AuthService {
             return JSON.parse(userJSON).role === role
         }
         return false;
+    }
+
+    refreshToken() {
+        return this.httpClient.post(this.baseUrl + "/refresh", null);
     }
 }

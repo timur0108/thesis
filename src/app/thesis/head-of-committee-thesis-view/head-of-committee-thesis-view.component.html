@@ -1,0 +1,60 @@
+<mat-card class="grade-card" appearance="outlined">
+
+  <mat-card-header>
+    <mat-card-title>Submitted Evaluations</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+
+    @if (reviewerGrade()) {
+      <table class="grades-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Name</th>
+          <th>Content</th>
+          <th>Complexity</th>
+          <th>Appearance</th>
+          <th>Presentation</th>
+          <th>Final Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Reviewer</td>
+          <td>{{ reviewerGrade()?.name + " " + reviewerGrade()?.secondName }}</td>
+          <td>{{ reviewerGrade()?.contentScore }}</td>
+          <td>{{ reviewerGrade()?.complexityScore }}</td>
+          <td>{{ reviewerGrade()?.appearanceScore }}</td>
+          <td></td>
+        </tr>
+        @if (committeeMemberGrades()) {
+          @for (grade of committeeMemberGrades(); track grade) {
+            <tr>
+          <td>Committee Member</td>
+          <td>{{ grade.name + ' ' + grade.secondName }}</td>
+          <td>{{ grade.contentScore }}</td>
+          <td>{{ grade.complexityScore }}</td>
+          <td>{{ grade.appearanceScore }}</td>
+          <td>{{ grade.presentationScore }}</td>
+          <td>{{ getFinalGrade(grade) }}</td>
+        </tr>
+          }
+        }
+        
+       
+      </tbody>
+    </table>
+    @if (committeeMemberGrades()) {
+        @if (!gradesVisible()) {
+            <button mat-flat-button class="mt-2" (click)="makeVisible()">Make visible</button>
+        } @else{
+            <button mat-flat-button class="mt-2" (click)="hideGrades()">Make invisible</button>
+        }
+    }
+} @else {
+  <p>Reviewer hasn't submitted his evaluation yet</p>
+}
+  </mat-card-content>
+  
+

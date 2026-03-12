@@ -44,9 +44,7 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
   }
   startReview() {
     this.isGrading = true;
-    this.ownGrade.set(new CommitteeMemberGrade(
-      this.thesis.id, 0, 0, 0, 0, "sd", "sad"
-    )) 
+     
   
   }
 
@@ -54,7 +52,7 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
     const formValue = this.gradeForm.getRawValue();
     const grade = new CommitteeMemberGrade(
       this.thesis.id, formValue.contentScore, formValue.complexityScore, formValue.appearanceScore, formValue.presentationScore, "asd", "asd"
-    );
+    , false);
     this.gradingService.submitCommitteeMemberGrade(grade).subscribe({
       next: (res) => {
         this.ownGrade.set(res);
@@ -76,6 +74,7 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
     this.gradingService.getCommitteeMemberOwnnGrade(this.thesis.id).subscribe({
       next: (res) => {
         this.ownGrade.set(res);
+        console.log(this.ownGrade())
         this.gradeForm = new FormGroup({
         contentScore: new FormControl(res?.contentScore ?? null),
         complexityScore: new FormControl(res?.complexityScore ?? null),
@@ -109,5 +108,25 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
       case 'appearance': return { score: this.reviewerGrade()!.appearanceScore, reasoning: this.reviewerGrade()!.appearanceReasoning };
       default: return null;
     }
+  }
+
+  getFinalGrade(grade: CommitteeMemberGrade): string {
+    const points = (grade.appearanceScore + grade.complexityScore + grade.contentScore + grade.presentationScore) * 5;
+    if (points > 90) {
+      return 'A';
+    }
+    if (points > 80) {
+      return 'B';
+    }
+    if (points > 70) {
+      return 'C';
+    }
+    if (points > 60) {
+      return 'D';
+    }
+    if (points > 50) {
+      return 'E';
+    }
+    return 'F';
   }
 }

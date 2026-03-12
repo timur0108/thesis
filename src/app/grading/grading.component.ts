@@ -65,7 +65,9 @@ export class GradingComponent implements OnInit{
         formValue.appearanceScore,
         formValue.appearanceReasoning,
         formValue.questions,
-        formValue.evaluationSummary
+        formValue.evaluationSummary,
+        "",
+        ""
       );
 
     this.gradingService.submitReviewerGrade(grade).subscribe({

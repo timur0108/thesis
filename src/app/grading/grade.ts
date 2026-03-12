@@ -8,6 +8,8 @@ export class ReviewerGrade {
     public appearanceScore: number,
     public appearanceReasoning: string,
     public questions: string,
-    public evaluationSummary: string
+    public evaluationSummary: string,
+    public name: string,
+    public secondName: string
   ) {}
 }

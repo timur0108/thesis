@@ -1,7 +1,7 @@
 <mat-card class="grade-card" appearance="outlined">
 
   <mat-card-header>
-    <mat-card-title>Reviewer Evaluation</mat-card-title>
+    <mat-card-title>Submitted Evaluations</mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
@@ -10,11 +10,12 @@
       <table class="grades-table">
       <thead>
         <tr>
-          <th>Role</th>
-          <th>Content</th>
-          <th>Complexity</th>
-          <th>Appearance</th>
-          <th>Presentation</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Role</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Content</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Complexity</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Appearance</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Presentation</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Final Grade</th>
         </tr>
       </thead>
       <tbody>
@@ -33,19 +34,24 @@
           <td>{{ grade.complexityScore }}</td>
           <td>{{ grade.appearanceScore }}</td>
           <td>{{ grade.presentationScore }}</td>
-          
+          <td>{{ getFinalGrade(grade) }}</td>
         </tr>
           }
         }
         @if (!ownGrade()) {
            @if (isGrading) {
             <tr [formGroup]="gradeForm">
-            <td>Committee Member</td>
-            <td><input type="number" formControlName="contentScore"></td>
-            <td><input type="number" formControlName="complexityScore"></td>
-            <td><input type="number" formControlName="appearanceScore"></td>
-            <td><input type="text"   formControlName="presentationScore"></td>
-          </tr>
+              <td>Committee Member</td>
+              <td><input type="number" formControlName="contentScore"></td>
+              <td><input type="number" formControlName="complexityScore"></td>
+              <td><input type="number" formControlName="appearanceScore"></td>
+              <td><input type="text"   formControlName="presentationScore"></td>
+            </tr>
+            <button mat-raised-button class="mt-2 me-2" (click)="cancelReview()">Cancel</button>
+              <button mat-raised-button class="mt-2" (click)="submitReview()">Submit</button>
+            
+          } @else {
+            <button mat-raised-button class="mt-2" (click)="startReview()">Start Review</button>
           }
         } @else {
           <tr>
@@ -54,19 +60,12 @@
             <td>{{ ownGrade()!.complexityScore }}</td>
             <td>{{ ownGrade()!.appearanceScore }}</td>
             <td>{{ ownGrade()!.presentationScore }}</td>
+            <td>{{ getFinalGrade(ownGrade()!) }}</td>
           </tr>
         }
        
       </tbody>
     </table>
-    @if (!ownGrade()) {
-      @if (!isGrading) {
-      <button mat-raised-button class="mt-2" (click)="startReview()">Start Review</button>
-    } @else {
-      <button mat-raised-button class="mt-2 me-2" (click)="cancelReview()">Cancel</button>
-      <button mat-raised-button class="mt-2" (click)="submitReview()">Submit</button>
-    }
-    }
 } @else {
   <p>Reviewer hasn't submitted his evaluation yet</p>
 }

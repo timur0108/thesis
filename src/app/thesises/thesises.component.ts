@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-thesises',
-  imports: [RouterModule, CommonModule, MatTableModule, MatButtonModule],
+  imports: [MatCardModule, RouterModule, CommonModule, MatTableModule, MatButtonModule],
   templateUrl: './thesises.component.html',
   styleUrl: './thesises.component.css'
 })

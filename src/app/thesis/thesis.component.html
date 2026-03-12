@@ -53,6 +53,10 @@
   <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
 </ng-container>
 
+<ng-container *appHasAuthority="'HEAD_OF_COMMITTEE'">
+  <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
+</ng-container>
+
 
 } @else {
   <div class="spinner-container">

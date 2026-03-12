@@ -33,4 +33,16 @@ export class GradingService {
     submitCommitteeMemberGrade(grade: CommitteeMemberGrade) {
         return this.httpClient.post<CommitteeMemberGrade>(this.baseUrl + "/committee-member", grade);
     }
+
+    getAllCommitteeMemberGrades(thesidId: number): Observable<CommitteeMemberGrade[]> {
+        return this.httpClient.get<CommitteeMemberGrade[]>(this.baseUrl + "/committee-member/" + thesidId + "/all");
+    }
+
+    makeGradesVisible(thesisId: number): Observable<CommitteeMemberGrade[]> {
+        return this.httpClient.post<CommitteeMemberGrade[]>(this.baseUrl + "/make-visible/" + thesisId, null);
+    }
+
+    hideGrades(thesisId: number): Observable<CommitteeMemberGrade[]> {
+        return this.httpClient.post<CommitteeMemberGrade[]>(this.baseUrl + "/hide/" + thesisId, null);
+    }
 }
