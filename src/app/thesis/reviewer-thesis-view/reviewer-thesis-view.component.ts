@@ -14,10 +14,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reviewer-thesis-view',
-  imports: [GradingComponent, HasAuthorityDirective, MatButtonModule, MatCardModule, MatListModule, MatDividerModule, MatIconModule, ReactiveFormsModule, MatProgressBarModule, MatTableModule],
+  imports: [GradingComponent, HasAuthorityDirective, MatButtonModule, MatCardModule, MatListModule, MatDividerModule, MatIconModule, ReactiveFormsModule, MatProgressBarModule, MatTableModule, CommonModule],
   templateUrl: './reviewer-thesis-view.component.html',
   styleUrl: './reviewer-thesis-view.component.css'
 })

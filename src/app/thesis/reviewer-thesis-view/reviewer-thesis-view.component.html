@@ -18,7 +18,7 @@
     } @else {
         <mat-card class="grade-card" appearance="outlined">
 
-  <mat-card-header>
+  <mat-card-header class="mb-5">
     <mat-card-title>Your Evaluation</mat-card-title>
   </mat-card-header>
 
@@ -26,70 +26,70 @@
 
     <!-- Summary + Questions -->
     <div class="top-section">
-
       <div class="text-block">
         <h3>Evaluation Summary</h3>
         <p>{{ grade()!.evaluationSummary }}</p>
       </div>
-
       <div class="text-block">
         <h3>Questions</h3>
         <p>{{ grade()!.questions }}</p>
       </div>
-
     </div>
-
 
     <!-- Scores -->
     <div class="scores-section">
-
       <h3>Scores</h3>
 
       <div class="score-card">
-
         <div class="score-header">
           <span class="score-title">Content</span>
-          <span class="score-value">{{ grade()!.contentScore }}/5</span>
+          <span 
+            class="score-value"
+            [ngClass]="{
+              'low': grade()!.contentScore <= 2,
+              'medium': grade()!.contentScore > 2 && grade()!.contentScore < 5,
+              'high': grade()!.contentScore === 5
+            }">
+            {{ grade()!.contentScore }}/5
+          </span>
         </div>
-
-        <p class="reasoning">
-          {{ grade()!.contentReasoning }}
-        </p>
-
+        <p class="reasoning">{{ grade()!.contentReasoning }}</p>
       </div>
 
-
       <div class="score-card">
-
         <div class="score-header">
           <span class="score-title">Complexity</span>
-          <span class="score-value">{{ grade()!.complexityScore }}/5</span>
+          <span 
+            class="score-value"
+            [ngClass]="{
+              'low': grade()!.complexityScore <= 2,
+              'medium': grade()!.complexityScore > 2 && grade()!.complexityScore < 5,
+              'high': grade()!.complexityScore === 5
+            }">
+            {{ grade()!.complexityScore }}/5
+          </span>
         </div>
-
-        <p class="reasoning">
-          {{ grade()!.complexityReasoning }}
-        </p>
-
+        <p class="reasoning">{{ grade()!.complexityReasoning }}</p>
       </div>
 
-
       <div class="score-card">
-
         <div class="score-header">
           <span class="score-title">Appearance</span>
-          <span class="score-value">{{ grade()!.appearanceScore }}/5</span>
+          <span 
+            class="score-value"
+            [ngClass]="{
+              'low': grade()!.appearanceScore <= 2,
+              'medium': grade()!.appearanceScore > 2 && grade()!.appearanceScore < 5,
+              'high': grade()!.appearanceScore === 5
+            }">
+            {{ grade()!.appearanceScore }}/5
+          </span>
         </div>
-
-        <p class="reasoning">
-          {{ grade()!.appearanceReasoning }}
-        </p>
-
+        <p class="reasoning">{{ grade()!.appearanceReasoning }}</p>
       </div>
 
     </div>
-
   </mat-card-content>
-
 </mat-card>
     }
 </div>
