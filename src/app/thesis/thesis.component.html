@@ -1,65 +1,60 @@
-@if (thesis()) {
-  <mat-card class="thesis-card mb-4 mt-2">
+<ng-container *ngIf="thesis(); else loading">
+  <mat-card class="thesis-card">
 
-  <mat-card-header>
-    <mat-card-title>{{ thesis()!.titleEnglish }}</mat-card-title>
-    <mat-card-subtitle >{{ thesis()!.titleEstonian }}</mat-card-subtitle>
-  </mat-card-header>
+    <mat-card-header>
+      <mat-card-title>{{ thesis()!.titleEnglish }}</mat-card-title>
+      <mat-card-subtitle>{{ thesis()!.titleEstonian }}</mat-card-subtitle>
+    </mat-card-header>
 
-  <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
 
-  <mat-card-content>
+    <mat-card-content>
+      <div class="thesis-meta">
+        <div class="meta-item">
+          <span class="meta-label">Student</span>
+          <span class="meta-value">{{ thesis()!.studentName }}</span>
+        </div>
 
-    <div class="thesis-meta">
+        <div class="meta-item">
+          <span class="meta-label">Supervisor</span>
+          <span class="meta-value">{{ thesis()!.supervisorName }}</span>
+        </div>
 
-      <div class="meta-item">
-        <span class="meta-label">Student</span>
-        <span class="meta-value">{{ thesis()!.studentName }}</span>
+        <div class="meta-item">
+          <span class="meta-label">Level</span>
+          <span class="meta-value">{{ thesis()!.levelOfStudies }}</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Language</span>
+          <span class="meta-value">{{ thesis()!.languageOfThesis }}</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Volume</span>
+          <span class="meta-value">{{ thesis()!.volumeEcts }} ECTS</span>
+        </div>
       </div>
+    </mat-card-content>
 
-      <div class="meta-item">
-        <span class="meta-label">Supervisor</span>
-        <span class="meta-value">{{ thesis()!.supervisorName }}</span>
-      </div>
 
-      <div class="meta-item">
-        <span class="meta-label">Level</span>
-        <span class="meta-value">{{ thesis()!.levelOfStudies }}</span>
-      </div>
-
-      <div class="meta-item">
-        <span class="meta-label">Language</span>
-        <span class="meta-value">{{ thesis()!.languageOfThesis }}</span>
-      </div>
-
-      <div class="meta-item">
-        <span class="meta-label">Volume</span>
-        <span class="meta-value">{{ thesis()!.volumeEcts }} ECTS</span>
-      </div>
-
-    </div>
-
-  </mat-card-content>
-
-</mat-card>
-
- 
+  </mat-card>
 
   <ng-container *appHasAuthority="'REVIEWER'">
-  <app-reviewer-thesis-view [thesis]="thesis()!"></app-reviewer-thesis-view>
+      <app-reviewer-thesis-view [thesis]="thesis()!"></app-reviewer-thesis-view>
+    </ng-container>
+
+    <ng-container *appHasAuthority="'COMMITTEE_MEMBER'">
+      <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
+    </ng-container>
+
+    <ng-container *appHasAuthority="'HEAD_OF_COMMITTEE'">
+      <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
+    </ng-container>
 </ng-container>
 
-  <ng-container *appHasAuthority="'COMMITTEE_MEMBER'">
-  <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
-</ng-container>
-
-<ng-container *appHasAuthority="'HEAD_OF_COMMITTEE'">
-  <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
-</ng-container>
-
-
-} @else {
+<ng-template #loading>
   <div class="spinner-container">
     <mat-spinner></mat-spinner>
   </div>
-}
+</ng-template>
