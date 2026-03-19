@@ -1,4 +1,85 @@
-<mat-card class="grade-card" appearance="outlined">
+
+
+@if (reviewerGrade()) {
+  <mat-card class="grade-card" appearance="outlined">
+
+  <mat-card-header class="mb-5">
+    <mat-card-title>Reviewer Evaluation</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="grade-content">
+
+  
+    <div class="top-section">
+      <div class="text-block">
+        <h3>Evaluation Summary</h3>
+        <p>{{ reviewerGrade()!.evaluationSummary }}</p>
+      </div>
+      <div class="text-block">
+        <h3>Questions</h3>
+        <p>{{ reviewerGrade()!.questions }}</p>
+      </div>
+    </div>
+
+  
+    <div class="scores-section">
+      <h3>Scores</h3>
+
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">Content</span>
+          <span 
+            class="score-value"
+            [ngClass]="{
+              'low': reviewerGrade()!.contentScore <= 2,
+              'medium': reviewerGrade()!.contentScore > 2 && reviewerGrade()!.contentScore < 5,
+              'high': reviewerGrade()!.contentScore === 5
+            }">
+            {{ reviewerGrade()!.contentScore }}/5
+          </span>
+        </div>
+        <p class="reasoning">{{ reviewerGrade()!.contentReasoning }}</p>
+      </div>
+
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">Complexity</span>
+          <span 
+            class="score-value"
+            [ngClass]="{
+              'low': reviewerGrade()!.complexityScore <= 2,
+              'medium': reviewerGrade()!.complexityScore > 2 && reviewerGrade()!.complexityScore < 5,
+              'high': reviewerGrade()!.complexityScore === 5
+            }">
+            {{ reviewerGrade()!.complexityScore }}/5
+          </span>
+        </div>
+        <p class="reasoning">{{ reviewerGrade()!.complexityReasoning }}</p>
+      </div>
+
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">Appearance</span>
+          <span 
+            class="score-value"
+            [ngClass]="{
+              'low': reviewerGrade()!.appearanceScore <= 2,
+              'medium': reviewerGrade()!.appearanceScore > 2 && reviewerGrade()!.appearanceScore < 5,
+              'high': reviewerGrade()!.appearanceScore === 5
+            }">
+            {{ reviewerGrade()!.appearanceScore }}/5
+          </span>
+        </div>
+        <p class="reasoning">{{ reviewerGrade()!.appearanceReasoning }}</p>
+      </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>
+}
+
+
+<mat-card class="grade-card mt-3 mb-4" appearance="outlined">
 
   <mat-card-header>
     <mat-card-title class="mb-3">Submitted Evaluations</mat-card-title>

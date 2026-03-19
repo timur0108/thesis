@@ -42,10 +42,9 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
     arr.push(this.reviewerGrade());
     return arr;
   }
+
   startReview() {
     this.isGrading = true;
-     
-  
   }
 
   submitReview() {
@@ -74,7 +73,6 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
     this.gradingService.getCommitteeMemberOwnnGrade(this.thesis.id).subscribe({
       next: (res) => {
         this.ownGrade.set(res);
-        console.log(this.ownGrade())
         this.gradeForm = new FormGroup({
         contentScore: new FormControl(res?.contentScore ?? null),
         complexityScore: new FormControl(res?.complexityScore ?? null),

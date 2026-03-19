@@ -1,7 +1,85 @@
-<mat-card class="grade-card" appearance="outlined">
+@if (reviewerGrade()) {
+  <mat-card class="grade-card" appearance="outlined">
+
+  <mat-card-header class="mb-5">
+    <mat-card-title>Reviewer Evaluation</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="grade-content">
+
+  
+    <div class="top-section">
+      <div class="text-block">
+        <h3>Evaluation Summary</h3>
+        <p>{{ reviewerGrade()!.evaluationSummary }}</p>
+      </div>
+      <div class="text-block">
+        <h3>Questions</h3>
+        <p>{{ reviewerGrade()!.questions }}</p>
+      </div>
+    </div>
+
+  
+    <div class="scores-section">
+      <h3>Scores</h3>
+
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">Content</span>
+          <span 
+            class="score-value"
+            [ngClass]="{
+              'low': reviewerGrade()!.contentScore <= 2,
+              'medium': reviewerGrade()!.contentScore > 2 && reviewerGrade()!.contentScore < 5,
+              'high': reviewerGrade()!.contentScore === 5
+            }">
+            {{ reviewerGrade()!.contentScore }}/5
+          </span>
+        </div>
+        <p class="reasoning">{{ reviewerGrade()!.contentReasoning }}</p>
+      </div>
+
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">Complexity</span>
+          <span 
+            class="score-value"
+            [ngClass]="{
+              'low': reviewerGrade()!.complexityScore <= 2,
+              'medium': reviewerGrade()!.complexityScore > 2 && reviewerGrade()!.complexityScore < 5,
+              'high': reviewerGrade()!.complexityScore === 5
+            }">
+            {{ reviewerGrade()!.complexityScore }}/5
+          </span>
+        </div>
+        <p class="reasoning">{{ reviewerGrade()!.complexityReasoning }}</p>
+      </div>
+
+      <div class="score-card">
+        <div class="score-header">
+          <span class="score-title">Appearance</span>
+          <span 
+            class="score-value"
+            [ngClass]="{
+              'low': reviewerGrade()!.appearanceScore <= 2,
+              'medium': reviewerGrade()!.appearanceScore > 2 && reviewerGrade()!.appearanceScore < 5,
+              'high': reviewerGrade()!.appearanceScore === 5
+            }">
+            {{ reviewerGrade()!.appearanceScore }}/5
+          </span>
+        </div>
+        <p class="reasoning">{{ reviewerGrade()!.appearanceReasoning }}</p>
+      </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>
+}
+
+<mat-card class="grade-card mt-3 mb-5" appearance="outlined">
 
   <mat-card-header>
-    <mat-card-title>Submitted Evaluations</mat-card-title>
+    <mat-card-title class="mb-3">Submitted Evaluations</mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
@@ -10,19 +88,17 @@
       <table class="grades-table">
       <thead>
         <tr>
-          <th>Role</th>
-          <th>Name</th>
-          <th>Content</th>
-          <th>Complexity</th>
-          <th>Appearance</th>
-          <th>Presentation</th>
-          <th>Final Grade</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Role</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Content</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Complexity</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Appearance</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Presentation</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Final Grade</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Reviewer</td>
-          <td>{{ reviewerGrade()?.name + " " + reviewerGrade()?.secondName }}</td>
           <td>{{ reviewerGrade()?.contentScore }}</td>
           <td>{{ reviewerGrade()?.complexityScore }}</td>
           <td>{{ reviewerGrade()?.appearanceScore }}</td>
@@ -32,7 +108,6 @@
           @for (grade of committeeMemberGrades(); track grade) {
             <tr>
           <td>Committee Member</td>
-          <td>{{ grade.name + ' ' + grade.secondName }}</td>
           <td>{{ grade.contentScore }}</td>
           <td>{{ grade.complexityScore }}</td>
           <td>{{ grade.appearanceScore }}</td>
@@ -41,20 +116,36 @@
         </tr>
           }
         }
-        
+        @if (!ownGrade()) {
+           @if (isGrading) {
+            <tr [formGroup]="gradeForm">
+              <td>Committee Member</td>
+              <td><input type="number" formControlName="contentScore"></td>
+              <td><input type="number" formControlName="complexityScore"></td>
+              <td><input type="number" formControlName="appearanceScore"></td>
+              <td><input type="text"   formControlName="presentationScore"></td>
+            </tr>
+            <button mat-raised-button class="mt-2 me-2" (click)="cancelReview()">Cancel</button>
+              <button mat-raised-button class="mt-2" (click)="submitReview()">Submit</button>
+            
+          } @else {
+            <button mat-raised-button class="mt-2" (click)="startReview()">Start Review</button>
+          }
+        } @else {
+          <tr>
+            <td>Your Grade</td>
+            <td>{{ ownGrade()!.contentScore }}</td>
+            <td>{{ ownGrade()!.complexityScore }}</td>
+            <td>{{ ownGrade()!.appearanceScore }}</td>
+            <td>{{ ownGrade()!.presentationScore }}</td>
+            <td>{{ getFinalGrade(ownGrade()!) }}</td>
+          </tr>
+        }
        
       </tbody>
     </table>
-    @if (committeeMemberGrades()) {
-        @if (!gradesVisible()) {
-            <button mat-flat-button class="mt-2" (click)="makeVisible()">Make visible</button>
-        } @else{
-            <button mat-flat-button class="mt-2" (click)="hideGrades()">Make invisible</button>
-        }
-    }
+    <mat-slide-toggle class="mt-4"  [checked]="gradesVisible()" (change)="onToggle($event.checked)">Make grades visible</mat-slide-toggle>
 } @else {
   <p>Reviewer hasn't submitted his evaluation yet</p>
 }
   </mat-card-content>
-  
-

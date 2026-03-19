@@ -9,10 +9,18 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import { Signal } from '@angular/core';
 import { computed } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
+import { MatDivider } from '@angular/material/divider';
+import { FormsModule } from '@angular/forms';
+import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
+import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
-  imports: [MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
+  ReactiveFormsModule],
   templateUrl: './head-of-committee-thesis-view.component.html',
   styleUrl: './head-of-committee-thesis-view.component.css'
 })
@@ -22,19 +30,64 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   gradingService: GradingService = inject(GradingService);
   committeeMemberGrades = signal<CommitteeMemberGrade[] | null>(null);
   reviewerGrade = signal<ReviewerGrade | null>(null);
+  ownGrade = signal<CommitteeMemberGrade | null>(null);
+  gradeForm!: FormGroup;
+  isGrading = false;
 
   gradesVisible: Signal<boolean> = computed(() =>
     this.committeeMemberGrades()?.every(g => g.visibleToOthers) ?? false
   );
+
+  onToggle(isChecked: boolean) {
+    if (isChecked) {
+      this.makeVisible();
+    } else {
+      this.hideGrades();
+    }
+  }
 
   ngOnInit(): void {
     this.gradingService.getReviewerGrade(this.thesis.id).subscribe({
       next: (res) => this.reviewerGrade.set(res)
     })
 
-    this.gradingService.getAllCommitteeMemberGrades(this.thesis.id).subscribe({
+    this.gradingService.getCommitteeMemberGradesOfOtherMembers(this.thesis.id).subscribe({
       next: (res) => this.committeeMemberGrades.set(res)
     })
+
+    this.gradingService.getCommitteeMemberOwnnGrade(this.thesis.id).subscribe({
+      next: (res) => {
+        this.ownGrade.set(res);
+        this.gradeForm = new FormGroup({
+        contentScore: new FormControl(res?.contentScore ?? null),
+        complexityScore: new FormControl(res?.complexityScore ?? null),
+        appearanceScore: new FormControl(res?.appearanceScore ?? null),
+        presentationScore: new FormControl(res?.presentationScore ?? '')
+      });
+      }
+    })
+  }
+
+  submitReview() {
+    const formValue = this.gradeForm.getRawValue();
+    const grade = new CommitteeMemberGrade(
+      this.thesis.id, formValue.contentScore, formValue.complexityScore, formValue.appearanceScore, formValue.presentationScore, "asd", "asd"
+    , false);
+    this.gradingService.submitCommitteeMemberGrade(grade).subscribe({
+      next: (res) => {
+        this.ownGrade.set(res);
+        this.isGrading = false;
+      }
+    })
+  }
+
+  startReview() {
+    this.isGrading = true;
+  }
+
+  cancelReview() {
+    this.isGrading = false;
+    this.ownGrade.set(null);
   }
 
   makeVisible() {

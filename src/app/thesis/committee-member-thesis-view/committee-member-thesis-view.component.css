@@ -16,15 +16,15 @@
   overflow-x: auto;
   padding: 16px;
   
-  /* subtle shadow for default state */
+
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* Lift on hover */
+
 .grade-card:hover {
-  transform: translateY(-4px); /* card moves up slightly */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* deeper shadow */
+  transform: translateY(-4px); 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .grades-table {
@@ -34,7 +34,7 @@
 }
 
 .grades-table thead {
-  background-color: #3367b6; /* deep blue header */
+  background-color: #3367b6; 
   color: #fff;
 }
 
@@ -92,4 +92,112 @@ button[mat-raised-button][color="warn"] {
 p {
   font-size: 14px;
   color: #555;
+}
+
+.grade-card {
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin: 0 auto;
+}
+
+.grade-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+mat-card-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #1a1a1a;
+}
+
+.top-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.text-block {
+  flex: 1 1 45%;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.text-block h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.text-block p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.scores-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+}
+
+.score-card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  background: #f9f9f9;
+  transition: background 0.2s;
+}
+
+.score-card:hover {
+  background: #f1f1f1;
+}
+
+.score-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.score-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #222;
+}
+
+.score-value {
+  font-weight: 700;
+  font-size: 18px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+/* Color-coded badges based on score */
+.score-value.low { background-color: #f44336; }       /* 0-2 */
+.score-value.medium { background-color: #ff9800; }    /* 3-4 */
+.score-value.high { background-color: #4caf50; }      /* 5 */
+
+.reasoning {
+  margin: 0;
+  line-height: 1.5;
+  color: #444;
+}
+
+@media (max-width: 768px) {
+  .top-section {
+    flex-direction: column;
+  }
+
+  .text-block {
+    flex: 1 1 100%;
+  }
 }
