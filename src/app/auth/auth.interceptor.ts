@@ -6,6 +6,7 @@ import { inject } from "@angular/core";
 import { AuthService } from "./auth.service";
 import { catchError, switchMap } from 'rxjs/operators';
 import { Router } from "@angular/router";
+import { NgZone } from "@angular/core";
 
 export function authInterceptor(
   req: HttpRequest<unknown>,
@@ -13,30 +14,33 @@ export function authInterceptor(
 ): Observable<HttpEvent<unknown>> {
 
   const authService = inject(AuthService);
-  const router = inject(Router)
-  const cloned = req.clone({ withCredentials: true });
+  const router = inject(Router);
+  const zone = inject(NgZone);
 
+  if (req.url.includes('/auth/refresh')) {
+    return next(req);
+  }
+
+  const cloned = req.clone({ withCredentials: true });
 
   return next(cloned).pipe(
 
     catchError((error) => {
 
-      if (error.status === 403) {
+      if (error.status === 401 || error.status === 403) {
 
         return authService.refreshToken().pipe(
 
           switchMap(() => {
-            
-            const retryReq = req.clone({ withCredentials: true });
-            return next(retryReq);
+            return next(cloned);
           }),
 
           catchError(err => {
-            
-             router.navigate(['/login']);
+            zone.run(() => {
+              router.navigate(['/login']);
+            });
             return throwError(() => err);
           })
-
         );
       }
 

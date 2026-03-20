@@ -1,0 +1,118 @@
+<h2 mat-dialog-title>New Thesis Submission</h2>
+
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="form" class="form-grid">
+
+    <h3 class="section-title">Student Information</h3>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Student's name</mat-label>
+      <input matInput formControlName="studentName">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Level of studies</mat-label>
+      <mat-select formControlName="levelOfStudies">
+        <mat-option value="bachelor">Bachelor</mat-option>
+        <mat-option value="master">Master</mat-option>
+        <mat-option value="phd">PhD</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Curriculum</mat-label>
+      <mat-select formControlName="curriculum">
+        <mat-option value="it">Information Technology</mat-option>
+        <mat-option value="cs">Computer Science</mat-option>
+        <mat-option value="se">Software Engineering</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Language of thesis</mat-label>
+      <mat-select formControlName="languageOfThesis">
+        <mat-option value="estonian">Estonian</mat-option>
+        <mat-option value="english">English</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Volume of thesis (ECTS)</mat-label>
+      <mat-select formControlName="volumeEcts">
+        <mat-option value="9">10 ECTS</mat-option>
+        <mat-option value="15">15 ECTS</mat-option>
+        <mat-option value="30">30 ECTS</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Title of thesis in Estonian</mat-label>
+      <input matInput formControlName="titleEstonian">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Title of thesis in English</mat-label>
+      <input matInput formControlName="titleEnglish">
+    </mat-form-field>
+
+    <h3 class="section-title">Thesis Details</h3>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Context of research</mat-label>
+      <textarea matInput rows="3" formControlName="contextOfResearch"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Student's contribution</mat-label>
+      <textarea matInput rows="3" formControlName="studentContribution"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Strengths of thesis</mat-label>
+      <textarea matInput rows="3" formControlName="strengthOfThesis"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Limitations of thesis</mat-label>
+      <textarea matInput rows="3" formControlName="limitationOfThesis"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Cooperation</mat-label>
+      <textarea matInput rows="3" formControlName="cooperation"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Additional comments</mat-label>
+      <textarea matInput rows="3" formControlName="additionalComments"></textarea>
+    </mat-form-field>
+
+    <h3 class="section-title">Supervisor</h3>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Supervisor's name</mat-label>
+      <input matInput formControlName="supervisorName">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Supervisor consent</mat-label>
+      <mat-select formControlName="supervisorConsent">
+        <mat-option value="yes">Yes</mat-option>
+        <mat-option value="no">No</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="supervisorDate">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions >
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="submit()">Submit</button>
+</mat-dialog-actions>

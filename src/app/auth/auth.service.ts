@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { User } from "./types";
 import { Observable, pipe, tap } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
 
     private httpClient = inject(HttpClient);
     private _roles = new Map();
-     
+    private router = inject(Router)
 
     public login(credentials: { email: string; password: string}): Observable<User> {
         return this.httpClient.post<User>(this.baseUrl + "/login", credentials).pipe(
@@ -29,6 +30,29 @@ export class AuthService {
     }
 
     refreshToken() {
-        return this.httpClient.post(this.baseUrl + "/refresh", null);
+        return this.httpClient.post(this.baseUrl + "/refresh", null, { withCredentials: true });
+    }
+
+    isLoggedIn() {
+        const userJSON = localStorage.getItem("user");
+        if (userJSON) {
+            return true
+        }
+        return false;
+    }
+
+    logOut() {
+        localStorage.removeItem("user");
+        this.router.navigate(['/login']);
+    }
+
+    getEmail(): string {
+        const userJSON = localStorage.getItem("user");
+        return JSON.parse(userJSON!).email;
+    }
+
+    getRole(): string {
+        const userJSON = localStorage.getItem("user");
+        return JSON.parse(userJSON!).role;
     }
 }

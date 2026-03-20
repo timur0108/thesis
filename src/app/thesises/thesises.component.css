@@ -1,7 +1,7 @@
 .page-card {
   padding: 32px;
   border-radius: 16px;
-  background: #ffffff; /* single background */
+  background: #ffffff; 
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   transition: box-shadow 0.3s ease;
 }
@@ -10,12 +10,13 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
-/* header */
+
 .page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
+  margin-right: 24px;
 }
 
 .page-header h2 {
@@ -25,19 +26,19 @@
   margin: 0;
 }
 
-/* table */
+
 .thesis-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 12px;
   overflow: hidden;
-  background: transparent; /* remove extra layer */
+  background: transparent; 
 }
 
-/* header */
+
 .mat-mdc-header-row {
-  background: transparent; /* blend with card */
+  background: transparent; 
 }
 
 .mat-mdc-header-cell {
@@ -49,29 +50,29 @@
   text-transform: uppercase;
 }
 
-/* rows */
+
 .table-row {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .table-row:hover {
-  background: #f3f4f6; /* subtle highlight */
+  background: #f3f4f6;
   transform: translateY(-1px);
 }
 
-/* subtle row divider */
+
 .mat-mdc-row {
-  border-bottom: 1px solid #e5e7eb; /* minimal line */
+  border-bottom: 1px solid #e5e7eb;
 }
 
-/* cells */
+
 .mat-mdc-cell {
   padding: 14px 16px;
   color: #4b5563;
   font-size: 14px;
 }
 
-/* action buttons */
+
 button[mat-raised-button] {
   border-radius: 12px;
   font-size: 13px;

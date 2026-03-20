@@ -13,7 +13,7 @@
   margin-right: 30px;
 }
 
-/* Header */
+
 
 .sidenav-header {
   display: flex;
@@ -25,7 +25,7 @@
   margin-bottom: 20px;
 }
 
-/* Navigation */
+
 
 .nav-items {
   flex: 1;
@@ -45,14 +45,14 @@
   background: rgba(63, 81, 181, 0.1);
 }
 
-/* Active page */
+
 
 .active-link {
   background: rgba(63, 81, 181, 0.18);
   font-weight: 500;
 }
 
-/* User profile */
+
 
 .user-section {
   display: flex;
@@ -76,4 +76,25 @@
 .role {
   font-size: 13px;
   color: #666;
+}
+
+.logout-button {
+  border: none;
+  background-color: transparent;
+  padding-left: 0;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.user-section .name,
+.user-section .role {
+  max-width: 140px; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,0 +1,91 @@
+/* Main dialog content area */
+.dialog-content {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+/* Responsive grid layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Full-width fields (textareas, long inputs) */
+.full-width {
+  grid-column: span 2;
+}
+
+/* Section titles */
+.section-title {
+  grid-column: span 2;
+  margin-top: 25px;
+  margin-bottom: 5px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+/* Improve spacing inside form fields */
+mat-form-field {
+  width: 100%;
+}
+
+/* Dialog actions spacing */
+mat-dialog-actions {
+  padding: 16px;
+}
+
+/* Make textarea labels align nicely */
+textarea {
+  resize: vertical;
+}
+
+/* Scrollbar styling (optional, looks nicer) */
+.dialog-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.3);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width,
+  .section-title {
+    grid-column: span 1;
+  }
+}
+
+.dialog-content {
+  overflow-x: hidden;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+mat-form-field {
+  width: 100%;
+  min-width: 0; /* prevents overflow */
+}
+
+.full-width {
+  grid-column: span 2;
+}

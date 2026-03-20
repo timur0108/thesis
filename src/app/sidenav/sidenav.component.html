@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
-
-  <mat-sidenav mode="side" opened class="sidenav">
+  @if (!isLoginPage()) {
+    <mat-sidenav mode="side" opened class="sidenav">
 
     <!-- Logo / Header -->
     <div class="sidenav-header">
@@ -26,18 +26,27 @@
         <span>Profile</span>
       </a>
 
+      <a mat-list-item >
+        <button (click)="authService.logOut()" class="logout-button">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </a>
+      
     </mat-nav-list>
 
     <!-- User Profile -->
     <div class="user-section">
       <mat-icon class="avatar">account_circle</mat-icon>
       <div>
-        <div class="name">John Doe</div>
-        <div class="role">Reviewer</div>
+        <div class="name">{{  authService.getEmail()  }}</div>
+        <div class="role">{{  authService.getRole()  }}</div>
       </div>
     </div>
 
   </mat-sidenav>
+  }
+  
 
   <mat-sidenav-content class="ps-4 pt-4 pe-4">
     <router-outlet></router-outlet>

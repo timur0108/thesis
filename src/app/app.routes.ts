@@ -3,15 +3,18 @@ import { GradingComponent } from './grading/grading.component';
 import { ThesisComponent } from './thesis/thesis.component';
 import { LoginComponent } from './login/login.component';
 import { ThesisesComponent } from './thesises/thesises.component';
+import { authGuardGuard } from './auth-guard.guard';
 
 export const routes: Routes = [
     {
         path: 'grading',
-        component: GradingComponent
+        component: GradingComponent,
+        canActivate: [authGuardGuard]
     },
     {
         path: 'thesis/:id',
-        component: ThesisComponent
+        component: ThesisComponent,
+        canActivate: [authGuardGuard]
     },
     {
         path: 'login',
@@ -19,6 +22,7 @@ export const routes: Routes = [
     },
     {
         path: '',
-        component: ThesisesComponent
+        component: ThesisesComponent,
+        canActivate: [authGuardGuard]
     }
 ];
