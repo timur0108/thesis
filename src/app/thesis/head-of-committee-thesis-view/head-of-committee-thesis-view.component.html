@@ -198,7 +198,8 @@
             <button mat-raised-button class="mt-2" (click)="startReview()">Start Review</button>
           }
         } @else {
-          <tr>
+          @if (!isGrading) {
+            <tr>
             <td>Your Grade</td>
             <td>{{ ownGrade()!.contentScore }}</td>
             <td>{{ ownGrade()!.complexityScore }}</td>
@@ -206,6 +207,19 @@
             <td>{{ ownGrade()!.presentationScore }}</td>
             <td>{{ getFinalGrade(ownGrade()!) }}</td>
           </tr>
+          <button mat-raised-button class="mt-2" (click)="startGradeChange()">Change Grade</button>
+          } @else {
+            <tr [formGroup]="gradeForm">
+              <td>Committee Member</td>
+              <td><input type="number" formControlName="contentScore"></td>
+              <td><input type="number" formControlName="complexityScore"></td>
+              <td><input type="number" formControlName="appearanceScore"></td>
+              <td><input type="text"   formControlName="presentationScore"></td>
+            </tr>
+            <button mat-raised-button class="mt-2 me-2" (click)="cancelGradeChange()">Cancel</button>
+              <button mat-raised-button class="mt-2" (click)="submitGradeChange()">Submit</button>
+          }
+          
         }
        
       </tbody>

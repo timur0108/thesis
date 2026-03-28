@@ -76,6 +76,27 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
       next: (res) => this.supervisorForm.set(res)
     })
   }
+  
+  startGradeChange() {
+    this.isGrading = true;
+  }
+
+  cancelGradeChange() {
+    this.isGrading = false;
+  }
+
+  submitGradeChange() {
+    const formValue = this.gradeForm.getRawValue();
+    const grade = new CommitteeMemberGrade(
+      this.thesis.id, formValue.contentScore, formValue.complexityScore, formValue.appearanceScore, formValue.presentationScore, "asd", "asd"
+    , false);
+    this.gradingService.changeGrade(grade).subscribe({
+      next: (res) => {
+        this.ownGrade.set(res);
+        this.isGrading = false;
+      }
+    })
+  }
 
   submitReview() {
     const formValue = this.gradeForm.getRawValue();
