@@ -154,7 +154,7 @@
       <table class="grades-table">
       <thead>
         <tr>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Role</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Name</th>
           <th style="color: white; background-color: rgb(51, 103, 182);">Content</th>
           <th style="color: white; background-color: rgb(51, 103, 182);">Complexity</th>
           <th style="color: white; background-color: rgb(51, 103, 182);">Appearance</th>
@@ -163,21 +163,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Reviewer</td>
-          <td>{{ reviewerGrade()?.contentScore }}</td>
-          <td>{{ reviewerGrade()?.complexityScore }}</td>
-          <td>{{ reviewerGrade()?.appearanceScore }}</td>
-          <td></td>
-        </tr>
+       
         @if (committeeMemberGrades()) {
           @for (grade of committeeMemberGrades(); track grade) {
             <tr>
-          <td>Committee Member</td>
-          <td>{{ grade.contentScore }}</td>
-          <td>{{ grade.complexityScore }}</td>
-          <td>{{ grade.appearanceScore }}</td>
-          <td>{{ grade.presentationScore }}</td>
+          <td>{{ grade.name + ' ' + grade.secondName }} </td>
+          <td [ngClass]="{ 'conflict': isConflictInCategory('contentScore') }">{{ grade.contentScore }}</td>
+          <td [ngClass]="{ 'conflict': isConflictInCategory('complexityScore') }">{{ grade.complexityScore }}</td>
+          <td [ngClass]="{ 'conflict': isConflictInCategory('appearanceScore') }">{{ grade.appearanceScore }}</td>
+          <td [ngClass]="{ 'conflict': isConflictInCategory('presentationScore') }">{{ grade.presentationScore }}</td>
           <td>{{ getFinalGrade(grade) }}</td>
         </tr>
           }
@@ -201,10 +195,10 @@
           @if (!isGrading) {
             <tr>
             <td>Your Grade</td>
-            <td>{{ ownGrade()!.contentScore }}</td>
-            <td>{{ ownGrade()!.complexityScore }}</td>
-            <td>{{ ownGrade()!.appearanceScore }}</td>
-            <td>{{ ownGrade()!.presentationScore }}</td>
+            <td [ngClass]="{ 'conflict': isConflictInCategory('contentScore') }">{{ ownGrade()!.contentScore }}</td>
+            <td [ngClass]="{ 'conflict': isConflictInCategory('complexityScore') }">{{ ownGrade()!.complexityScore }}</td>
+            <td [ngClass]="{ 'conflict': isConflictInCategory('appearanceScore') }">{{ ownGrade()!.appearanceScore }}</td>
+            <td [ngClass]="{ 'conflict': isConflictInCategory('presentationScore') }">{{ ownGrade()!.presentationScore }}</td>
             <td>{{ getFinalGrade(ownGrade()!) }}</td>
           </tr>
           <button mat-raised-button class="mt-2" (click)="startGradeChange()">Change Grade</button>
@@ -225,6 +219,11 @@
       </tbody>
     </table>
     <mat-slide-toggle class="mt-4"  [checked]="gradesVisible()" (change)="onToggle($event.checked)">Make grades visible</mat-slide-toggle>
+    @if (canSubmitFinalGrade()) {
+      <button mat-raised-button class="mt-2 float-end" (click)="submitFinalGrade()">Submit Final Grade</button>
+    } @else {
+      <p class="mt-3">Cannot submit final grade until all committee members reached consensus on all grade aspects</p>
+    }
 } 
   </mat-card-content>
   </mat-card>

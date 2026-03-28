@@ -4,7 +4,7 @@ import { Thesis } from '../thesis';
 import { signal } from '@angular/core';
 import { CommitteeMemberGrade } from '../committee-member-thesis-view/committee.member.grade';
 import { GradingService } from '../../grading/grading.service';
-import { ReviewerGrade } from '../../grading/grade';
+import { FinalGrade, ReviewerGrade } from '../../grading/grade';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import { Signal } from '@angular/core';
@@ -38,6 +38,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   isGrading = false;
   private supervisorFormService = inject(SupervisorFormService);
   supervisorForm = signal<SupervisorForm | null>(null);
+  finalGrade = signal<FinalGrade | null>(null);
 
   gradesVisible: Signal<boolean> = computed(() =>
     this.committeeMemberGrades()?.every(g => g.visibleToOthers) ?? false
@@ -134,6 +135,96 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
     this.gradingService.hideGrades(this.thesis.id).subscribe({
       next: (res) => this.committeeMemberGrades.set(res)
     })
+  }
+
+  private getAllGrades(): CommitteeMemberGrade[] {
+    const members = this.committeeMemberGrades() ?? [];
+    const own = this.ownGrade();
+    return own ? [...members, own] : members;
+  } 
+
+  isConflictInCategory(category: keyof CommitteeMemberGrade): boolean {
+    const grades = this.getAllGrades();
+
+    if (grades.length === 0) return false;
+
+    const firstValue = grades[0][category];
+
+    return grades.some(g => g[category] !== firstValue);
+  }
+
+  submitFinalGrade() {
+    const members = this.committeeMemberGrades();
+    const own = this.ownGrade();
+
+    if (!members || members.length === 0 || !own) {
+      console.error('Cannot submit final grade: missing grades.');
+      return;
+    }
+
+    
+    const allGrades = [...members, own];
+
+    
+    if (!this.canSubmitFinalGrade()) {
+      console.error('Cannot submit final grade: grades conflict.');
+      return;
+    }
+
+   
+    const reference = allGrades[0];
+    const totalPoints =
+      reference.contentScore +
+      reference.complexityScore +
+      reference.appearanceScore +
+      reference.presentationScore;
+
+    
+    const letterGrade = this.getFinalGrade(reference);
+
+    
+    const finalGrade = {
+      thesisId: this.thesis.id,
+      contentScore: reference.contentScore,
+      complexityScore: reference.complexityScore,
+      appearanceScore: reference.appearanceScore,
+      presentationScore: reference.presentationScore,
+      totalScore: totalPoints,
+      letterGrade: letterGrade
+    };
+
+  
+    this.gradingService.submitFinalGrade(finalGrade).subscribe({
+      next: (res) => {
+        
+        this.finalGrade.set(res);
+        this.isGrading = false;
+        console.log('Final grade submitted:', res);
+      },
+      error: (err) => {
+        console.error('Error submitting final grade:', err);
+      }
+    });
+  }
+
+  canSubmitFinalGrade(): boolean {
+    const members = this.committeeMemberGrades();
+    const own = this.ownGrade();
+
+    if (!members || members.length === 0 || !own) {
+      return false;
+    }
+
+    const allGrades = [...members, own];
+
+    const reference = allGrades[0];
+
+    return allGrades.every(g =>
+      g.contentScore === reference.contentScore &&
+      g.complexityScore === reference.complexityScore &&
+      g.appearanceScore === reference.appearanceScore &&
+      g.presentationScore === reference.presentationScore
+    );
   }
 
   getFinalGrade(grade: CommitteeMemberGrade): string {

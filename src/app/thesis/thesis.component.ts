@@ -18,6 +18,8 @@ import { ReviewerThesisViewComponent } from './reviewer-thesis-view/reviewer-the
 import { CommitteeMemberThesisViewComponent } from './committee-member-thesis-view/committee-member-thesis-view.component';
 import { HeadOfCommitteeThesisViewComponent } from './head-of-committee-thesis-view/head-of-committee-thesis-view.component';
 import { SupervisorThesisViewComponent } from './supervisor-thesis-view/supervisor-thesis-view.component';
+import { FinalGrade } from '../grading/grade';
+import { GradingService } from '../grading/grading.service';
 
 @Component({
   selector: 'app-thesis',
@@ -49,13 +51,18 @@ export class ThesisComponent {
   thesis = signal<Thesis | null>(null);
   private activatedRoute = inject(ActivatedRoute);
   private thesisService: ThesisService = inject(ThesisService);
+  private gradingService: GradingService = inject(GradingService);
   showGrading = false;
+  finalGrade = signal<FinalGrade | null>(null);
   constructor() {
     this.activatedRoute.params.subscribe((params) => {
       const thesisId = params['id'];
 
       this.thesisService.getThesisById(thesisId).subscribe((data) => {
         this.thesis.set(data);
+      })
+      this.gradingService.getFinalGrade(thesisId).subscribe({
+        next: (res) => this.finalGrade.set(res)
       })
     })
   }

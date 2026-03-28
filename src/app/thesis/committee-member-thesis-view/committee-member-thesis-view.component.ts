@@ -109,6 +109,22 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
     this.isGrading = false;
   }
 
+  private getAllGrades(): CommitteeMemberGrade[] {
+    const members = this.committeeMemberGrades() ?? [];
+    const own = this.ownGrade();
+    return own ? [...members, own] : members;
+  } 
+
+  isConflictInCategory(category: keyof CommitteeMemberGrade): boolean {
+    const grades = this.getAllGrades();
+
+    if (grades.length === 0) return false;
+
+    const firstValue = grades[0][category];
+
+    return grades.some(g => g[category] !== firstValue);
+  }
+
   submitChangedGrade() {
     const formValue = this.gradeForm.getRawValue();
     const grade = new CommitteeMemberGrade(

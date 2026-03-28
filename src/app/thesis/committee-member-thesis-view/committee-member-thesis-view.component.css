@@ -201,3 +201,7 @@ mat-card-title {
     flex: 1 1 100%;
   }
 }
+
+.conflict {
+  background-color: #ffcccc !important; 
+}

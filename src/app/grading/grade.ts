@@ -13,3 +13,15 @@ export class ReviewerGrade {
     public secondName: string
   ) {}
 }
+
+export class FinalGrade {
+  constructor(
+    public thesisId: number,
+    public contentScore: number,
+    public complexityScore: number,
+    public appearanceScore: number,
+    public presentationScore: number,
+    public totalScore: number,
+    public letterGrade: string
+  ) {}
+}

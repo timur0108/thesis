@@ -1,9 +1,10 @@
 import { inject, Injectable } from "@angular/core";
-import { ReviewerGrade } from "./grade";
+import { FinalGrade, ReviewerGrade } from "./grade";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { CommitteeMemberGrade } from "../thesis/committee-member-thesis-view/committee.member.grade";
 import { SupervisorForm } from "../thesis/supervisor-thesis-view/supervisor-form";
+import { catchError, of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +13,7 @@ export class GradingService {
 
 
     private readonly baseUrl: string = 'http://localhost:8080/api/grade';
+    private readonly finalGradeBaseUrL: string = 'http://localhost:8080/api/final-grade';
 
     private httpClient: HttpClient = inject(HttpClient);
 
@@ -49,5 +51,20 @@ export class GradingService {
 
     changeGrade(grade: CommitteeMemberGrade): Observable<CommitteeMemberGrade> {
         return this.httpClient.put<CommitteeMemberGrade>(this.baseUrl + "/committee-member", grade);
+    }
+
+    submitFinalGrade(finalGrade: FinalGrade): Observable<FinalGrade> {
+        return this.httpClient.post<FinalGrade>(this.finalGradeBaseUrL, finalGrade);
+    }
+
+    getFinalGrade(thesisId: number): Observable<FinalGrade | null> {
+    return this.httpClient.get<FinalGrade>(`${this.finalGradeBaseUrL}/${thesisId}`).pipe(
+        catchError(err => {
+        if (err.status === 404) {
+            return of(null);
+        }
+        throw err;
+        })
+    );
     }
 }
