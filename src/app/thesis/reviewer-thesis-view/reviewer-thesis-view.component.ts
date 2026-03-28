@@ -15,10 +15,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
+import {MatTabsModule} from '@angular/material/tabs';
+import { CommitteeMemberGrade } from '../committee-member-thesis-view/committee.member.grade';
 
 @Component({
   selector: 'app-reviewer-thesis-view',
-  imports: [GradingComponent, HasAuthorityDirective, MatButtonModule, MatCardModule, MatListModule, MatDividerModule, MatIconModule, ReactiveFormsModule, MatProgressBarModule, MatTableModule, CommonModule],
+  imports: [GradingComponent, HasAuthorityDirective, MatButtonModule, MatCardModule, MatListModule, MatDividerModule, MatIconModule, ReactiveFormsModule, MatProgressBarModule, MatTableModule, CommonModule, MatTabsModule],
   templateUrl: './reviewer-thesis-view.component.html',
   styleUrl: './reviewer-thesis-view.component.css'
 })
@@ -28,7 +30,8 @@ export class ReviewerThesisViewComponent implements OnInit{
   grade = signal<ReviewerGrade | null>(null);
   gradingService: GradingService = inject(GradingService);
   openGradingForm = false;
-
+  committeeMemberGrades = signal<CommitteeMemberGrade[] | null>(null);
+  
   displayedColumns: string[] = [ 'content', 'complexity', 'appearance',  ];
 
   get scores() {
@@ -43,6 +46,10 @@ export class ReviewerThesisViewComponent implements OnInit{
         this.grade.set(res);
       }
     })
+
+    this.gradingService.getAllCommitteeMemberGrades(this.thesis.id).subscribe({
+      next: (res) => this.committeeMemberGrades.set(res)
+    })
   }
 
   toggleGradingForm(): void {
@@ -51,5 +58,25 @@ export class ReviewerThesisViewComponent implements OnInit{
 
   handleGradeSubmit(grade: ReviewerGrade) {
     this.grade.set(grade);
+  }
+
+  getFinalGrade(grade: CommitteeMemberGrade): string {
+    const points = (grade.appearanceScore + grade.complexityScore + grade.contentScore + grade.presentationScore) * 5;
+    if (points > 90) {
+      return 'A';
+    }
+    if (points > 80) {
+      return 'B';
+    }
+    if (points > 70) {
+      return 'C';
+    }
+    if (points > 60) {
+      return 'D';
+    }
+    if (points > 50) {
+      return 'E';
+    }
+    return 'F';
   }
 }

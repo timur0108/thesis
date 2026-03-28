@@ -51,6 +51,10 @@
     <ng-container *appHasAuthority="'HEAD_OF_COMMITTEE'">
       <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
     </ng-container>
+
+    <ng-container *appHasAuthority="'SUPERVISOR'">
+      <app-supervisor-thesis-view [thesis]="thesis()!"></app-supervisor-thesis-view>
+    </ng-container>
 </ng-container>
 
 <ng-template #loading>

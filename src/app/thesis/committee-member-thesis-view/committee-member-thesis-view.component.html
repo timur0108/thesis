@@ -1,7 +1,7 @@
-
-
 @if (reviewerGrade()) {
-  <mat-card class="grade-card" appearance="outlined">
+  <mat-tab-group animationDuration="100ms">
+    <mat-tab label="Reviewer Evaluation"> 
+      <mat-card class="grade-card" appearance="outlined">
 
   <mat-card-header class="mb-5">
     <mat-card-title>Reviewer Evaluation</mat-card-title>
@@ -76,10 +76,9 @@
     </div>
   </mat-card-content>
 </mat-card>
-}
-
-
-<mat-card class="grade-card mt-3 mb-4" appearance="outlined">
+    </mat-tab>
+    <mat-tab label="Committee Evaluations"> 
+        <mat-card class="grade-card mt-3 mb-4" appearance="outlined">
 
   <mat-card-header>
     <mat-card-title class="mb-3">Submitted Evaluations</mat-card-title>
@@ -147,9 +146,23 @@
        
       </tbody>
     </table>
-} @else {
-  <p>Reviewer hasn't submitted his evaluation yet</p>
-}
+} 
   </mat-card-content>
+  </mat-card>
+
+    </mat-tab>
+    
+  </mat-tab-group>
+} @else {
+  <mat-card class="grade-card mt-3 mb-4" appearance="outlined">
+
+  <mat-card-header>
+    <mat-card-title class="mb-3">Reviewer hasn't submitted his evaluation yet</mat-card-title>
+  </mat-card-header>
+
+    
+  </mat-card>
   
+}
+
 

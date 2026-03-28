@@ -3,6 +3,7 @@ import { ReviewerGrade } from "./grade";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { CommitteeMemberGrade } from "../thesis/committee-member-thesis-view/committee.member.grade";
+import { SupervisorForm } from "../thesis/supervisor-thesis-view/supervisor-form";
 
 @Injectable({
     providedIn: 'root'

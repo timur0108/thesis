@@ -17,12 +17,13 @@ import { HasAuthorityDirective } from '../auth/has-authority.directive';
 import { ReviewerThesisViewComponent } from './reviewer-thesis-view/reviewer-thesis-view.component';
 import { CommitteeMemberThesisViewComponent } from './committee-member-thesis-view/committee-member-thesis-view.component';
 import { HeadOfCommitteeThesisViewComponent } from './head-of-committee-thesis-view/head-of-committee-thesis-view.component';
+import { SupervisorThesisViewComponent } from './supervisor-thesis-view/supervisor-thesis-view.component';
 
 @Component({
   selector: 'app-thesis',
   imports: [DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent,
      CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule, HasAuthorityDirective, 
-     ReviewerThesisViewComponent, CommitteeMemberThesisViewComponent, HeadOfCommitteeThesisViewComponent],
+     ReviewerThesisViewComponent, CommitteeMemberThesisViewComponent, HeadOfCommitteeThesisViewComponent, SupervisorThesisViewComponent],
   templateUrl: './thesis.component.html',
   styleUrl: './thesis.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

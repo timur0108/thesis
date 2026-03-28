@@ -13,10 +13,11 @@ import { MatDivider } from '@angular/material/divider';
 import { FormsModule } from '@angular/forms';
 import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-committee-member-thesis-view',
-  imports: [MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule,
+  imports: [MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatTabsModule,
   ReactiveFormsModule,
   MatCardModule,
   MatButtonModule],

@@ -16,10 +16,11 @@ import { FormsModule } from '@angular/forms';
 import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
-  imports: [MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
+  imports: [MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
   ReactiveFormsModule],
   templateUrl: './head-of-committee-thesis-view.component.html',
   styleUrl: './head-of-committee-thesis-view.component.css'

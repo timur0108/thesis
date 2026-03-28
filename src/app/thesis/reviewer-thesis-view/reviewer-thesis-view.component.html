@@ -16,7 +16,11 @@
 
 
     } @else {
-        <mat-card class="grade-card" appearance="outlined">
+
+
+      <mat-tab-group animationDuration="100ms">
+        <mat-tab label="Reviewer Evaluation">
+            <mat-card class="grade-card" appearance="outlined">
 
   <mat-card-header class="mb-5">
     <mat-card-title>Your Evaluation</mat-card-title>
@@ -91,5 +95,60 @@
     </div>
   </mat-card-content>
 </mat-card>
-    }
+        </mat-tab>
+        <mat-tab label="Committee Evaluations">
+          @if (committeeMemberGrades()) {
+            <mat-card class="grade-card mb-4" appearance="outlined">
+
+  <mat-card-header>
+    <mat-card-title class="mb-3">Submitted Evaluations</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+
+    
+      <table class="grades-table">
+      <thead>
+        <tr>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Role</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Content</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Complexity</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Appearance</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Presentation</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Final Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Reviewer</td>
+          <td>{{ grade()?.contentScore }}</td>
+          <td>{{ grade()?.complexityScore }}</td>
+          <td>{{ grade()?.appearanceScore }}</td>
+          <td></td>
+        </tr>
+        @if (committeeMemberGrades()) {
+          @for (grade of committeeMemberGrades(); track grade) {
+            <tr>
+          <td>Committee Member</td>
+          <td>{{ grade.contentScore }}</td>
+          <td>{{ grade.complexityScore }}</td>
+          <td>{{ grade.appearanceScore }}</td>
+          <td>{{ grade.presentationScore }}</td>
+          <td>{{ getFinalGrade(grade) }}</td>
+        </tr>
+          }
+        }
+       
+       
+      </tbody>
+    </table>
+
+  </mat-card-content>
+  </mat-card>
+          }
+    </mat-tab>
+    
+  </mat-tab-group>
+}    
+
 </div>
