@@ -46,4 +46,8 @@ export class GradingService {
     hideGrades(thesisId: number): Observable<CommitteeMemberGrade[]> {
         return this.httpClient.post<CommitteeMemberGrade[]>(this.baseUrl + "/hide/" + thesisId, null);
     }
+
+    changeGrade(grade: CommitteeMemberGrade): Observable<CommitteeMemberGrade> {
+        return this.httpClient.put<CommitteeMemberGrade>(this.baseUrl + "/committee-member", grade);
+    }
 }

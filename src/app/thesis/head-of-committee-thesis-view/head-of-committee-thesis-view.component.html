@@ -1,6 +1,69 @@
 @if (reviewerGrade()) {
-
+  
   <mat-tab-group animationDuration="100ms">
+    <mat-tab label="Supervisor Form">
+      <div class="supervisor-container" *ngIf="supervisorForm() as form">
+
+      <mat-card class="grade-card" appearance="outlined">
+
+        <mat-card-header class="mb-5">
+          <mat-card-title>Supervisor Form</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="grade-content">
+
+          <!-- Top section -->
+          <div class="top-section">
+            <div class="text-block">
+              <h3>Context of Research</h3>
+              <p>{{ form.contextOfResearch }}</p>
+            </div>
+
+            <div class="text-block">
+              <h3>Student Contribution</h3>
+              <p>{{ form.studentContribution }}</p>
+            </div>
+          </div>
+
+          <!-- Strengths & Limitations -->
+          <div class="top-section">
+            <div class="text-block">
+              <h3>Strengths of Thesis</h3>
+              <p>{{ form.strengthOfThesis }}</p>
+            </div>
+
+            <div class="text-block">
+              <h3>Limitations of Thesis</h3>
+              <p>{{ form.limitationOfThesis }}</p>
+            </div>
+          </div>
+
+          <!-- Bottom section (like score cards) -->
+          <div class="scores-section">
+            <h3>Supervisor Feedback</h3>
+
+            <div class="score-card">
+              <div class="score-header">
+                <span class="score-title">Cooperation</span>
+              </div>
+              <p class="reasoning">{{ form.cooperation }}</p>
+            </div>
+
+            <div class="score-card">
+              <div class="score-header">
+                <span class="score-title">Additional Comments</span>
+              </div>
+              <p class="reasoning">{{ form.additionalComments }}</p>
+            </div>
+
+          </div>
+
+        </mat-card-content>
+
+      </mat-card>
+
+    </div>
+    </mat-tab>
     <mat-tab label="Reviewer Evaluation">
       <mat-card class="grade-card" appearance="outlined">
 
@@ -78,7 +141,7 @@
   </mat-card-content>
 </mat-card>
     </mat-tab>
-    <mat-tab label="Committee evaluations">
+    <mat-tab label="Committee Evaluations">
       <mat-card class="grade-card mt-3 mb-5" appearance="outlined">
 
   <mat-card-header>
@@ -152,17 +215,87 @@
   </mat-card-content>
   </mat-card>
     </mat-tab>
-    <mat-tab label="Third">Content 3</mat-tab>
+    
   </mat-tab-group>
 
 
   
 } @else {
-  <mat-card class="grade-card mt-3 mb-5" appearance="outlined">
+  <mat-tab-group animationDuration="100ms">
+    <mat-tab label="Supervisor Form">
+      <div class="supervisor-container" *ngIf="supervisorForm() as form">
+
+      <mat-card class="grade-card" appearance="outlined">
+
+        <mat-card-header class="mb-5">
+          <mat-card-title>Supervisor Form</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="grade-content">
+
+          <!-- Top section -->
+          <div class="top-section">
+            <div class="text-block">
+              <h3>Context of Research</h3>
+              <p>{{ form.contextOfResearch }}</p>
+            </div>
+
+            <div class="text-block">
+              <h3>Student Contribution</h3>
+              <p>{{ form.studentContribution }}</p>
+            </div>
+          </div>
+
+          <!-- Strengths & Limitations -->
+          <div class="top-section">
+            <div class="text-block">
+              <h3>Strengths of Thesis</h3>
+              <p>{{ form.strengthOfThesis }}</p>
+            </div>
+
+            <div class="text-block">
+              <h3>Limitations of Thesis</h3>
+              <p>{{ form.limitationOfThesis }}</p>
+            </div>
+          </div>
+
+          <!-- Bottom section (like score cards) -->
+          <div class="scores-section">
+            <h3>Supervisor Feedback</h3>
+
+            <div class="score-card">
+              <div class="score-header">
+                <span class="score-title">Cooperation</span>
+              </div>
+              <p class="reasoning">{{ form.cooperation }}</p>
+            </div>
+
+            <div class="score-card">
+              <div class="score-header">
+                <span class="score-title">Additional Comments</span>
+              </div>
+              <p class="reasoning">{{ form.additionalComments }}</p>
+            </div>
+
+          </div>
+
+        </mat-card-content>
+
+      </mat-card>
+
+    </div>
+    </mat-tab>
+    <mat-tab label="Reviewer Evaluation">
+       <mat-card class="grade-card mt-3 mb-4" appearance="outlined">
 
   <mat-card-header>
     <mat-card-title class="mb-3">Reviewer hasn't submitted his evaluation yet</mat-card-title>
   </mat-card-header>
+
+    
   </mat-card>
+  
+    </mat-tab>
+  </mat-tab-group>
 }
 

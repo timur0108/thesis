@@ -17,6 +17,8 @@ import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTabsModule} from '@angular/material/tabs';
+import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form-service';
+import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
@@ -34,6 +36,8 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   ownGrade = signal<CommitteeMemberGrade | null>(null);
   gradeForm!: FormGroup;
   isGrading = false;
+  private supervisorFormService = inject(SupervisorFormService);
+  supervisorForm = signal<SupervisorForm | null>(null);
 
   gradesVisible: Signal<boolean> = computed(() =>
     this.committeeMemberGrades()?.every(g => g.visibleToOthers) ?? false
@@ -66,6 +70,10 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
         presentationScore: new FormControl(res?.presentationScore ?? '')
       });
       }
+    })
+
+    this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
+      next: (res) => this.supervisorForm.set(res)
     })
   }
 

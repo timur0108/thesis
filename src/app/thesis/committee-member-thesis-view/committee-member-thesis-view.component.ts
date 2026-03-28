@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
+import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
+import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form-service';
 
 @Component({
   selector: 'app-committee-member-thesis-view',
@@ -30,13 +32,14 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
   ownGrade = signal<CommitteeMemberGrade | null>(null);
   committeeMemberGrades = signal<CommitteeMemberGrade[] | null>(null);
   private gradingService: GradingService = inject(GradingService);
+  private supervisorFormService: SupervisorFormService = inject(SupervisorFormService);
   gradeForm!: FormGroup;
   
   displayedColumns: string[] = ['role', 'content', 'complexity', 'appearance', 'presentation']
   isGrading = false;
   dataForReviewer!: (ReviewerGrade | CommitteeMemberGrade)[];
 
-  
+  supervisorForm = signal<SupervisorForm | null>(null);
 
   getDataForReviewer() {
     const arr = []
@@ -85,6 +88,10 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
     this.gradingService.getCommitteeMemberGradesOfOtherMembers(this.thesis.id).subscribe({
       next: (res) => this.committeeMemberGrades.set(res)
     })
+
+    this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
+      next: (res) => this.supervisorForm.set(res)
+    })
   }
 
   get gradesForTable(): CommitteeMemberGrade[] {
@@ -94,6 +101,26 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
     return own ? [...others, own] : others;
   }
 
+  cahngeGrade() {
+    this.isGrading = true;
+  }
+
+  cancelChangeGrade() {
+    this.isGrading = false;
+  }
+
+  submitChangedGrade() {
+    const formValue = this.gradeForm.getRawValue();
+    const grade = new CommitteeMemberGrade(
+      this.thesis.id, formValue.contentScore, formValue.complexityScore, formValue.appearanceScore, formValue.presentationScore, "asd", "asd"
+    , false);
+    this.gradingService.changeGrade(grade).subscribe({
+      next: (res) => {
+        this.ownGrade.set(res);
+        this.isGrading = false;
+      }
+    })
+  }
 
   isOwnGradeRow(row: CommitteeMemberGrade): boolean {
     return this.ownGrade() !== null && row === this.ownGrade();
