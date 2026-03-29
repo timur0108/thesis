@@ -201,9 +201,13 @@
             <td [ngClass]="{ 'conflict': isConflictInCategory('presentationScore') }">{{ ownGrade()!.presentationScore }}</td>
             <td>{{ getFinalGrade(ownGrade()!) }}</td>
           </tr>
-          <button mat-raised-button class="mt-2" (click)="startGradeChange()">Change Grade</button>
+          @if (!finalGrade()) {
+            <button mat-raised-button class="mt-2" (click)="startGradeChange()">Change Grade</button>
+          }
+          
           } @else {
-            <tr [formGroup]="gradeForm">
+            @if (finalGrade() == null) {
+              <tr [formGroup]="gradeForm">
               <td>Committee Member</td>
               <td><input type="number" formControlName="contentScore"></td>
               <td><input type="number" formControlName="complexityScore"></td>
@@ -212,6 +216,8 @@
             </tr>
             <button mat-raised-button class="mt-2 me-2" (click)="cancelGradeChange()">Cancel</button>
               <button mat-raised-button class="mt-2" (click)="submitGradeChange()">Submit</button>
+            }
+          
           }
           
         }
@@ -219,11 +225,14 @@
       </tbody>
     </table>
     <mat-slide-toggle class="mt-4"  [checked]="gradesVisible()" (change)="onToggle($event.checked)">Make grades visible</mat-slide-toggle>
-    @if (canSubmitFinalGrade()) {
+    @if (finalGrade() == null) {
+      @if (canSubmitFinalGrade()) {
       <button mat-raised-button class="mt-2 float-end" (click)="submitFinalGrade()">Submit Final Grade</button>
     } @else {
       <p class="mt-3">Cannot submit final grade until all committee members reached consensus on all grade aspects</p>
     }
+    }
+    
 } 
   </mat-card-content>
   </mat-card>

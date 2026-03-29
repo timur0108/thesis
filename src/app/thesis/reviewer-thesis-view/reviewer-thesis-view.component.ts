@@ -17,6 +17,8 @@ import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
 import { CommitteeMemberGrade } from '../committee-member-thesis-view/committee.member.grade';
+import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form-service';
+import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
 
 @Component({
   selector: 'app-reviewer-thesis-view',
@@ -31,7 +33,8 @@ export class ReviewerThesisViewComponent implements OnInit{
   gradingService: GradingService = inject(GradingService);
   openGradingForm = false;
   committeeMemberGrades = signal<CommitteeMemberGrade[] | null>(null);
-  
+  private supervisorFormService = inject(SupervisorFormService);
+  supervisorForm = signal<SupervisorForm | null>(null);
   displayedColumns: string[] = [ 'content', 'complexity', 'appearance',  ];
 
   get scores() {
@@ -49,6 +52,10 @@ export class ReviewerThesisViewComponent implements OnInit{
 
     this.gradingService.getAllCommitteeMemberGrades(this.thesis.id).subscribe({
       next: (res) => this.committeeMemberGrades.set(res)
+    })
+
+    this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
+      next: (res) => this.supervisorForm.set(res)
     })
   }
 

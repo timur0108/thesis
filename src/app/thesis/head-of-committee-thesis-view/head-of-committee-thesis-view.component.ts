@@ -76,6 +76,10 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
     this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
       next: (res) => this.supervisorForm.set(res)
     })
+
+    this.gradingService.getFinalGrade(this.thesis.id).subscribe({
+      next: (res) => this.finalGrade.set(res)
+    })
   }
   
   startGradeChange() {
@@ -200,6 +204,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
         this.finalGrade.set(res);
         this.isGrading = false;
         console.log('Final grade submitted:', res);
+        window.location.reload();
       },
       error: (err) => {
         console.error('Error submitting final grade:', err);
