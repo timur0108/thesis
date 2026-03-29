@@ -41,6 +41,11 @@
       <td mat-cell *matCellDef="let thesis">{{ thesis.titleEstonian }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="finalGrade">
+      <th mat-header-cell *matHeaderCellDef>Grade</th>
+      <td mat-cell *matCellDef="let thesis">{{ thesis.finalGrade? thesis.finalGrade : 'Not graded' }}</td>
+    </ng-container>
+
     <!-- Action -->
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef></th>

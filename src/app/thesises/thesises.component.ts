@@ -28,7 +28,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 export class ThesisesComponent implements OnInit{
 
   thesises!: Thesis[];
-  displayedColumns: string[] = ['studentName', 'levelOfStudies', 'languageOfThesis', 'titleEstonian', 'action'];
+  displayedColumns: string[] = ['studentName', 'levelOfStudies', 'languageOfThesis', 'titleEstonian', 'finalGrade', 'action'];
   private dialog = inject(MatDialog)
 
   private thesisesService: ThesisesService = inject(ThesisesService);
