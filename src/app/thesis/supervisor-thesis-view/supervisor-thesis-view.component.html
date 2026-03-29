@@ -171,7 +171,7 @@
       <table class="grades-table">
       <thead>
         <tr>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Role</th>
+          <th style="color: white; background-color: rgb(51, 103, 182);">Name</th>
           <th style="color: white; background-color: rgb(51, 103, 182);">Content</th>
           <th style="color: white; background-color: rgb(51, 103, 182);">Complexity</th>
           <th style="color: white; background-color: rgb(51, 103, 182);">Appearance</th>
@@ -180,17 +180,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Reviewer</td>
-          <td>{{ reviewerGrade()?.contentScore }}</td>
-          <td>{{ reviewerGrade()?.complexityScore }}</td>
-          <td>{{ reviewerGrade()?.appearanceScore }}</td>
-          <td></td>
-        </tr>
         @if (committeeMemberGrades()) {
           @for (grade of committeeMemberGrades(); track grade) {
             <tr>
-          <td>Committee Member</td>
+          <td>{{grade.name + ' ' + grade.secondName}}</td>
           <td>{{ grade.contentScore }}</td>
           <td>{{ grade.complexityScore }}</td>
           <td>{{ grade.appearanceScore }}</td>
