@@ -3,7 +3,7 @@ import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { SupervisorForm } from "./supervisor-form";
-
+import { environment } from "../../../environments/environment";
 
 
 @Injectable({
@@ -12,7 +12,7 @@ import { SupervisorForm } from "./supervisor-form";
 export class SupervisorFormService {
 
 
-    private readonly baseUrl: string = 'http://localhost:8080/api/supervisor-form';
+    private readonly baseUrl: string = `${environment.apiUrl}/supervisor-form`;
 
     private httpClient: HttpClient = inject(HttpClient);
 

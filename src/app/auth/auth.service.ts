@@ -3,13 +3,14 @@ import { inject, Injectable } from "@angular/core";
 import { User } from "./types";
 import { Observable, pipe, tap } from "rxjs";
 import { Router } from "@angular/router";
+import { environment } from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    private readonly baseUrl: string = 'http://localhost:8080/api/auth';
+    private readonly baseUrl: string = `${environment.apiUrl}/auth`;
 
     private httpClient = inject(HttpClient);
     private _roles = new Map();

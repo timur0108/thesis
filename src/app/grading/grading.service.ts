@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { CommitteeMemberGrade } from "../thesis/committee-member-thesis-view/committee.member.grade";
 import { SupervisorForm } from "../thesis/supervisor-thesis-view/supervisor-form";
 import { catchError, of } from 'rxjs';
+import { environment } from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +13,8 @@ import { catchError, of } from 'rxjs';
 export class GradingService {
 
 
-    private readonly baseUrl: string = 'http://localhost:8080/api/grade';
-    private readonly finalGradeBaseUrL: string = 'http://localhost:8080/api/final-grade';
+    private readonly baseUrl: string = `${environment.apiUrl}/grade`;
+    private readonly finalGradeBaseUrL: string = `${environment.apiUrl}/final-grade`;
 
     private httpClient: HttpClient = inject(HttpClient);
 
