@@ -7,13 +7,14 @@ import { RouterOutlet } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { HasAuthorityDirective } from '../auth/has-authority.directive';
 
 @Component({
   selector: 'app-sidenav',
   imports: [MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
-    MatListModule, RouterOutlet, RouterModule],
+    MatListModule, RouterOutlet, RouterModule, HasAuthorityDirective],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.css'
 })

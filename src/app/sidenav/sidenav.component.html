@@ -11,12 +11,15 @@
     <!-- Navigation -->
     <mat-nav-list class="nav-items">
       
-      <a mat-list-item routerLink="/" routerLinkActive="active-link">
+      <a mat-list-item routerLink="/" >
         <mat-icon>description</mat-icon>
         <span>Theses</span>
       </a>
-
-      <a mat-list-item >
+      <a mat-list-item routerLinkActive="active-link" routerLink="sessions" *appHasAuthority="'ADMIN'">
+        <mat-icon>view_listn</mat-icon>
+        <span>Sessions</span>
+      </a>
+        <a mat-list-item >
         <button (click)="authService.logOut()" class="logout-button">
           <mat-icon>logout</mat-icon>
           <span>Logout</span>

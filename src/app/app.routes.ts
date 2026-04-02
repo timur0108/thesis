@@ -4,6 +4,7 @@ import { ThesisComponent } from './thesis/thesis.component';
 import { LoginComponent } from './login/login.component';
 import { ThesisesComponent } from './thesises/thesises.component';
 import { authGuardGuard } from './auth-guard.guard';
+import { SessionsComponent } from './sessions/sessions.component';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,11 @@ export const routes: Routes = [
     {
         path: '',
         component: ThesisesComponent,
+        canActivate: [authGuardGuard]
+    },
+    {
+        path: 'sessions',
+        component: SessionsComponent,
         canActivate: [authGuardGuard]
     }
 ];
