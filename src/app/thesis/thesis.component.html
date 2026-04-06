@@ -2,47 +2,73 @@
   <mat-card class="thesis-card">
 
     <mat-card-header>
-      <mat-card-title>{{ thesis()!.titleEnglish }}</mat-card-title>
-      <mat-card-subtitle>{{ thesis()!.titleEstonian }}</mat-card-subtitle>
+      <div class="header-content">
+        <div>
+          <mat-card-title>{{ thesis()!.titleEnglish }}</mat-card-title>
+          <mat-card-subtitle>{{ thesis()!.titleEstonian }}</mat-card-subtitle>
+        </div>
+
+        <span 
+          class="status-badge"
+          [ngClass]="finalGrade() ? 'graded' : 'pending'">
+          {{ finalGrade() ? 'Graded' : 'Pending' }}
+        </span>
+      </div>
     </mat-card-header>
 
     <mat-divider></mat-divider>
 
     <mat-card-content>
       <div class="thesis-meta">
-        <div class="meta-item">
-          <span class="meta-label">Student</span>
-          <span class="meta-value">{{ thesis()!.studentName }}</span>
-        </div>
 
-        
+  <div class="meta-item">
+    <mat-icon>person</mat-icon>
+    <div class="meta-text">
+      <span class="meta-label">Student</span>
+      <span class="meta-value">{{ thesis()!.studentName }}</span>
+    </div>
+  </div>
 
-        <div class="meta-item">
-          <span class="meta-label">Level</span>
-          <span class="meta-value">{{ thesis()!.levelOfStudies }}</span>
-        </div>
+  <div class="meta-item">
+    <mat-icon>school</mat-icon>
+    <div class="meta-text">
+      <span class="meta-label">Level</span>
+      <span class="meta-value">{{ thesis()!.levelOfStudies }}</span>
+    </div>
+  </div>
 
-        <div class="meta-item">
-          <span class="meta-label">Language</span>
-          <span class="meta-value">{{ thesis()!.languageOfThesis }}</span>
-        </div>
+  <div class="meta-item">
+    <mat-icon>language</mat-icon>
+    <div class="meta-text">
+      <span class="meta-label">Language</span>
+      <span class="meta-value">{{ thesis()!.languageOfThesis }}</span>
+    </div>
+  </div>
 
-        <div class="meta-item">
-          <span class="meta-label">Volume</span>
-          <span class="meta-value">{{ thesis()!.volumeEcts }} ECTS</span>
-        </div>
-        <div class="meta-item">
+  <div class="meta-item">
+    <mat-icon>menu_book</mat-icon>
+    <div class="meta-text">
+      <span class="meta-label">Volume</span>
+      <span class="meta-value">{{ thesis()!.volumeEcts }} ECTS</span>
+    </div>
+  </div>
+
+  <div class="meta-item">
+    <mat-icon>grade</mat-icon>
+    <div class="meta-text">
       <span class="meta-label">Final Grade</span>
       <span class="meta-value">
         <ng-container *ngIf="finalGrade(); else notGraded">
           {{ finalGrade()!.letterGrade }} ({{ finalGrade()!.totalScore }} pts)
         </ng-container>
         <ng-template #notGraded>
-          Not graded yet
+          <span class="not-graded">Not graded yet</span>
         </ng-template>
       </span>
     </div>
-      </div>
+  </div>
+
+</div>
     </mat-card-content>
 
 

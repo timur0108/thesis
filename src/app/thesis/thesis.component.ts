@@ -20,10 +20,11 @@ import { HeadOfCommitteeThesisViewComponent } from './head-of-committee-thesis-v
 import { SupervisorThesisViewComponent } from './supervisor-thesis-view/supervisor-thesis-view.component';
 import { FinalGrade } from '../grading/grade';
 import { GradingService } from '../grading/grading.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-thesis',
-  imports: [DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent,
+  imports: [MatIconModule, DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent,
      CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule, HasAuthorityDirective, 
      ReviewerThesisViewComponent, CommitteeMemberThesisViewComponent, HeadOfCommitteeThesisViewComponent, SupervisorThesisViewComponent],
   templateUrl: './thesis.component.html',

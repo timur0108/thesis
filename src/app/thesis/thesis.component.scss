@@ -18,6 +18,10 @@ mat-card-title {
   color: #1a1a1a;
 }
 
+mat-card-header {
+  width: 100%;
+}
+
 mat-card-subtitle {
   font-size: 1.1rem;
   font-weight: 400;
@@ -34,16 +38,19 @@ mat-card-subtitle {
 
 .meta-item {
   display: flex;
-  flex-direction: column;
-  background: #f9f9f9;
-  padding: 10px 12px;
-  border-radius: 12px;
-  text-align: center;
-  transition: background 0.2s;
+  align-items: flex-start; 
+  gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #fafafa;
+  border: 1px solid #eee;
+  transition: all 0.2s ease;
 }
 
-.meta-item:hover {
-  background: #f1f1f1;
+.meta-text {
+  display: flex;
+  flex-direction: column; 
+  gap: 4px;               
 }
 
 .meta-label {
@@ -51,9 +58,15 @@ mat-card-subtitle {
   font-weight: 600;
   color: #888;
   text-transform: uppercase;
-  letter-spacing: 0.7px;
-  margin-bottom: 4px;
+  letter-spacing: 0.6px;
 }
+
+.meta-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
 
 .meta-value {
   font-weight: 600;
@@ -67,3 +80,40 @@ mat-card-subtitle {
   align-items: center;
   height: 60vh;
 }
+
+.header-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  
+  font-weight: 600;
+}
+
+.status-badge.graded {
+  background: #e6f4ea;
+  color: #2e7d32;
+}
+
+.status-badge.pending {
+  background: #fff4e5;
+  color: #ef6c00;
+}
+
+
+.meta-item mat-icon {
+  font-size: 20px;
+  color: #666;
+}
+
+.not-graded {
+  color: #999;
+  font-style: italic;
+}
+
