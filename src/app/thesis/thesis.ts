@@ -6,5 +6,10 @@ export class Thesis {
   volumeEcts!: number;
   titleEstonian!: string;
   titleEnglish!: string;
-  supervisorName!: string
+  roles!: string[]
+  sessionId!: number;
+  sessionStartDate!: string;
+  sessionEndDate!: string;
+  finalGradeLetter?: string;
+  finalGradeNumber?: string;
 }

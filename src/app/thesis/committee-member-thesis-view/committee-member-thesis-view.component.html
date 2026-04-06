@@ -228,7 +228,8 @@
 } @else {
   <mat-tab-group animationDuration="100ms">
     <mat-tab label="Supervisor Form">
-      <div class="supervisor-container" *ngIf="supervisorForm() as form">
+      @if (supervisorForm()) {
+          <div class="supervisor-container" *ngIf="supervisorForm() as form">
 
       <mat-card class="grade-card" appearance="outlined">
 
@@ -289,6 +290,19 @@
       </mat-card>
 
     </div>
+      } @else {
+              <mat-card class="grade-card mt-3 mb-4" appearance="outlined">
+
+  <mat-card-header>
+    <mat-card-title class="mb-3">Supervisor hasn't submitted his form yet</mat-card-title>
+  </mat-card-header>
+
+    
+  </mat-card>
+
+      
+      }
+      
     </mat-tab>
     <mat-tab label="Reviewer Evaluation">
        <mat-card class="grade-card mt-3 mb-4" appearance="outlined">

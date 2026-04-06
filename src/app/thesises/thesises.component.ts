@@ -15,36 +15,158 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddThesisDialogComponent } from '../add-thesis-dialog/add-thesis-dialog.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { signal } from '@angular/core';
+import { ThesisService } from '../thesis/thesis.service';
+import { ThesisCardComponent } from '../thesis-card/thesis-card.component';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { computed } from '@angular/core';
 
 
 @Component({
   selector: 'app-thesises',
-  imports: [MatDialogModule, MatInputModule, MatFormFieldModule ,MatIconModule, MatCardModule, RouterModule, CommonModule, MatTableModule, MatButtonModule, HasAuthorityDirective, MatDatepickerModule,
+  imports: [MatSelectModule, MatOptionModule, ThesisCardComponent, MatTabsModule, MatDialogModule, MatInputModule, MatFormFieldModule ,MatIconModule, MatCardModule, RouterModule, CommonModule, MatTableModule, MatButtonModule, HasAuthorityDirective, MatDatepickerModule,
   MatNativeDateModule],
   templateUrl: './thesises.component.html',
   styleUrl: './thesises.component.css'
 })
 export class ThesisesComponent implements OnInit{
 
-  thesises!: Thesis[];
+  thesises = signal<Thesis[] | null>(null);
   displayedColumns: string[] = ['studentName', 'levelOfStudies', 'languageOfThesis', 'titleEstonian', 'finalGrade', 'action'];
   private dialog = inject(MatDialog)
 
+  asSupervisor = signal<Thesis[] | null>(null);
+  asReviewer = signal<Thesis[] | null>(null);
+  asCommittee = signal<Thesis[] | null>(null);
+
+  searchTerm = signal('');
+  statusFilter = signal('');
+
+  activeTab = signal(0);
+
   private thesisesService: ThesisesService = inject(ThesisesService);
+  private thesisService: ThesisService = inject(ThesisService);
+
+  filteredList = computed(() => {
+    let list: Thesis[] = [];
+
+    switch (this.activeTab()) {
+      case 0:
+        list = this.thesises() || [];
+        break;
+      case 1:
+        list = this.asSupervisor() || [];
+        break;
+      case 2:
+        list = this.asReviewer() || [];
+        break;
+      case 3:
+        list = this.asCommittee() || [];
+        break;
+    }
+
+    const search = this.searchTerm();
+    const status = this.statusFilter();
+
+    return list.filter(t => {
+      const matchesSearch =
+        !search ||
+        t.titleEstonian?.toLowerCase().includes(search) ||
+        t.titleEnglish?.toLowerCase().includes(search) ||
+        t.studentName?.toLowerCase().includes(search);
+
+      const matchesStatus =
+        !status ||
+        (status === 'GRADED' && t.finalGradeLetter) ||
+        (status === 'PENDING' && !t.finalGradeLetter);
+
+      return matchesSearch && matchesStatus;
+    });
+  });
 
   ngOnInit() {
-    this.thesisesService.getAllThesises().subscribe({
-      next: (data) => this.thesises = data
+    this.getAllTheses();
+    this.getThesesAsCommittee();
+    this.getThesesAsReviewer();
+    this.getThesesAsSupervisor();
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.activeTab.set(event.index);
+
+    switch (event.index) {
+      case 0:
+        if (!this.thesises || this.thesises.length < 1) {
+          this.getAllTheses();
+        }
+        break;
+      
+      case 1:
+          if (!this.asSupervisor()) {
+            this.getThesesAsSupervisor();
+          }
+          break;
+      
+      case 2: 
+        if (!this.asReviewer()) {
+          this.getThesesAsReviewer();
+        }    
+        break;
+      case 3:
+        if (!this.asCommittee()) {
+          this.getThesesAsCommittee();
+        }
+        break;  
+    }
+    this.resetFilters();
+  }
+
+  getAllTheses() {
+    this.thesisService.getAssigned().subscribe({
+      next: (data) => this.thesises.set(data)
+    })
+  }
+
+  getThesesAsSupervisor() {
+    this.thesisService.getSupervised().subscribe({
+      next: (res) => this.asSupervisor.set(res)
+    })
+  }
+
+  getThesesAsReviewer() {
+    this.thesisService.getAssignedReviews().subscribe({
+      next: (res) => this.asReviewer.set(res)
+    })
+  }
+
+  getThesesAsCommittee() {
+    this.thesisService.getCommittee().subscribe({
+      next: (res) => this.asCommittee.set(res)
     })
   }
 
   onAddThesis() {
     this.dialog.open(AddThesisDialogComponent, {
-    width: '50vw',
-    height: '80vh',
-    maxWidth: '100vw',
-    disableClose: false
-  });
+      width: '50vw',
+      height: '80vh',
+      maxWidth: '100vw',
+      disableClose: false
+    });
+  }
+
+  onSearch(event: any) {
+    this.searchTerm.set(event.target.value.toLowerCase());
+  }
+
+  onStatusChange(status: string) {
+    this.statusFilter.set(status);
+  }
+
+  resetFilters() {
+    this.searchTerm.set('');
+    this.statusFilter.set('');
   }
 }

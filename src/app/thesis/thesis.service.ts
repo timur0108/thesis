@@ -18,6 +18,22 @@ export class ThesisService {
     }
 
     public createThesis(dto: ThesisCreateDTO): Observable<void> {
-    return this.httpClient.post<void>(this.baseUrl, dto);
-  }
+        return this.httpClient.post<void>(this.baseUrl, dto);
+    }
+
+    public getAssignedReviews(): Observable<Thesis[]> {
+        return this.httpClient.get<Thesis[]>(this.baseUrl + '/review');
+    }
+
+    public getSupervised(): Observable<Thesis[]> {
+        return this.httpClient.get<Thesis[]>(this.baseUrl + '/supervised');
+    }
+
+    public getCommittee(): Observable<Thesis[]> {
+        return this.httpClient.get<Thesis[]>(this.baseUrl + '/committee');
+    }
+
+    public getAssigned(): Observable<Thesis[]> {
+        return this.httpClient.get<Thesis[]>(this.baseUrl + '/all/assigned')
+    }
 }

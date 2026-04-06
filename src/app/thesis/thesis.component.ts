@@ -1,4 +1,4 @@
-import { Component, ComponentRef, inject, input, OnInit, signal, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, inject, Input, input, OnInit, signal, ViewContainerRef } from '@angular/core';
 import { Thesis } from './thesis';
 import { ActivatedRoute } from '@angular/router';
 import { ThesisService } from './thesis.service';

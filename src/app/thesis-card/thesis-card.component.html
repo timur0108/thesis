@@ -1,0 +1,73 @@
+<mat-card class="card" [routerLink]="['/thesis', thesis.id]">
+
+  <!-- Top row: title + grade -->
+  <div class="header">
+    <div>
+      <div class="title">
+        {{ thesis.titleEnglish }}
+      </div>
+      <div class="subtitle">
+        {{ thesis.titleEstonian }}
+      </div>
+    </div>
+
+    <!-- Grade section -->
+    <div class="grade" *ngIf="thesis.finalGradeLetter; else notGraded">
+      <mat-icon class="grade-icon">check_circle</mat-icon>
+      <div class="grade-text">
+        <span class="letter">{{ thesis.finalGradeLetter }}</span>
+        <span class="number" *ngIf="thesis.finalGradeNumber">
+          ({{ thesis.finalGradeNumber }})
+        </span>
+      </div>
+    </div>
+
+    <!-- Not graded -->
+    <ng-template #notGraded>
+      <div class="not-graded">
+        <mat-icon>hourglass_empty</mat-icon>
+        <span>Not graded</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Info grid -->
+  <div class="info">
+
+    <div class="item">
+      <mat-icon>person</mat-icon>
+      <span>{{ thesis.studentName }}</span>
+    </div>
+
+    <div class="item">
+      <mat-icon>school</mat-icon>
+      <span>{{ thesis.levelOfStudies }}</span>
+    </div>
+
+    <div class="item">
+      <mat-icon>translate</mat-icon>
+      <span>{{ thesis.languageOfThesis }}</span>
+    </div>
+
+    <div class="item">
+      <mat-icon>grade</mat-icon>
+      <span>{{ thesis.volumeEcts }} ECTS</span>
+    </div>
+
+    <div class="item">
+      <mat-icon>event</mat-icon>
+      <span>{{ thesis.sessionStartDate }} → {{ thesis.sessionEndDate }}</span>
+    </div>
+
+  </div>
+
+  <!-- Roles -->
+  <div class="roles" *ngIf="thesis.roles?.length">
+    <mat-chip-set>
+      <mat-chip *ngFor="let role of thesis.roles">
+        {{ role }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+</mat-card>

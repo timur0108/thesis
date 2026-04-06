@@ -1,0 +1,11 @@
+<h1 class="mb-3">Committee</h1>
+
+<div class="reviews-grid">
+  @for (thesis of thesises(); track thesis.id) {
+    <app-thesis-card [thesis]="thesis"></app-thesis-card>
+  }
+</div>
+
+<ng-template #empty>
+  <p class="empty-state">No assigned reviews</p>
+</ng-template>

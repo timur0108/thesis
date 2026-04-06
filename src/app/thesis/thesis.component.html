@@ -15,10 +15,7 @@
           <span class="meta-value">{{ thesis()!.studentName }}</span>
         </div>
 
-        <div class="meta-item">
-          <span class="meta-label">Supervisor</span>
-          <span class="meta-value">{{ thesis()!.supervisorName }}</span>
-        </div>
+        
 
         <div class="meta-item">
           <span class="meta-label">Level</span>
@@ -51,21 +48,28 @@
 
   </mat-card>
 
-  <ng-container *appHasAuthority="'REVIEWER'">
+  @if (thesis()!.roles.includes('REVIEWER')) {
+      <ng-container>
       <app-reviewer-thesis-view [thesis]="thesis()!"></app-reviewer-thesis-view>
     </ng-container>
-
-    <ng-container *appHasAuthority="'COMMITTEE_MEMBER'">
-      <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
-    </ng-container>
-
-    <ng-container *appHasAuthority="'HEAD_OF_COMMITTEE'">
-      <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
-    </ng-container>
-
-    <ng-container *appHasAuthority="'SUPERVISOR'">
+  } @else if (thesis()!.roles.includes('SUPERVISOR') && !thesis()!.roles.includes('COMMITTEE_MEMBER')) {
+    <ng-container>
       <app-supervisor-thesis-view [thesis]="thesis()!"></app-supervisor-thesis-view>
     </ng-container>
+  } @else if (!thesis()!.roles.includes('SUPERVISOR') && thesis()!.roles.includes('COMMITTEE_MEMBER')) {
+        <ng-container>
+      <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
+    </ng-container>
+  } @else if (!thesis()!.roles.includes('SUPERVISOR') && thesis()!.roles.includes('HEAD_OF_COMMITTEE')) {
+    <ng-container>
+      <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
+    </ng-container>
+  }
+
+
+
+
+    
 </ng-container>
 
 <ng-template #loading>

@@ -5,6 +5,9 @@ import { LoginComponent } from './login/login.component';
 import { ThesisesComponent } from './thesises/thesises.component';
 import { authGuardGuard } from './auth-guard.guard';
 import { SessionsComponent } from './sessions/sessions.component';
+import { AssignedReviewsComponent } from './assigned-reviews/assigned-reviews.component';
+import { SupervisedThesesComponent } from './supervised-theses/supervised-theses.component';
+import { CommitteeEvaluationsComponent } from './committee-evaluations/committee-evaluations.component';
 
 export const routes: Routes = [
     {
@@ -29,6 +32,18 @@ export const routes: Routes = [
     {
         path: 'sessions',
         component: SessionsComponent,
+        canActivate: [authGuardGuard]
+    }, {
+        path: 'assigned-reviews',
+        component: AssignedReviewsComponent,
+        canActivate: [authGuardGuard]
+    }, {
+        path: 'supervised',
+        component: SupervisedThesesComponent,
+        canActivate: [authGuardGuard]
+    }, {
+        path: 'committee',
+        component: CommitteeEvaluationsComponent,
         canActivate: [authGuardGuard]
     }
 ];
