@@ -1,10 +1,56 @@
 @if (reviewerGrade()) {
   <mat-tab-group animationDuration="100ms">
     <mat-tab label="Overview">
-      <mat-card>
+  <div class="overview-container">
+
+    <!-- LEFT SIDE -->
+    <div class="main-content">
+
+      <mat-card class="modern-card">
+        <h2 class="title">{{ thesis.titleEnglish }}</h2>
+        <p class="subtitle">Spring 2026 Defense Session</p>
+      </mat-card>
+
+      <mat-card class="modern-card">
+        <h3>Abstract</h3>
         
       </mat-card>
-    </mat-tab>
+
+      <mat-card class="modern-card">
+        <h3>Student Information</h3>
+        <div class="info-grid">
+          <div><strong>Name:</strong> {{ thesis.studentName }}</div>
+          
+          
+        </div>
+      </mat-card>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="side-content">
+
+      <mat-card class="modern-card">
+        <h3>Supervisor</h3>
+        <p>Dr. Sarah Johnson</p>
+        <p class="grade success">Grade: 92/100</p>
+      </mat-card>
+
+      <mat-card class="modern-card">
+        <h3>Reviewer</h3>
+        <p>Prof. Michael Chen</p>
+      </mat-card>
+
+      <mat-card class="modern-card">
+        <h3>Quick Stats</h3>
+        <p>Committee Size: {{ committeeMemberGrades()?.length || 0 }}</p>
+        <p>Grades Submitted: {{ ownGrade() ? 1 : 0 }}</p>
+      </mat-card>
+
+    </div>
+
+  </div>
+</mat-tab>
     <mat-tab label="Supervisor Form">
          <div class="supervisor-container" *ngIf="supervisorForm() as form">
 

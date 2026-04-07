@@ -21,10 +21,12 @@ import { SupervisorThesisViewComponent } from './supervisor-thesis-view/supervis
 import { FinalGrade } from '../grading/grade';
 import { GradingService } from '../grading/grading.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { User } from '../user/user';
 
 @Component({
   selector: 'app-thesis',
-  imports: [MatIconModule, DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent,
+  imports: [MatTabsModule, MatIconModule, DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent,
      CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule, HasAuthorityDirective, 
      ReviewerThesisViewComponent, CommitteeMemberThesisViewComponent, HeadOfCommitteeThesisViewComponent, SupervisorThesisViewComponent],
   templateUrl: './thesis.component.html',
@@ -66,5 +68,16 @@ export class ThesisComponent {
         next: (res) => this.finalGrade.set(res)
       })
     })
+  }
+
+  getFullNameWithEmail(user?: User): string {
+    if (!user) return 'N/A';
+    const fullName = `${user.name} ${user.secondName ?? ''}`.trim();
+    return `${fullName} (${user.email ?? 'No email'})`;
+  }
+
+  getFullNamesWithEmails(users?: User[]): string {
+    if (!users || users.length === 0) return 'N/A';
+    return users.map(u => this.getFullNameWithEmail(u)).join(', ');
   }
 }
