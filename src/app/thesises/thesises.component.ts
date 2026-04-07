@@ -23,6 +23,8 @@ import { ThesisCardComponent } from '../thesis-card/thesis-card.component';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { computed } from '@angular/core';
+import { Session } from '../sessions/session';
+import { SessionService } from '../sessions/sessions.service';
 
 
 @Component({
@@ -47,8 +49,12 @@ export class ThesisesComponent implements OnInit{
 
   activeTab = signal(0);
 
+  sessions = signal<Session[] | null>(null);
+  selectedSessionId = signal<number | null>(null);
+
   private thesisesService: ThesisesService = inject(ThesisesService);
   private thesisService: ThesisService = inject(ThesisService);
+  private sessionService: SessionService = inject(SessionService);
 
   filteredList = computed(() => {
     let list: Thesis[] = [];
@@ -83,7 +89,10 @@ export class ThesisesComponent implements OnInit{
         (status === 'GRADED' && t.finalGradeLetter) ||
         (status === 'PENDING' && !t.finalGradeLetter);
 
-      return matchesSearch && matchesStatus;
+      const selectedSession = this.selectedSessionId();
+        const matchesSession = !selectedSession || t.sessionId === selectedSession;
+
+      return matchesSearch && matchesStatus && matchesSession;
     });
   });
 
@@ -92,6 +101,7 @@ export class ThesisesComponent implements OnInit{
     this.getThesesAsCommittee();
     this.getThesesAsReviewer();
     this.getThesesAsSupervisor();
+    this.getAllSessions();
   }
 
   onTabChange(event: MatTabChangeEvent) {
@@ -122,6 +132,16 @@ export class ThesisesComponent implements OnInit{
         break;  
     }
     this.resetFilters();
+  }
+
+  onSessionChange(sessionId: number | null) {
+    this.selectedSessionId.set(sessionId);
+  }
+
+  getAllSessions() {
+    this.sessionService.getAll().subscribe({
+      next: (res) => this.sessions.set(res)
+    })
   }
 
   getAllTheses() {
@@ -168,5 +188,6 @@ export class ThesisesComponent implements OnInit{
   resetFilters() {
     this.searchTerm.set('');
     this.statusFilter.set('');
+    this.selectedSessionId.set(null);
   }
 }

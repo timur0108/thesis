@@ -18,7 +18,22 @@
       <mat-option value="PENDING">Pending</mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field appearance="outline">
+  <mat-label>Session</mat-label>
+  <mat-select 
+    [value]="selectedSessionId()" 
+    (selectionChange)="onSessionChange($event.value)">
 
+    <mat-option [value]="null">All</mat-option>
+
+    @for (session of sessions() || []; track session.id) {
+      <mat-option [value]="session.id">
+        {{ session.startDate }} → {{ session.endDate }}
+      </mat-option>
+    }
+
+  </mat-select>
+</mat-form-field>
   <button mat-stroked-button (click)="resetFilters()">
     Reset
   </button>
