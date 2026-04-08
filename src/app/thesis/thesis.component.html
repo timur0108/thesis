@@ -12,19 +12,23 @@
     <h1 class="thesis-title-en">{{ thesis()!.titleEnglish }}</h1>
     <p class="thesis-title-et">{{ thesis()!.titleEstonian }}</p>
 
-    
+        <!-- Grade Block -->
+  <div class="grade-block">
+  <span class="grade-label">Final Grade</span>
+  <span class="grade-value" [ngClass]="{'muted': !thesis()!.finalGradeLetter}">
+    {{ thesis()!.finalGradeLetter || 'Not graded' }}
+  </span>
+  <span class="grade-number" *ngIf="thesis()!.finalGradeNumber">
+    / {{ thesis()!.finalGradeNumber }}
+  </span>
+</div>
 
     <div class="roles-row" *ngIf="thesis()!.roles && thesis()!.roles.length > 0">
       <span class="role-chip" *ngFor="let role of thesis()!.roles">{{ role }}</span>
     </div>
   </div>
 
-  <!-- Grade Block -->
-  <div class="grade-block" *ngIf="thesis()!.finalGradeLetter || thesis()!.finalGradeNumber">
-    <span class="grade-label">Final Grade</span>
-    <span class="grade-value">{{ thesis()!.finalGradeLetter }}</span>
-    <span class="grade-number" *ngIf="thesis()!.finalGradeNumber">/ {{ thesis()!.finalGradeNumber }}</span>
-  </div>
+
 
 
  
@@ -41,14 +45,16 @@
         <ng-container>
       <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
     </ng-container>
+  } @else if (thesis()!.roles.includes('HEAD_OF_COMMITTEE')) {
+      <ng-container>
+      <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
+    </ng-container>
   }
 
 
 
 
-    <ng-container *appHasAuthority="'HEAD_OF_COMMITTEE'">
-      <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
-    </ng-container>
+    
 </ng-container>
 
 <ng-template #loading>

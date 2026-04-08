@@ -29,7 +29,7 @@ import { SessionService } from '../sessions/sessions.service';
 
 @Component({
   selector: 'app-thesises',
-  imports: [MatSelectModule, MatOptionModule, ThesisCardComponent, MatTabsModule, MatDialogModule, MatInputModule, MatFormFieldModule ,MatIconModule, MatCardModule, RouterModule, CommonModule, MatTableModule, MatButtonModule, HasAuthorityDirective, MatDatepickerModule,
+  imports: [AddThesisDialogComponent, MatSelectModule, MatOptionModule, ThesisCardComponent, MatTabsModule, MatDialogModule, MatInputModule, MatFormFieldModule ,MatIconModule, MatCardModule, RouterModule, CommonModule, MatTableModule, MatButtonModule, HasAuthorityDirective, MatDatepickerModule,
   MatNativeDateModule],
   templateUrl: './thesises.component.html',
   styleUrl: './thesises.component.css'
@@ -55,6 +55,7 @@ export class ThesisesComponent implements OnInit{
   private thesisesService: ThesisesService = inject(ThesisesService);
   private thesisService: ThesisService = inject(ThesisService);
   private sessionService: SessionService = inject(SessionService);
+
 
   filteredList = computed(() => {
     let list: Thesis[] = [];

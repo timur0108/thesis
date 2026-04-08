@@ -1,6 +1,11 @@
 @if (reviewerGrade()) {
   
   <mat-tab-group animationDuration="100ms">
+    <mat-tab label="Overview">
+      <app-thesis-overview [thesis]="thesis">
+
+      </app-thesis-overview>
+    </mat-tab>
     <mat-tab label="Supervisor Form">
       <div class="supervisor-container" *ngIf="supervisorForm() as form">
 
@@ -10,7 +15,7 @@
           <mat-card-title>Supervisor Form</mat-card-title>
         </mat-card-header>
 
-        <mat-card-content class="grade-content">
+        <mat-card-content class="grade-content">`
 
           <!-- Top section -->
           <div class="top-section">
@@ -65,9 +70,9 @@
     </div>
     </mat-tab>
     <mat-tab label="Reviewer Evaluation">
-      <mat-card class="grade-card" appearance="outlined">
+      <mat-card class="reviewer-container grade-card" appearance="outlined">
 
-  <mat-card-header class="mb-5">
+  <mat-card-header class=" mb-5">
     <mat-card-title>Reviewer Evaluation</mat-card-title>
   </mat-card-header>
 
@@ -142,7 +147,7 @@
 </mat-card>
     </mat-tab>
     <mat-tab label="Committee Evaluations">
-      <mat-card class="grade-card mt-3 mb-5" appearance="outlined">
+      <mat-card class="committee-container grade-card mb-5" appearance="outlined">
 
   <mat-card-header>
     <mat-card-title class="mb-3">Submitted Evaluations</mat-card-title>
@@ -244,8 +249,12 @@
   
 } @else {
   <mat-tab-group animationDuration="100ms">
+    <mat-tab label="Overview">
+      <app-thesis-overview [thesis]="thesis!"></app-thesis-overview>
+    </mat-tab>
     <mat-tab label="Supervisor Form">
-      <div class="supervisor-container" *ngIf="supervisorForm() as form">
+      @if (supervisorForm()) {
+          <div class="supervisor-container" *ngIf="supervisorForm() as form">
 
       <mat-card class="grade-card" appearance="outlined">
 
@@ -306,6 +315,22 @@
       </mat-card>
 
     </div>
+      } @else {
+        <div class="supervisor-container">
+
+      <mat-card class="grade-card" appearance="outlined">
+
+        <mat-card-header >
+          <mat-card-title>Supervisor hasn't submitted their form yet</mat-card-title>
+        </mat-card-header>
+
+        
+
+      </mat-card>
+
+    </div>
+      }
+      
     </mat-tab>
     <mat-tab label="Reviewer Evaluation">
        <mat-card class="grade-card mt-3 mb-4" appearance="outlined">

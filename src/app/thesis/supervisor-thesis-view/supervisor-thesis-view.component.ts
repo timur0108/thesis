@@ -12,10 +12,15 @@ import { MatDivider } from '@angular/material/divider';
 import { CommitteeMemberGrade } from '../committee-member-thesis-view/committee.member.grade';
 import { GradingService } from '../../grading/grading.service';
 import { ReviewerGrade } from '../../grading/grade';
+import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.component';
+import { MatButtonModule } from '@angular/material/button';
+import { AddThesisDialogComponent } from '../../add-thesis-dialog/add-thesis-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-supervisor-thesis-view',
-  imports: [MatDivider, MatIconModule, CommonModule, MatSpinner, MatTabsModule, MatCardModule],
+  imports: [MatDialogModule, MatButtonModule, ThesisOverviewComponent, MatDivider, MatIconModule, CommonModule, MatSpinner, MatTabsModule, MatCardModule],
   templateUrl: './supervisor-thesis-view.component.html',
   styleUrl: './supervisor-thesis-view.component.css'
 })
@@ -27,6 +32,7 @@ export class SupervisorThesisViewComponent implements OnInit {
   gradingService = inject(GradingService);
   committeeMemberGrades = signal<CommitteeMemberGrade[] | null>(null);
   reviewerGrade = signal<ReviewerGrade | null>(null);
+  private dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
@@ -64,4 +70,38 @@ export class SupervisorThesisViewComponent implements OnInit {
     }
     return 'F';
   }
+
+  openSUpervisorFormModal() {
+    this.onAddThesis();
+  }
+
+  onAddThesis() {
+    const dialogRef = this.dialog.open(AddThesisDialogComponent, {
+      width: '50vw',
+      height: '80vh',
+      maxWidth: '100vw',
+      disableClose: false,
+      data: { thesisId: this.thesis.id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
+      next: (res) => {
+        this.supervisorForm.set(res);
+        console.log(this.supervisorForm())
+      }
+      })
+      
+    this.gradingService.getAllCommitteeMemberGrades(this.thesis.id).subscribe({
+      next: (res) => this.committeeMemberGrades.set(res)
+    })
+
+    this.gradingService.getReviewerGrade(this.thesis.id).subscribe({
+      next: (res) => this.reviewerGrade.set(res)
+    })
+      }
+    });
+  }
+
 }

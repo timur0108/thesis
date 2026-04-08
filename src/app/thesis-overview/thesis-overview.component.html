@@ -18,13 +18,7 @@
             <span class="info-label">Volume</span>
             <span class="info-value">{{ thesis.volumeEcts }} ECTS</span>
           </div>
-          <div class="info-item" *ngIf="thesis.finalGradeLetter || thesis.finalGradeNumber">
-            <span class="info-label">Final Grade</span>
-            <span class="info-value grade">
-              {{ thesis.finalGradeLetter }}
-              <span class="grade-sub" *ngIf="thesis.finalGradeNumber"> / {{ thesis.finalGradeNumber }}</span>
-            </span>
-          </div>
+          
         </div>
       </div>
 

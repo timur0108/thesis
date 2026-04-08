@@ -19,10 +19,11 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTabsModule} from '@angular/material/tabs';
 import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form-service';
 import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
+import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.component';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
-  imports: [MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
+  imports: [ThesisOverviewComponent, MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
   ReactiveFormsModule],
   templateUrl: './head-of-committee-thesis-view.component.html',
   styleUrl: './head-of-committee-thesis-view.component.css'

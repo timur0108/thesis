@@ -1,67 +1,113 @@
-.grade-card {
+:host {
+  font-family: Roboto, sans-serif;
+
+  --primary: #1976d2;
+  --primary-light: #e3f0fc;
+  --text-primary: #212121;
+  --text-label: #757575;
+  --border: #e0e0e0;
+  --surface: #ffffff;
+  --bg-subtle: #fafafa;
+}
+
+/* ── Tab content wrapper — consistent padding for all tabs ── */
+.tab-content {
   padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff;
-  transition: transform 0.2s, box-shadow 0.2s;
-  margin: 0 auto;
+}
+
+/* ── Card — flat, matches overview ── */
+.grade-card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07) !important;
+  padding: 0 !important;
+  overflow-x: auto;
+  transition: none !important;
+  transform: none !important;
 }
 
 .grade-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transform: none !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07) !important;
+}
+
+/* ── Card header ── */
+mat-card-header {
+  padding: 20px 24px 0 !important;
 }
 
 mat-card-title {
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: #1a1a1a;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 0 !important;
 }
 
+.grade-content {
+  padding: 0 !important;
+}
+
+/* ── Supervisor container ── */
+.supervisor-container {
+  padding: 24px;
+}
+
+/* ── Text blocks — stacked, full width, with divider between ── */
 .top-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  margin-bottom: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--border);
+  margin-top: 16px;
 }
 
 .text-block {
-  flex: 1 1 45%;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 20px 24px;
+}
+
+.text-block:nth-child(odd) {
+  border-right: 1px solid var(--border);
 }
 
 .text-block h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #333;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-label) !important;
+  margin: 0 0 8px !important;
 }
 
 .text-block p {
-  color: #555;
-  line-height: 1.6;
+  font-size: 14px !important;
+  color: var(--text-primary) !important;
+  line-height: 1.7;
+  margin: 0;
 }
 
-.scores-section h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #1a1a1a;
+/* ── Scores section ── */
+.scores-section {
+  padding: 0 24px 20px;
+  border-top: 1px solid var(--border);
+  margin-top: 0;
 }
 
+.scores-section > h3 {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-label) !important;
+  margin: 16px 0 12px !important;
+}
+
+/* ── Score cards — horizontal layout with score on the right ── */
 .score-card {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  margin-bottom: 16px;
-  border-radius: 12px;
-  background: #f9f9f9;
-  transition: background 0.2s;
-}
-
-.score-card:hover {
-  background: #f1f1f1;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-subtle);
 }
 
 .score-header {
@@ -72,241 +118,146 @@ mat-card-title {
 }
 
 .score-title {
-  font-weight: 600;
-  font-size: 16px;
-  color: #222;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .score-value {
-  font-weight: 700;
-  font-size: 18px;
-  padding: 4px 10px;
-  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 2px;
   color: #fff;
+  letter-spacing: 0.03em;
 }
 
-/* Color-coded badges based on score */
-.score-value.low { background-color: #f44336; }       /* 0-2 */
-.score-value.medium { background-color: #ff9800; }    /* 3-4 */
-.score-value.high { background-color: #4caf50; }      /* 5 */
+.score-value.low    { background-color: #e53935; }
+.score-value.medium { background-color: #f57c00; }
+.score-value.high   { background-color: #388e3c; }
 
 .reasoning {
+  font-size: 14px !important;
+  color: var(--text-primary) !important;
+  line-height: 1.6;
   margin: 0;
-  line-height: 1.5;
-  color: #444;
 }
 
-@media (max-width: 768px) {
-  .top-section {
-    flex-direction: column;
-  }
-
-  .text-block {
-    flex: 1 1 100%;
-  }
+/* ── Empty state ── */
+.empty-state {
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--text-label);
+  font-size: 14px;
 }
 
-.grade-card {
-
-  border-radius: 12px;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background-color: #fff;
-  overflow-x: auto;
-  padding: 16px;
-}
-
-
-
-
-.grade-card:hover {
-  transform: translateY(-4px); 
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+/* ── Grades table ── */
+mat-card-content {
+  padding: 0 !important;
 }
 
 .grades-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
+  margin-top: 0;
 }
 
-.grades-table thead {
-  background-color: #3367b6; 
-  color: #fff;
-}
-
-.grades-table th,
-.grades-table td {
-  padding: 10px 12px;
-  text-align: center;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 14px;
-}
-
-.grades-table tbody tr:hover {
-  background-color: #f5f6fa;
-}
-
-.grades-table tbody tr td input {
-  width: 60px;
-  padding: 4px 6px;
-  text-align: center;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  transition: all 0.2s;
-}
-
-.grades-table tbody tr td input:focus {
-  border-color: #3367b6;
-  outline: none;
-  box-shadow: 0 0 4px rgba(51, 103, 182, 0.3);
-}
-
-button[mat-raised-button] {
-  margin-top: 12px;
-  margin-right: 8px;
-  border-radius: 8px;
+.grades-table thead th {
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 12px;
   font-weight: 500;
-  text-transform: none;
-  transition: all 0.2s;
+  letter-spacing: 0.04em;
+  color: #fff !important;
+  background-color: var(--primary) !important;
+  border: none;
+}
+
+.grades-table tbody td {
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+}
+
+.grades-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.grades-table tbody tr:hover td {
+  background-color: #f5f8ff;
+}
+
+.grades-table tbody td input {
+  width: 64px;
+  padding: 5px 8px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  outline: none;
+  font-family: Roboto, sans-serif;
+  color: var(--text-primary);
+  background: var(--surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.grades-table tbody td input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+td.conflict {
+  background-color: #fff3f3 !important;
+  color: #c62828 !important;
+}
+
+/* ── Table action buttons row ── */
+.table-actions {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Buttons ── */
+button[mat-raised-button] {
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  transition: opacity 0.15s !important;
+  transform: none !important;
+  letter-spacing: 0.01em !important;
 }
 
 button[mat-raised-button]:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  opacity: 0.9;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
-button[mat-raised-button][color="primary"] {
-  background-color: #3367b6;
-  color: white;
-}
-
-button[mat-raised-button][color="warn"] {
-  background-color: #e53935;
-  color: white;
-}
-
-p {
-  font-size: 14px;
-  color: #555;
-}
-
-.grade-card {
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff;
-  transition: transform 0.2s, box-shadow 0.2s;
-  margin: 0 auto;
-}
-
-.grade-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
-mat-card-title {
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: #1a1a1a;
-}
-
-.top-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  margin-bottom: 32px;
-}
-
-.text-block {
-  flex: 1 1 45%;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.text-block h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.text-block p {
-  color: #555;
-  line-height: 1.6;
-}
-
-.scores-section h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: #1a1a1a;
-}
-
-.score-card {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  margin-bottom: 16px;
-  border-radius: 12px;
-  background: #f9f9f9;
-  transition: background 0.2s;
-}
-
-.score-card:hover {
-  background: #f1f1f1;
-}
-
-.score-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.score-title {
-  font-weight: 600;
-  font-size: 16px;
-  color: #222;
-}
-
-.score-value {
-  font-weight: 700;
-  font-size: 18px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  color: #fff;
-}
-
-/* Color-coded badges based on score */
-.score-value.low { background-color: #f44336; }       /* 0-2 */
-.score-value.medium { background-color: #ff9800; }    /* 3-4 */
-.score-value.high { background-color: #4caf50; }      /* 5 */
-
-.reasoning {
-  margin: 0;
-  line-height: 1.5;
-  color: #444;
-}
-
+/* ── Responsive ── */
 @media (max-width: 768px) {
+  .tab-content { padding: 16px; }
+
   .top-section {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
-  .text-block {
-    flex: 1 1 100%;
+  .text-block:nth-child(odd) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
   }
 }
 
-.supervisor-container {
-  display: flex;
-  justify-content: center;
-  padding: 24px;
+.reviewer-container {
+  margin-top: 24px;
 }
 
-/* Optional: slightly wider for supervisor */
-.grade-card {
- 
-  width: 100%;
+.committee-container {
+  margin-top: 24px;
 }

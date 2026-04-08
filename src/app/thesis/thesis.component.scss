@@ -267,3 +267,8 @@ mat-divider {
     padding: 1.25rem 1rem 3rem;
   }
 }
+
+.grade-value.muted {
+  color: var(--text-muted);
+  font-style: italic;
+}

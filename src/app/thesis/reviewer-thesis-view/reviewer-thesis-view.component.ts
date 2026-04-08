@@ -19,10 +19,11 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { CommitteeMemberGrade } from '../committee-member-thesis-view/committee.member.grade';
 import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form-service';
 import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
+import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.component';
 
 @Component({
   selector: 'app-reviewer-thesis-view',
-  imports: [GradingComponent, HasAuthorityDirective, MatButtonModule, MatCardModule, MatListModule, MatDividerModule, MatIconModule, ReactiveFormsModule, MatProgressBarModule, MatTableModule, CommonModule, MatTabsModule],
+  imports: [ThesisOverviewComponent, GradingComponent, HasAuthorityDirective, MatButtonModule, MatCardModule, MatListModule, MatDividerModule, MatIconModule, ReactiveFormsModule, MatProgressBarModule, MatTableModule, CommonModule, MatTabsModule],
   templateUrl: './reviewer-thesis-view.component.html',
   styleUrl: './reviewer-thesis-view.component.css'
 })
@@ -65,6 +66,7 @@ export class ReviewerThesisViewComponent implements OnInit{
 
   handleGradeSubmit(grade: ReviewerGrade) {
     this.grade.set(grade);
+    this.toggleGradingForm();
   }
 
   getFinalGrade(grade: CommitteeMemberGrade): string {
