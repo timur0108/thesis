@@ -1,93 +1,269 @@
-.thesis-header-card {
-  padding: 20px 24px;
-  border-radius: 16px;
-  margin-bottom: 16px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+:host {
+  display: block;
+ 
+
+  --primary: #1976d2;
+  --primary-light: #e3f0fc;
+  --text-primary: #212121;
+  --text-secondary: #555555;
+  --text-muted: #757575;
+  --border: #e0e0e0;
+  --surface: #ffffff;
+  --bg: #f5f5f5;
 }
 
-.header-row {
+/* ── Wrapper ── */
+.overview-wrapper {
+ 
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── Header ── */
+.thesis-header {
+  padding-bottom: 1.75rem;
+  
+  margin-bottom: 1.5rem;
+}
+
+.header-meta {
+  font-size: 1rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
-.main-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin: 0;
+.session-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+ 
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
-.session-text {
-  font-size: 14px;
-  color: #666;
+
+
+.level-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+ 
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 10px;
+  border-radius: 2px;
+}
+
+.thesis-title-en {
+
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin: 0 0 6px;
+}
+
+.thesis-title-et {
+
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.header-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  
+  padding: 3px 10px;
+  border-radius: 16px;
+}
+
+.tag mat-icon {
+
+  width: 14px;
+  height: 14px;
+  color: var(--primary);
+}
+
+/* ── Roles ── */
+.roles-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
   margin-top: 4px;
 }
 
-/* badge */
-.status-badge {
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 13px;
+.role-chip {
+  display: inline-block;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+ 
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 2px 10px;
+  border-radius: 2px;
+  background: transparent;
 }
 
-.status-badge.graded {
-  background: #e6f4ea;
-  color: #2e7d32;
+/* ── Grade Block ── */
+.grade-block {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  background: var(--primary-light);
+  border-left: 3px solid var(--primary);
+  padding: 10px 16px;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
 }
 
-.status-badge.pending {
-  background: #e3f2fd;
-  color: #1e88e5;
+.grade-label {
+
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
 }
 
+.grade-value {
 
-.main-content,
-.side-content {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.grade-number {
+ 
+  color: var(--text-secondary);
+}
+
+/* ── Grid ── */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.wide-card {
+  grid-column: 1 / -1;
+}
+
+/* ── Cards ── */
+.info-card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.info-card:hover {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1) !important;
+  transform: translateY(-1px);
+}
+
+.info-card mat-card-content {
+  padding: 16px 20px !important;
+}
+
+.student-card {
+  border-top: 3px solid var(--primary) !important;
+}
+
+/* ── Card Label ── */
+.card-label {
+
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+/* ── Person Rows ── */
+.person-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+.person-row + .person-row {
+  border-top: 1px solid var(--border);
+}
+
+.person-icon {
+
+  width: 18px;
+  height: 18px;
+  color: var(--primary);
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.person-icon.muted {
+  color: var(--text-muted);
+}
+
+.person-info {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 2px;
 }
 
-.overview-card {
-  padding: 18px;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+.person-name {
+
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-/* titles */
-.overview-card h3 {
-  margin-bottom: 12px;
-  font-size: 16px;
-  font-weight: 600;
+.person-email {
+
+  color: var(--text-secondary);
 }
 
-/* abstract text */
-.overview-card p {
-  color: #555;
-  line-height: 1.6;
+.chair-chip {
+  display: inline-block;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 1px 7px;
+  border-radius: 2px;
 }
 
-/* student info grid */
-.info-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 8px 16px;
+mat-divider {
+  margin: 8px 0 !important;
+  border-color: var(--border) !important;
 }
 
-.info-grid span {
-  color: #777;
+/* ── Responsive ── */
+@media (max-width: 580px) {
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+  .wide-card {
+    grid-column: 1;
+  }
+  .overview-wrapper {
+    padding: 1.25rem 1rem 3rem;
+  }
 }
-
-.info-grid strong {
-  color: #222;
-}
-
-/* right side */
-.grade.success {
-  color: #2e7d32;
-  font-weight: 600;
-}
-

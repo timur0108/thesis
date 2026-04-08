@@ -16,10 +16,11 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
 import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
 import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form-service';
+import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.component';
 
 @Component({
   selector: 'app-committee-member-thesis-view',
-  imports: [MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatTabsModule,
+  imports: [ThesisOverviewComponent, MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatTabsModule,
   ReactiveFormsModule,
   MatCardModule,
   MatButtonModule],

@@ -23,10 +23,11 @@ import { GradingService } from '../grading/grading.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { User } from '../user/user';
+import { ThesisOverviewComponent } from '../thesis-overview/thesis-overview.component';
 
 @Component({
   selector: 'app-thesis',
-  imports: [MatTabsModule, MatIconModule, DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent,
+  imports: [ThesisOverviewComponent, MatTabsModule, MatIconModule, DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent,
      CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule, HasAuthorityDirective, 
      ReviewerThesisViewComponent, CommitteeMemberThesisViewComponent, HeadOfCommitteeThesisViewComponent, SupervisorThesisViewComponent],
   templateUrl: './thesis.component.html',

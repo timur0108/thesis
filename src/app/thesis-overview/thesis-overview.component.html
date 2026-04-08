@@ -1,0 +1,124 @@
+<div class="overview-wrapper">
+  <mat-card class="main-card">
+    <mat-card-content>
+
+      <!-- ── Section: Thesis Info ── -->
+      <div class="section">
+        <div class="section-label">Thesis Info</div>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Level of Studies</span>
+            <span class="info-value">{{ thesis.levelOfStudies }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Language</span>
+            <span class="info-value">{{ thesis.languageOfThesis }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Volume</span>
+            <span class="info-value">{{ thesis.volumeEcts }} ECTS</span>
+          </div>
+          <div class="info-item" *ngIf="thesis.finalGradeLetter || thesis.finalGradeNumber">
+            <span class="info-label">Final Grade</span>
+            <span class="info-value grade">
+              {{ thesis.finalGradeLetter }}
+              <span class="grade-sub" *ngIf="thesis.finalGradeNumber"> / {{ thesis.finalGradeNumber }}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- ── Section: Student ── -->
+      <div class="section">
+        <div class="section-label">Student</div>
+        <div class="person-row">
+          <mat-icon class="person-icon">person</mat-icon>
+          <div class="person-info">
+            <span class="person-name">{{ thesis.studentName }} {{ thesis.studentSecondName ?? '' }}</span>
+            <span class="person-email" *ngIf="thesis.studentEmail">{{ thesis.studentEmail }}</span>
+            <span class="person-meta" *ngIf="thesis.studentNumber">Student No. {{ thesis.studentNumber }}</span>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- ── Section: Supervision ── -->
+      <div class="section" *ngIf="thesis.supervisor || thesis.reviewer || (thesis.coSupervisors && thesis.coSupervisors.length > 0)">
+        <div class="section-label">Supervision</div>
+        <div class="people-grid">
+
+          <div class="person-block" *ngIf="thesis.supervisor">
+            <div class="person-role">Supervisor</div>
+            <div class="person-row">
+              <mat-icon class="person-icon">manage_accounts</mat-icon>
+              <div class="person-info">
+                <span class="person-name">{{ thesis.supervisor.name }} {{ thesis.supervisor.secondName }}</span>
+                <span class="person-email">{{ thesis.supervisor.email }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="person-block" *ngIf="thesis.reviewer">
+            <div class="person-role">Reviewer</div>
+            <div class="person-row">
+              <mat-icon class="person-icon">rate_review</mat-icon>
+              <div class="person-info">
+                <span class="person-name">{{ thesis.reviewer.name }} {{ thesis.reviewer.secondName }}</span>
+                <span class="person-email">{{ thesis.reviewer.email }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="person-block" *ngFor="let co of thesis.coSupervisors; let first = first">
+            <div class="person-role">{{ first ? 'Co-Supervisor' + (thesis.coSupervisors!.length > 1 ? 's' : '') : '' }}</div>
+            <div class="person-row">
+              <mat-icon class="person-icon">supervisor_account</mat-icon>
+              <div class="person-info">
+                <span class="person-name">{{ co.name }} {{ co.secondName }}</span>
+                <span class="person-email">{{ co.email }}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── Section: Defence Committee ── -->
+      <ng-container *ngIf="thesis.headOfCommittee || (thesis.committeeMembers && thesis.committeeMembers.length > 0)">
+        <mat-divider></mat-divider>
+        <div class="section">
+          <div class="section-label">Defence Committee</div>
+          <div class="people-grid">
+
+            <div class="person-block" *ngIf="thesis.headOfCommittee">
+              <div class="person-role">Chair</div>
+              <div class="person-row">
+                <mat-icon class="person-icon">gavel</mat-icon>
+                <div class="person-info">
+                  <span class="person-name">{{ thesis.headOfCommittee.name }} {{ thesis.headOfCommittee.secondName }}</span>
+                  <span class="person-email">{{ thesis.headOfCommittee.email }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="person-block" *ngFor="let m of thesis.committeeMembers; let first = first">
+              <div class="person-role">{{ first ? 'Members' : '' }}</div>
+              <div class="person-row">
+                <mat-icon class="person-icon muted">person_outline</mat-icon>
+                <div class="person-info">
+                  <span class="person-name">{{ m.name }} {{ m.secondName }}</span>
+                  <span class="person-email">{{ m.email }}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </ng-container>
+
+    </mat-card-content>
+  </mat-card>
+</div>

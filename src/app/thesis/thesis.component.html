@@ -1,101 +1,33 @@
+<ng-container *ngIf="thesis(); else loading">
+  
 
-
-  <div class="mt-3 header-row">
-    <div>
-      <h1 class="main-title">{{ thesis()!.titleEnglish }}</h1>
-      <p class="session-text">
-        {{ thesis()!.sessionStartDate + ' - ' + thesis()!.sessionEndDate + ' Defense session' }}
-      </p>
+    <div class="thesis-header">
+    <div class="header-meta">
+      <span class="session-badge">
+        <mat-icon class="badge-icon">event</mat-icon>
+        {{ thesis()!.sessionStartDate | date:'MMM d' }} — {{ thesis()!.sessionEndDate | date:'MMM d, yyyy' }}
+      </span>
     </div>
 
-    <span 
-      class="status-badge"
-      [ngClass]="thesis()!.finalGradeLetter ? 'graded' : 'pending'">
+    <h1 class="thesis-title-en">{{ thesis()!.titleEnglish }}</h1>
+    <p class="thesis-title-et">{{ thesis()!.titleEstonian }}</p>
 
-      {{ thesis()!.finalGradeLetter ? thesis()!.finalGradeLetter : 'In-review' }}
+    
 
-    </span>
+    <div class="roles-row" *ngIf="thesis()!.roles && thesis()!.roles.length > 0">
+      <span class="role-chip" *ngFor="let role of thesis()!.roles">{{ role }}</span>
+    </div>
+  </div>
+
+  <!-- Grade Block -->
+  <div class="grade-block" *ngIf="thesis()!.finalGradeLetter || thesis()!.finalGradeNumber">
+    <span class="grade-label">Final Grade</span>
+    <span class="grade-value">{{ thesis()!.finalGradeLetter }}</span>
+    <span class="grade-number" *ngIf="thesis()!.finalGradeNumber">/ {{ thesis()!.finalGradeNumber }}</span>
   </div>
 
 
-  <mat-tab-group>
-
-  <mat-tab label="Overview">
-
-    <div class="mt-3 overview-container">
-
-    
-      <div class="main-content">
-
-        <mat-card class="overview-card">
-          <h3>Student Information</h3>
-
-          <div class="info-grid">
-            <span>Name:</span>
-            <strong>{{ thesis()!.studentName + thesis()!.studentSecondName }}</strong>
-
-            <span>Level:</span>
-            <strong>{{ thesis()!.levelOfStudies }}</strong>
-
-            <span>Email:</span>
-            <strong>{{ thesis()!.studentEmail }}</strong>
-
-            <span>Code:</span>
-            <strong>{{ thesis()!.studentNumber }}</strong>
-          </div>
-        </mat-card>
-
-        <mat-card class="overview-card">
-          <h3>Thesis Information</h3>
-
-          <div class="info-grid">
-            <span>Language of thesis:</span>
-            <strong>{{ thesis()!.languageOfThesis }}</strong>
-
-            <span>Volume:</span>
-            <strong>{{ thesis()!.volumeEcts }} ECTS</strong>
-
-            <span>Title in Estonian:</span>
-            <strong>{{ thesis()!.titleEstonian }}</strong>
-
-            <span>Title in English:</span>
-            <strong>{{ thesis()!.titleEnglish }}</strong>
-          </div>
-        </mat-card>
-
-        <mat-card class="overview-card">
-          <h3>Roles</h3>
-
-          <div class="info-grid">
-            <!-- Supervisor -->
-            <span>Supervisor:</span>
-            <strong>{{ getFullNameWithEmail(thesis()!.supervisor) }}</strong>
-
-            <!-- Co-supervisors -->
-            <span>Co-supervisors:</span>
-            <strong>{{ getFullNamesWithEmails(thesis()!.coSupervisors) }}</strong>
-
-            <!-- Reviewer -->
-            <span>Reviewer:</span>
-            <strong>{{ getFullNameWithEmail(thesis()!.reviewer) }}</strong>
-
-            <!-- Committee Members -->
-            <span>Committee Members:</span>
-            <strong>{{ getFullNamesWithEmails(thesis()!.committeeMembers) }}</strong>
-
-            <!-- Head of Committee -->
-            <span>Head of Committee:</span>
-            <strong>{{ getFullNameWithEmail(thesis()!.headOfCommittee) }}</strong>
-          </div>
-        </mat-card>
-
-      </div>
-
-
-    </div>
-
-  </mat-tab>
-</mat-tab-group>
+ 
 
   @if (thesis()!.roles.includes('REVIEWER')) {
       <ng-container>
@@ -109,12 +41,15 @@
         <ng-container>
       <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
     </ng-container>
-  } @else if (!thesis()!.roles.includes('SUPERVISOR') && thesis()!.roles.includes('HEAD_OF_COMMITTEE')) {
-    <ng-container>
-      <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
-    </ng-container>
   }
 
+
+
+
+    <ng-container *appHasAuthority="'HEAD_OF_COMMITTEE'">
+      <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
+    </ng-container>
+</ng-container>
 
 <ng-template #loading>
   <div class="spinner-container">
