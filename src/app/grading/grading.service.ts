@@ -68,4 +68,8 @@ export class GradingService {
         })
     );
     }
+
+    getAreGradesVisible(thesisId: number): Observable<boolean> {
+        return this.httpClient.get<boolean>(this.baseUrl + '/committee-member/grades-visible/' + thesisId);
+    }
 }

@@ -26,7 +26,7 @@ import { MatFormField } from '@angular/material/input';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
-  imports: [MatFormField, MatLabel, MatIconModule, ThesisOverviewComponent, MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
+  imports: [MatFormField,MatLabel, MatIconModule, ThesisOverviewComponent, MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
   ReactiveFormsModule],
   templateUrl: './head-of-committee-thesis-view.component.html',
   styleUrl: './head-of-committee-thesis-view.component.css'
@@ -44,9 +44,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   supervisorForm = signal<SupervisorForm | null>(null);
   finalGrade = signal<FinalGrade | null>(null);
   editingGrade = signal<CommitteeMemberGrade | null>(null);
-  gradesVisible: Signal<boolean> = computed(() =>
-    this.committeeMemberGrades()?.every(g => g.visibleToOthers) ?? false
-  );
+  gradesVisible= signal<boolean | null>(null);
 
   onToggle(isChecked: boolean) {
     if (isChecked) {
@@ -63,6 +61,10 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
 
     this.gradingService.getCommitteeMemberGradesOfOtherMembers(this.thesis.id).subscribe({
       next: (res) => this.committeeMemberGrades.set(res)
+    })
+
+    this.gradingService.getAreGradesVisible(this.thesis.id).subscribe({
+      next: (res) => this.gradesVisible.set(res)
     })
 
     this.gradingService.getCommitteeMemberOwnnGrade(this.thesis.id).subscribe({
@@ -157,13 +159,19 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
     }
 
     this.gradingService.makeGradesVisible(this.thesis.id).subscribe({
-      next: (res) => this.committeeMemberGrades.set(res)
+      next: (res) => {
+        this.committeeMemberGrades.set(res);
+        this.gradesVisible.set(true);
+      }
     })
   }
 
   hideGrades() {
     this.gradingService.hideGrades(this.thesis.id).subscribe({
-      next: (res) => this.committeeMemberGrades.set(res)
+      next: (res) => {
+        this.committeeMemberGrades.set(res);
+        this.gradesVisible.set(false);
+      }
     })
   }
 
