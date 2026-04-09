@@ -20,10 +20,11 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form-service';
 import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
 import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
-  imports: [ThesisOverviewComponent, MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
+  imports: [MatIconModule, ThesisOverviewComponent, MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
   ReactiveFormsModule],
   templateUrl: './head-of-committee-thesis-view.component.html',
   styleUrl: './head-of-committee-thesis-view.component.css'
@@ -40,7 +41,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   private supervisorFormService = inject(SupervisorFormService);
   supervisorForm = signal<SupervisorForm | null>(null);
   finalGrade = signal<FinalGrade | null>(null);
-
+  editingGrade = signal<CommitteeMemberGrade | null>(null);
   gradesVisible: Signal<boolean> = computed(() =>
     this.committeeMemberGrades()?.every(g => g.visibleToOthers) ?? false
   );
@@ -92,21 +93,43 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   }
 
   submitGradeChange() {
-    const formValue = this.gradeForm.getRawValue();
-    const grade = new CommitteeMemberGrade(
-      this.thesis.id, formValue.contentScore, formValue.complexityScore, formValue.appearanceScore, formValue.presentationScore, "asd", "asd"
-    , false);
-    this.gradingService.changeGrade(grade).subscribe({
-      next: (res) => {
+  const formValue = this.gradeForm.getRawValue();
+  const editing = this.editingGrade();
+
+  if (!editing) return;
+
+  const updated = new CommitteeMemberGrade(
+    editing.id,
+    this.thesis.id,
+    formValue.contentScore,
+    formValue.complexityScore,
+    formValue.appearanceScore,
+    formValue.presentationScore,
+    editing.name,
+    editing.secondName,
+    editing.visibleToOthers
+  );
+
+  this.gradingService.changeGrade(updated).subscribe({
+    next: (res) => {
+      
+      if (this.ownGrade()?.name === editing.name) {
         this.ownGrade.set(res);
-        this.isGrading = false;
+      } else {
+        this.committeeMemberGrades.update(list =>
+          list?.map(g => g.name === editing.name ? res : g) ?? null
+        );
       }
-    })
-  }
+
+      this.isGrading = false;
+      this.editingGrade.set(null);
+    }
+  });
+}
 
   submitReview() {
     const formValue = this.gradeForm.getRawValue();
-    const grade = new CommitteeMemberGrade(
+    const grade = new CommitteeMemberGrade(0,
       this.thesis.id, formValue.contentScore, formValue.complexityScore, formValue.appearanceScore, formValue.presentationScore, "asd", "asd"
     , false);
     this.gradingService.submitCommitteeMemberGrade(grade).subscribe({
@@ -251,5 +274,28 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
       return 'E';
     }
     return 'F';
+  }
+
+  getScoreClass(score: number): string {
+    if (score <= 2) return 'low';
+    if (score < 5) return 'medium';
+    return 'high';
+  }
+
+  startEdit(grade: CommitteeMemberGrade) {
+    this.editingGrade.set(grade);
+    this.isGrading = true;
+
+    this.gradeForm.setValue({
+      contentScore: grade.contentScore,
+      complexityScore: grade.complexityScore,
+      appearanceScore: grade.appearanceScore,
+      presentationScore: grade.presentationScore
+    });
+  }
+
+  cancelEdit() {
+    this.isGrading = false;
+    this.editingGrade.set(null);
   }
 }

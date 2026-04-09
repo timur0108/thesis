@@ -49,6 +49,12 @@
       <ng-container>
       <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
     </ng-container>
+  } @else if (thesis()!.roles.includes('SUPERVISOR') && thesis()!.roles.includes('COMMITTEE_MEMBER')) {
+    <ng-container>
+      <app-supervisor-committee-thesis-view [thesis]="thesis()!">
+
+      </app-supervisor-committee-thesis-view>
+    </ng-container>
   }
 
 

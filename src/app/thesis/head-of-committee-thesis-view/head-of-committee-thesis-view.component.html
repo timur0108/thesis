@@ -15,7 +15,7 @@
           <mat-card-title>Supervisor Form</mat-card-title>
         </mat-card-header>
 
-        <mat-card-content class="grade-content">`
+        <mat-card-content class="grade-content">
 
           <!-- Top section -->
           <div class="top-section">
@@ -148,6 +148,24 @@
     </mat-tab>
     <mat-tab label="Committee Evaluations">
       <mat-card class="committee-container grade-card mb-5" appearance="outlined">
+        
+    
+  @if (!finalGrade()) {
+    <div class="consensus-block">
+  <mat-icon>analytics</mat-icon>
+    <div>
+    <div class="consensus-title">Consensus Status</div>
+    <div class="consensus-text">
+      @if (canSubmitFinalGrade()) {
+        All committee members agree — ready to submit final grade
+      } @else {
+        Disagreement detected — review highlighted scores
+      }
+    </div>
+  </div>
+  </div>
+  }
+
 
   <mat-card-header>
     <mat-card-title class="mb-3">Submitted Evaluations</mat-card-title>
@@ -156,85 +174,223 @@
   <mat-card-content>
 
     @if (reviewerGrade()) {
-      <table class="grades-table">
-      <thead>
-        <tr>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Name</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Content</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Complexity</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Appearance</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Presentation</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Final Grade</th>
-        </tr>
-      </thead>
-      <tbody>
-       
-        @if (committeeMemberGrades()) {
-          @for (grade of committeeMemberGrades(); track grade) {
-            <tr>
-          <td>{{ grade.name + ' ' + grade.secondName }} </td>
-          <td [ngClass]="{ 'conflict': isConflictInCategory('contentScore') }">{{ grade.contentScore }}</td>
-          <td [ngClass]="{ 'conflict': isConflictInCategory('complexityScore') }">{{ grade.complexityScore }}</td>
-          <td [ngClass]="{ 'conflict': isConflictInCategory('appearanceScore') }">{{ grade.appearanceScore }}</td>
-          <td [ngClass]="{ 'conflict': isConflictInCategory('presentationScore') }">{{ grade.presentationScore }}</td>
-          <td>{{ getFinalGrade(grade) }}</td>
-        </tr>
-          }
+      <div class="committee-list">
+
+  @for (grade of committeeMemberGrades(); track grade) {
+    <div class="committee-card">
+
+      <div class="card-header">
+        <div class="member-info">
+          <mat-icon>person</mat-icon>
+          <span class="name">
+            {{ grade.name }} {{ grade.secondName }}
+          </span>
+        </div>
+
+        <span class="final-grade">
+          {{ getFinalGrade(grade) }}
+        </span>
+        @if (!finalGrade()) {
+          <button mat-icon-button (click)="startEdit(grade)">
+          <mat-icon>edit</mat-icon>
+        </button>
         }
-        @if (!ownGrade()) {
-           @if (isGrading) {
-            <tr [formGroup]="gradeForm">
-              <td>Committee Member</td>
-              <td><input type="number" formControlName="contentScore"></td>
-              <td><input type="number" formControlName="complexityScore"></td>
-              <td><input type="number" formControlName="appearanceScore"></td>
-              <td><input type="text"   formControlName="presentationScore"></td>
-            </tr>
-            <button mat-raised-button class="mt-2 me-2" (click)="cancelReview()">Cancel</button>
-              <button mat-raised-button class="mt-2" (click)="submitReview()">Submit</button>
-            
-          } @else {
-            <button mat-raised-button class="mt-2" (click)="startReview()">Start Review</button>
-          }
+        
+      </div>
+
+      <div class="scores-row">
+        @if (editingGrade() === grade) {
+          <div class="edit-form" [formGroup]="gradeForm">
+
+    <div class="scores-row">
+      <input type="number" formControlName="contentScore">
+      <input type="number" formControlName="complexityScore">
+      <input type="number" formControlName="appearanceScore">
+      <input type="number" formControlName="presentationScore">
+    </div>
+
+    <div class="edit-actions">
+      <button mat-raised-button (click)="submitGradeChange()">Save</button>
+      <button mat-raised-button (click)="cancelEdit()">Cancel</button>
+    </div>
+
+  </div>
         } @else {
-          @if (!isGrading) {
-            <tr>
-            <td>Your Grade</td>
-            <td [ngClass]="{ 'conflict': isConflictInCategory('contentScore') }">{{ ownGrade()!.contentScore }}</td>
-            <td [ngClass]="{ 'conflict': isConflictInCategory('complexityScore') }">{{ ownGrade()!.complexityScore }}</td>
-            <td [ngClass]="{ 'conflict': isConflictInCategory('appearanceScore') }">{{ ownGrade()!.appearanceScore }}</td>
-            <td [ngClass]="{ 'conflict': isConflictInCategory('presentationScore') }">{{ ownGrade()!.presentationScore }}</td>
-            <td>{{ getFinalGrade(ownGrade()!) }}</td>
-          </tr>
-          @if (!finalGrade()) {
-            <button mat-raised-button class="mt-2" (click)="startGradeChange()">Change Grade</button>
-          }
-          
-          } @else {
-            @if (finalGrade() == null) {
-              <tr [formGroup]="gradeForm">
-              <td>Committee Member</td>
-              <td><input type="number" formControlName="contentScore"></td>
-              <td><input type="number" formControlName="complexityScore"></td>
-              <td><input type="number" formControlName="appearanceScore"></td>
-              <td><input type="text"   formControlName="presentationScore"></td>
-            </tr>
-            <button mat-raised-button class="mt-2 me-2" (click)="cancelGradeChange()">Cancel</button>
-              <button mat-raised-button class="mt-2" (click)="submitGradeChange()">Submit</button>
-            }
-          
-          }
-          
+          <div 
+          class="score-pill"
+          [ngClass]="[
+            
+            isConflictInCategory('contentScore') ? 'conflict' : ''
+          ]">
+          Content: {{ grade.contentScore }}
+        </div>
+
+        <div 
+          class="score-pill"
+          [ngClass]="[
+            
+            isConflictInCategory('complexityScore') ? 'conflict' : ''
+          ]">
+          Complexity: {{ grade.complexityScore }}
+        </div>
+
+        <div 
+          class="score-pill"
+          [ngClass]="[
+           
+            isConflictInCategory('appearanceScore') ? 'conflict' : ''
+          ]">
+          Appearance: {{ grade.appearanceScore }}
+        </div>
+
+        <div 
+          class="score-pill"
+          [ngClass]="[
+           
+            isConflictInCategory('presentationScore') ? 'conflict' : ''
+          ]">
+          Presentation: {{ grade.presentationScore }}
+        </div>
         }
-       
-      </tbody>
-    </table>
-    <mat-slide-toggle class="mt-4"  [checked]="gradesVisible()" (change)="onToggle($event.checked)">Make grades visible</mat-slide-toggle>
+        
+      </div>
+
+    </div>
+  }
+
+  @if (!ownGrade() && isGrading) {
+  <div class="committee-card" [formGroup]="gradeForm">
+
+    <div class="card-header">
+      <span class="name">New Evaluation</span>
+    </div>
+
+    <div class="scores-row">
+      <input type="number" formControlName="contentScore" placeholder="Content">
+      <input type="number" formControlName="complexityScore" placeholder="Complexity">
+      <input type="number" formControlName="appearanceScore" placeholder="Appearance">
+      <input type="number" formControlName="presentationScore" placeholder="Presentation">
+    </div>
+
+    <div class="mt-2">
+      <button mat-raised-button (click)="submitReview()">Submit</button>
+      <button mat-raised-button (click)="cancelReview()">Cancel</button>
+    </div>
+
+  </div>
+}
+  @if (!ownGrade() && !isGrading) {
+  <button mat-raised-button (click)="startReview()">Start Review</button>
+}
+
+
+
+  @if (ownGrade()) {
+  <div class="committee-card own">
+
+    <div class="card-header">
+      <div class="member-info">
+        <mat-icon>person</mat-icon>
+        <span class="name">Your Evaluation</span>
+      </div>
+
+      <span class="final-grade">
+        {{ getFinalGrade(ownGrade()!) }}
+      </span>
+      @if (!finalGrade()) {
+          <button mat-icon-button (click)="startEdit(ownGrade()!)">
+      <mat-icon>edit</mat-icon>
+    </button>  
+      }
+      
+    </div>
+
+    <div class="scores-row">
+      @if (editingGrade() == ownGrade()) {
+          <div class="edit-form" [formGroup]="gradeForm">
+
+    <div class="scores-row">
+      <input type="number" formControlName="contentScore">
+      <input type="number" formControlName="complexityScore">
+      <input type="number" formControlName="appearanceScore">
+      <input type="number" formControlName="presentationScore">
+    </div>
+
+    <div class="edit-actions">
+      <button mat-raised-button (click)="submitGradeChange()">Save</button>
+      <button mat-raised-button (click)="cancelEdit()">Cancel</button>
+    </div>
+
+  </div>
+      } @else {
+          <div 
+    class="score-pill"
+    [ngClass]="[
+    
+      isConflictInCategory('contentScore') ? 'conflict' : ''
+    ]">
+    Content: {{ ownGrade()!.contentScore }}
+  </div>
+
+  <div 
+    class="score-pill"
+    [ngClass]="[
+    
+      isConflictInCategory('complexityScore') ? 'conflict' : ''
+    ]">
+    Complexity: {{ ownGrade()!.complexityScore }}
+  </div>
+
+  <div 
+    class="score-pill"
+    [ngClass]="[
+      
+      isConflictInCategory('appearanceScore') ? 'conflict' : ''
+    ]">
+    Appearance: {{ ownGrade()!.appearanceScore }}
+  </div>
+
+  <div 
+    class="score-pill"
+    [ngClass]="[
+    
+      isConflictInCategory('presentationScore') ? 'conflict' : ''
+    ]">
+    Presentation: {{ ownGrade()!.presentationScore }}
+  </div>
+      }
+  
+</div>
+
+  </div>
+}
+
+</div>
+    <div class="visibility-row">
+  <div class="visibility-text">
+    <div class="label">Grades Visibility</div>
+    <div class="hint">Allow committee members to see each other's evaluations</div>
+  </div>
+
+  <mat-slide-toggle 
+    [checked]="gradesVisible()" 
+    (change)="onToggle($event.checked)">
+  </mat-slide-toggle>
+</div>
     @if (finalGrade() == null) {
       @if (canSubmitFinalGrade()) {
-      <button mat-raised-button class="mt-2 float-end" (click)="submitFinalGrade()">Submit Final Grade</button>
+      <div class="submit-row">
+        <button mat-raised-button color="primary" (click)="submitFinalGrade()">
+          Submit Final Grade
+        </button>
+      </div>
     } @else {
-      <p class="mt-3">Cannot submit final grade until all committee members reached consensus on all grade aspects</p>
+      <div class="submission-warning">
+  <mat-icon>info</mat-icon>
+  <span>
+    Cannot submit final grade until all committee members reach consensus on all grade aspects
+  </span>
+</div>
     }
     }
     

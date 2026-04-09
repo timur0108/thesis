@@ -1,5 +1,6 @@
 export class CommitteeMemberGrade {
   constructor(
+    public id: number,
     public thesisId: number,
     public contentScore: number,
     public complexityScore: number,

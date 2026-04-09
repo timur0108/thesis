@@ -24,10 +24,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { User } from '../user/user';
 import { ThesisOverviewComponent } from '../thesis-overview/thesis-overview.component';
+import { SupervisorCommitteeThesisViewComponent } from '../supervisor-committee-thesis-view/supervisor-committee-thesis-view.component';
 
 @Component({
   selector: 'app-thesis',
-  imports: [ThesisOverviewComponent, MatTabsModule, MatIconModule, DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent,
+  imports: [SupervisorCommitteeThesisViewComponent, ThesisOverviewComponent, MatTabsModule, MatIconModule, DatePipe, MatCardModule, MatDividerModule, MatChipsModule, GradingComponent,
      CommonModule, MatExpansionModule, MatButton, MatProgressSpinnerModule, HasAuthorityDirective, 
      ReviewerThesisViewComponent, CommitteeMemberThesisViewComponent, HeadOfCommitteeThesisViewComponent, SupervisorThesisViewComponent],
   templateUrl: './thesis.component.html',

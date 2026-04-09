@@ -1,10 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
-import { Thesis } from '../thesis';
-import { signal } from '@angular/core';
-import { ReviewerGrade } from '../../grading/grade';
-import { GradingService } from '../../grading/grading.service';
-import { CommitteeMemberGrade } from './committee.member.grade';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -14,20 +9,27 @@ import { FormsModule } from '@angular/forms';
 import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
-import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
-import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form-service';
-import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.component';
+import { ThesisOverviewComponent } from '../thesis-overview/thesis-overview.component';
+import { signal } from '@angular/core';
+import { Thesis } from '../thesis/thesis';
+import { ReviewerGrade } from '../grading/grade';
+import { CommitteeMemberGrade } from '../thesis/committee-member-thesis-view/committee.member.grade';
+import { GradingService } from '../grading/grading.service';
+import { SupervisorFormService } from '../thesis/supervisor-thesis-view/supervisor-form-service';
+import { SupervisorForm } from '../thesis/supervisor-thesis-view/supervisor-form';
+import { MatDialog } from '@angular/material/dialog';
+import { AddThesisDialogComponent } from '../add-thesis-dialog/add-thesis-dialog.component';
 
 @Component({
-  selector: 'app-committee-member-thesis-view',
-  imports: [ThesisOverviewComponent, MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatTabsModule,
-  ReactiveFormsModule,
-  MatCardModule,
-  MatButtonModule],
-  templateUrl: './committee-member-thesis-view.component.html',
-  styleUrl: './committee-member-thesis-view.component.css'
+  selector: 'app-supervisor-committee-thesis-view',
+  imports: [AddThesisDialogComponent, ThesisOverviewComponent, MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatTabsModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule],
+  templateUrl: './supervisor-committee-thesis-view.component.html',
+  styleUrl: './supervisor-committee-thesis-view.component.css'
 })
-export class CommitteeMemberThesisViewComponent implements OnInit{
+export class SupervisorCommitteeThesisViewComponent {
   @Input() thesis!: Thesis;
   reviewerGrade = signal<ReviewerGrade | null>(null);
   ownGrade = signal<CommitteeMemberGrade | null>(null);
@@ -39,8 +41,42 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
   displayedColumns: string[] = ['role', 'content', 'complexity', 'appearance', 'presentation']
   isGrading = false;
   dataForReviewer!: (ReviewerGrade | CommitteeMemberGrade)[];
-
+  private dialog = inject(MatDialog);
   supervisorForm = signal<SupervisorForm | null>(null);
+
+  openSUpervisorFormModal() {
+      this.onAddThesis();
+    }
+  
+    onAddThesis() {
+      const dialogRef = this.dialog.open(AddThesisDialogComponent, {
+        width: '50vw',
+        height: '80vh',
+        maxWidth: '100vw',
+        disableClose: false,
+        data: { thesisId: this.thesis.id }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+          this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
+        next: (res) => {
+          this.supervisorForm.set(res);
+          console.log(this.supervisorForm())
+        }
+        })
+        
+      this.gradingService.getAllCommitteeMemberGrades(this.thesis.id).subscribe({
+        next: (res) => this.committeeMemberGrades.set(res)
+      })
+  
+      this.gradingService.getReviewerGrade(this.thesis.id).subscribe({
+        next: (res) => this.reviewerGrade.set(res)
+      })
+        }
+      });
+    }
+  
 
   getDataForReviewer() {
     const arr = []
