@@ -21,10 +21,12 @@ import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form
 import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
 import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLabel } from '@angular/material/input';
+import { MatFormField } from '@angular/material/input';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
-  imports: [MatIconModule, ThesisOverviewComponent, MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
+  imports: [MatFormField, MatLabel, MatIconModule, ThesisOverviewComponent, MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
   ReactiveFormsModule],
   templateUrl: './head-of-committee-thesis-view.component.html',
   styleUrl: './head-of-committee-thesis-view.component.css'

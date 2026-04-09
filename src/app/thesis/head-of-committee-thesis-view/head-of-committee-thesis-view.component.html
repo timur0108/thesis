@@ -203,10 +203,27 @@
           <div class="edit-form" [formGroup]="gradeForm">
 
     <div class="scores-row">
-      <input type="number" formControlName="contentScore">
-      <input type="number" formControlName="complexityScore">
-      <input type="number" formControlName="appearanceScore">
-      <input type="number" formControlName="presentationScore">
+      <div class="inline-edit">
+  <div class="inline-item">
+    <span>Content</span>
+    <input type="number" formControlName="contentScore">
+  </div>
+
+  <div class="inline-item">
+    <span>Complexity</span>
+    <input type="number" formControlName="complexityScore">
+  </div>
+
+  <div class="inline-item">
+    <span>Appearance</span>
+    <input type="number" formControlName="appearanceScore">
+  </div>
+
+  <div class="inline-item">
+    <span>Presentation</span>
+    <input type="number" formControlName="presentationScore">
+  </div>
+</div>
     </div>
 
     <div class="edit-actions">
@@ -474,29 +491,26 @@
       } @else {
         <div class="supervisor-container">
 
-      <mat-card class="grade-card" appearance="outlined">
-
-        <mat-card-header >
-          <mat-card-title>Supervisor hasn't submitted their form yet</mat-card-title>
-        </mat-card-header>
-
-        
-
-      </mat-card>
+       <div class="empty-state">
+      <mat-icon>assignment_late</mat-icon>
+      <h2>No Supervisor Form Yet</h2>
+      <p>
+        The supervisor has not submitted the evaluation form for this thesis.
+      </p>
+    </div>
 
     </div>
       }
       
     </mat-tab>
     <mat-tab label="Reviewer Evaluation">
-       <mat-card class="grade-card mt-3 mb-4" appearance="outlined">
-
-  <mat-card-header>
-    <mat-card-title class="mb-3">Reviewer hasn't submitted his evaluation yet</mat-card-title>
-  </mat-card-header>
-
-    
-  </mat-card>
+       <div class="reviewer-container empty-state">
+      <mat-icon>assignment_late</mat-icon>
+      <h2>No Reviewer Evaluation Yet</h2>
+      <p>
+        The reviewer has not submitted the evaluation for this thesis.
+      </p>
+    </div>
   
     </mat-tab>
   </mat-tab-group>

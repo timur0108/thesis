@@ -282,10 +282,9 @@ button[mat-raised-button]:hover {
 }
 
 .card-header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 60px 40px;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .member-info {
@@ -296,8 +295,8 @@ button[mat-raised-button]:hover {
 }
 
 .final-grade {
+  text-align: center;
   font-weight: 600;
-  font-size: 14px;
   color: var(--primary);
 }
 
@@ -416,4 +415,96 @@ button[mat-raised-button]:hover {
   margin-top: 10px;
   display: flex;
   gap: 8px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-group label {
+  font-size: 11px;
+  color: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input-group input {
+  width: 80px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.inline-edit {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.inline-item {
+  display: flex;
+  flex-direction: column;   /* label ABOVE input */
+  align-items: center;
+  gap: 4px;
+}
+
+.inline-item label {
+  font-size: 11px;
+  color: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.inline-item input {
+  width: 55px;
+  padding: 5px 6px;
+  font-size: 14px;
+  text-align: center;
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  background: #fff;
+  transition: 0.15s;
+}
+
+.inline-item input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.empty-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 180px;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-label);
+  padding: 24px;
+}
+
+.empty-state mat-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 10px;
+  color: #9e9e9e;
+}
+
+.empty-state h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 8px 0 6px;
+  color: var(--text-primary);
+}
+
+.empty-state p {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
 }
