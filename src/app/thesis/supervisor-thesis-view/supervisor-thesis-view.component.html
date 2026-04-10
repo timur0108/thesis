@@ -178,44 +178,81 @@
   <mat-card-content>
 
     
-      <table class="grades-table">
-      <thead>
-        <tr>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Name</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Content</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Complexity</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Appearance</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Presentation</th>
-          <th style="color: white; background-color: rgb(51, 103, 182);">Final Grade</th>
-        </tr>
-      </thead>
-      <tbody>
-        @if (committeeMemberGrades()) {
-          @for (grade of committeeMemberGrades(); track grade) {
-            <tr>
-          <td>{{grade.name + ' ' + grade.secondName}}</td>
-          <td>{{ grade.contentScore }}</td>
-          <td>{{ grade.complexityScore }}</td>
-          <td>{{ grade.appearanceScore }}</td>
-          <td>{{ grade.presentationScore }}</td>
-          <td>{{ getFinalGrade(grade) }}</td>
-        </tr>
-          }
-        }
+      @for (grade of committeeMemberGrades(); track grade) {
+              <div class="mt-2 ms-4 mb-4 me-4 committee-card">
+
+      <div class="card-header">
+        <div class="member-info">
+          <mat-icon>person</mat-icon>
+          <span class="name">
+            {{ grade.name }} {{ grade.secondName }}
+          </span>
+        </div>
+
+        <span class="final-grade">
+          {{ getFinalGrade(grade) }}
+        </span>
        
+        
+      </div>
+        
+      <div class="scores-row">
        
-      </tbody>
-    </table>
+          <div 
+          class="score-pill"
+          [ngClass]="[
+            
+           
+          ]">
+          Content: {{ grade.contentScore }}
+        </div>
+
+        <div 
+          class="score-pill"
+          [ngClass]="[
+            
+           
+          ]">
+          Complexity: {{ grade.complexityScore }}
+        </div>
+
+        <div 
+          class="score-pill"
+          [ngClass]="[
+           
+           
+          ]">
+          Appearance: {{ grade.appearanceScore }}
+        </div>
+
+        <div 
+          class="score-pill"
+          [ngClass]="[
+           
+         
+          ]">
+          Presentation: {{ grade.presentationScore }}
+        </div>
+        
+        
+      </div>
+
+    </div>
+          
+                 
+         
+        } 
 
   </mat-card-content>
   </mat-card>
     } @else {
-        <mat-card class="committee-container grade-card mb-4" appearance="outlined">
-
-  <mat-card-header>
-    <mat-card-title class="mb-3">Committee evaluations aren't available yet</mat-card-title>
-  </mat-card-header>
-  </mat-card>
+         <div class="empty-state">
+      <mat-icon>groups</mat-icon>
+      <h2>No Evaluations Yet</h2>
+      <p>
+        Committee members have not submitted any evaluations for this thesis.
+      </p>
+    </div>
     }
         
   </mat-tab>
