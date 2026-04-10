@@ -150,7 +150,7 @@
       <mat-card class="committee-container grade-card mb-5" appearance="outlined">
         
     
-  @if (!finalGrade()) {
+  @if (!finalGrade() && unsubmittedCommitteeMembers()!.length == 0 && ownGrade()) {
     <div class="consensus-block">
   <mat-icon>analytics</mat-icon>
     <div>
@@ -166,7 +166,22 @@
   </div>
   }
 
+  @if (unsubmittedCommitteeMembers()?.length) {
+  <div class="pending-block">
+    <mat-icon>hourglass_top</mat-icon>
 
+    <div class="pending-content">
+      <div class="pending-title">Pending Evaluations</div>
+      <div class="pending-list">
+        @for (user of unsubmittedCommitteeMembers(); track user) {
+          <span class="pending-user">
+            {{ user.name }} {{ user.secondName }}
+          </span>
+        }
+      </div>
+    </div>
+  </div>
+}
   <mat-card-header>
     <mat-card-title class="mb-3">Submitted Evaluations</mat-card-title>
   </mat-card-header>
@@ -175,7 +190,15 @@
 
     @if (reviewerGrade()) {
       <div class="committee-list">
-
+     @if (!committeeMemberGrades()?.length && !ownGrade()) {
+    <div class="empty-state">
+      <mat-icon>groups</mat-icon>
+      <h2>No Evaluations Yet</h2>
+      <p>
+        Committee members have not submitted any evaluations for this thesis.
+      </p>
+    </div>
+  } @else {    
   @for (grade of committeeMemberGrades(); track grade) {
     <div class="committee-card">
 
@@ -197,7 +220,7 @@
         }
         
       </div>
-
+        
       <div class="scores-row">
         @if (editingGrade() === grade) {
           <div class="edit-form" [formGroup]="gradeForm">
@@ -274,7 +297,7 @@
 
     </div>
   }
-
+  }  
   @if (!ownGrade() && isGrading) {
   <div class="committee-card" [formGroup]="gradeForm">
 
@@ -405,7 +428,14 @@
       <div class="submission-warning">
   <mat-icon>info</mat-icon>
   <span>
-    Cannot submit final grade until all committee members reach consensus on all grade aspects
+    @if (unsubmittedCommitteeMembers()!.length > 0) {
+      Cannot submit final grade until all committee members submit their grades
+    } @else if (!ownGrade()) {
+      Cannot submit final grade until you submit your evaluation
+    } @else {
+      Cannot submit final grade until all committee members reach consensus on all grade aspects
+    }
+    
   </span>
 </div>
     }

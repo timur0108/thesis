@@ -23,17 +23,21 @@ import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.c
 import { MatIconModule } from '@angular/material/icon';
 import { MatLabel } from '@angular/material/input';
 import { MatFormField } from '@angular/material/input';
+import { User } from '../../user/user';
+import { UserService } from '../../user/user.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { FinalGradeConfirmationModalComponent } from '../../final-grade-confirmation-modal/final-grade-confirmation-modal.component';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
-  imports: [MatFormField,MatLabel, MatIconModule, ThesisOverviewComponent, MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
+  imports: [MatFormField,MatLabel, MatDialogModule, MatIconModule, ThesisOverviewComponent, MatTabsModule, MatCardModule, MatButtonModule, MatTableModule, CommonModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatSlideToggleModule,
   ReactiveFormsModule],
   templateUrl: './head-of-committee-thesis-view.component.html',
   styleUrl: './head-of-committee-thesis-view.component.css'
 })
 export class HeadOfCommitteeThesisViewComponent implements OnInit{
   @Input() thesis!: Thesis;
-
+  userService: UserService = inject(UserService);
   gradingService: GradingService = inject(GradingService);
   committeeMemberGrades = signal<CommitteeMemberGrade[] | null>(null);
   reviewerGrade = signal<ReviewerGrade | null>(null);
@@ -45,6 +49,8 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   finalGrade = signal<FinalGrade | null>(null);
   editingGrade = signal<CommitteeMemberGrade | null>(null);
   gradesVisible= signal<boolean | null>(null);
+  unsubmittedCommitteeMembers = signal<User[] | null>(null);
+  dialog: MatDialog = inject(MatDialog);
 
   onToggle(isChecked: boolean) {
     if (isChecked) {
@@ -58,6 +64,8 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
     this.gradingService.getReviewerGrade(this.thesis.id).subscribe({
       next: (res) => this.reviewerGrade.set(res)
     })
+
+    this.getUnsubmittedCommitteeMembes();
 
     this.gradingService.getCommitteeMemberGradesOfOtherMembers(this.thesis.id).subscribe({
       next: (res) => this.committeeMemberGrades.set(res)
@@ -85,6 +93,12 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
 
     this.gradingService.getFinalGrade(this.thesis.id).subscribe({
       next: (res) => this.finalGrade.set(res)
+    })
+  }
+
+  getUnsubmittedCommitteeMembes() {
+    this.userService.getUnsubmittedCommitteeMembers(this.thesis.id).subscribe({
+      next: (res) => this.unsubmittedCommitteeMembers.set(res)
     })
   }
   
@@ -192,6 +206,16 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   }
 
   submitFinalGrade() {
+    const dialogRef = this.dialog.open(FinalGradeConfirmationModalComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return; // user cancelled
+
+      this.confirmSubmitFinalGrade();
+    });
+  }
+
+  confirmSubmitFinalGrade() {
     const members = this.committeeMemberGrades();
     const own = this.ownGrade();
 
@@ -200,16 +224,13 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
       return;
     }
 
-    
     const allGrades = [...members, own];
 
-    
     if (!this.canSubmitFinalGrade()) {
       console.error('Cannot submit final grade: grades conflict.');
       return;
     }
 
-   
     const reference = allGrades[0];
     const totalPoints =
       reference.contentScore +
@@ -217,10 +238,8 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
       reference.appearanceScore +
       reference.presentationScore;
 
-    
     const letterGrade = this.getFinalGrade(reference);
 
-    
     const finalGrade = {
       thesisId: this.thesis.id,
       contentScore: reference.contentScore,
@@ -231,13 +250,10 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
       letterGrade: letterGrade
     };
 
-  
     this.gradingService.submitFinalGrade(finalGrade).subscribe({
       next: (res) => {
-        
         this.finalGrade.set(res);
         this.isGrading = false;
-        console.log('Final grade submitted:', res);
         window.location.reload();
       },
       error: (err) => {

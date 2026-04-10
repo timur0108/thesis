@@ -16,4 +16,8 @@ export class UserService {
     public getAll(): Observable<User[]> {
         return this.httpClient.get<User[]>(this.baseURL + "/all");
     }
+
+    getUnsubmittedCommitteeMembers(thesisId: number): Observable<User[]> {
+        return this.httpClient.get<User[]>(this.baseURL + "/committee-members/unsubmitted/" + thesisId);
+    }
 }

@@ -1,0 +1,23 @@
+<div class="confirm-dialog">
+  <div class="icon-wrapper">
+    <div class="icon-circle">
+    <mat-icon>help_outline</mat-icon>
+    </div>
+  </div>
+
+  <h2 class="title">Submit Final Grade</h2>
+
+  <p class="message">
+    This action is final and cannot be changed later.
+    Please confirm that all evaluations are correct.
+  </p>
+
+  <div class="actions">
+    <button mat-stroked-button (click)="close(false)">
+      Cancel
+    </button>
+    <button mat-stroked-button color="primary" (click)="close(true)">
+      Submit
+    </button>
+  </div>
+</div>
