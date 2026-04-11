@@ -177,6 +177,26 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
     })
   }
 
+   canSubmitFinalGrade(): boolean {
+    const members = this.committeeMemberGrades();
+    const own = this.ownGrade();
+
+    if (!members || members.length === 0 || !own) {
+      return false;
+    }
+
+    const allGrades = [...members, own];
+
+    const reference = allGrades[0];
+
+    return allGrades.every(g =>
+      g.contentScore === reference.contentScore &&
+      g.complexityScore === reference.complexityScore &&
+      g.appearanceScore === reference.appearanceScore &&
+      g.presentationScore === reference.presentationScore
+    );
+  }
+
   isOwnGradeRow(row: CommitteeMemberGrade): boolean {
     return this.ownGrade() !== null && row === this.ownGrade();
   }

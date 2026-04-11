@@ -140,10 +140,27 @@
     <mat-tab label="Committee Evaluations">
       <div class="tab-content">
         <mat-card class="grade-card" appearance="outlined">
-
-          <mat-card-header>
+          @if (!thesis.finalGradeLetter && (committeeMemberGrades() && committeeMemberGrades()!.length > 1 || committeeMemberGrades() && committeeMemberGrades()!.length > 0 && ownGrade())) {
+            <div class="consensus-block">
+          <mat-icon>analytics</mat-icon>
+            <div>
+            <div class="consensus-title">Consensus Status</div>
+            <div class="consensus-text">
+              @if (canSubmitFinalGrade()) {
+                All committee members agree
+              } @else {
+                Disagreement detected — review highlighted scores
+              }
+            </div>
+          </div>
+          </div>
+          }
+          @if (committeeMemberGrades() && committeeMemberGrades()!.length > 0 || ownGrade()) {
+               <mat-card-header>
             <mat-card-title>Submitted Evaluations</mat-card-title>
           </mat-card-header>
+          }
+         
           
           <mat-card-content>
             @if (reviewerGrade()) {
@@ -218,7 +235,7 @@
     </div>
   }
 }
-  @if (!ownGrade() && isGrading) {
+  @if (!ownGrade() && isGrading && thesis.finalGradeLetter == null) {
   <div class="committee-card new-evaluation" [formGroup]="gradeForm">
 
     <div class="card-header">
@@ -306,7 +323,11 @@
   </div>
 }
   @if (!ownGrade() && !isGrading) {
-  <button mat-raised-button (click)="startReview()">Start Review</button>
+    <div class="ms-4 mb-4">
+         <button mat-raised-button (click)="startReview()"><mat-icon>rate_review</mat-icon>
+    Start Review</button>
+    </div>
+ 
 }
 
 

@@ -20,10 +20,11 @@ import { SupervisorForm } from '../thesis/supervisor-thesis-view/supervisor-form
 import { MatDialog } from '@angular/material/dialog';
 import { AddThesisDialogComponent } from '../add-thesis-dialog/add-thesis-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
+import { CommitteeMemberGradeDialogComponent } from '../committee-member-grade-dialog/committee-member-grade-dialog.component';
 
 @Component({
   selector: 'app-supervisor-committee-thesis-view',
-  imports: [MatIconModule, AddThesisDialogComponent, ThesisOverviewComponent, MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatTabsModule,
+  imports: [CommitteeMemberGradeDialogComponent, MatIconModule, AddThesisDialogComponent, ThesisOverviewComponent, MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatTabsModule,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule],
@@ -86,8 +87,35 @@ export class SupervisorCommitteeThesisViewComponent {
   }
 
   startReview() {
-    this.isGrading = true;
-  }
+  const dialogRef = this.dialog.open(CommitteeMemberGradeDialogComponent, {
+    width: '600px',
+    data: {
+      isEdit: false
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (!result) return;
+
+    const grade = new CommitteeMemberGrade(
+      0,
+      this.thesis.id,
+      result.contentScore,
+      result.complexityScore,
+      result.appearanceScore,
+      result.presentationScore,
+      "asd",
+      "asd",
+      false
+    );
+
+    this.gradingService.submitCommitteeMemberGrade(grade).subscribe({
+      next: (res) => {
+        this.ownGrade.set(res);
+      }
+    });
+  });
+}
 
   submitReview() {
     const formValue = this.gradeForm.getRawValue();
@@ -140,7 +168,58 @@ export class SupervisorCommitteeThesisViewComponent {
   }
 
   cahngeGrade() {
-    this.isGrading = true;
+  const current = this.ownGrade();
+  if (!current) return;
+
+  const dialogRef = this.dialog.open(CommitteeMemberGradeDialogComponent, {
+    width: '600px',
+    data: {
+      ...current,
+      isEdit: true
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (!result) return;
+
+    const updated = new CommitteeMemberGrade(
+      current.id,
+      this.thesis.id,
+      result.contentScore,
+      result.complexityScore,
+      result.appearanceScore,
+      result.presentationScore,
+      current.name,
+      current.secondName,
+      current.visibleToOthers
+    );
+
+    this.gradingService.changeGrade(updated).subscribe({
+      next: (res) => {
+        this.ownGrade.set(res);
+      }
+    });
+  });
+}
+
+canSubmitFinalGrade(): boolean {
+    const members = this.committeeMemberGrades();
+    const own = this.ownGrade();
+
+    if (!members || members.length === 0 || !own) {
+      return false;
+    }
+
+    const allGrades = [...members, own];
+
+    const reference = allGrades[0];
+
+    return allGrades.every(g =>
+      g.contentScore === reference.contentScore &&
+      g.complexityScore === reference.complexityScore &&
+      g.appearanceScore === reference.appearanceScore &&
+      g.presentationScore === reference.presentationScore
+    );
   }
 
   cancelChangeGrade() {

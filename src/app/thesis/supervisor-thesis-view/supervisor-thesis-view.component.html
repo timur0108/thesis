@@ -1,5 +1,5 @@
 @if (!supervisorForm()) {
-  <button mat-flat-button color="primary" (click)="openSUpervisorFormModal()">Submit Supervisor Form</button>
+  <button mat-flat-button color="primary" class="mb-2" (click)="openSUpervisorFormModal()">Submit Supervisor Form</button>
 }
 
 <mat-tab-group animationDuration="100ms">
@@ -158,12 +158,13 @@
   </mat-card-content>
 </mat-card>
     } @else {
-        <mat-card class="reviewer-container grade-card" appearance="outlined">
-
-  <mat-card-header class="mb-5">
-    <mat-card-title>Reviewer hasn't submitted his evluation yet</mat-card-title>
-  </mat-card-header>
-</mat-card>
+        <div class="reviewer-container empty-state">
+      <mat-icon>assignment_late</mat-icon>
+      <h2>No Reviewer Evaluation Yet</h2>
+      <p>
+        The reviewer has not submitted the evaluation for this thesis.
+      </p>
+    </div>
     }
         
   </mat-tab>

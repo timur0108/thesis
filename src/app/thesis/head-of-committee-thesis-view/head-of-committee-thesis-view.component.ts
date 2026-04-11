@@ -27,6 +27,7 @@ import { User } from '../../user/user';
 import { UserService } from '../../user/user.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FinalGradeConfirmationModalComponent } from '../../final-grade-confirmation-modal/final-grade-confirmation-modal.component';
+import { CommitteeMemberGradeDialogComponent } from '../../committee-member-grade-dialog/committee-member-grade-dialog.component';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
@@ -159,8 +160,35 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   }
 
   startReview() {
-    this.isGrading = true;
-  }
+  const dialogRef = this.dialog.open(CommitteeMemberGradeDialogComponent, {
+    width: '600px',
+    data: {
+      isEdit: false
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (!result) return;
+
+    const grade = new CommitteeMemberGrade(
+      0,
+      this.thesis.id,
+      result.contentScore,
+      result.complexityScore,
+      result.appearanceScore,
+      result.presentationScore,
+      "asd",
+      "asd",
+      false
+    );
+
+    this.gradingService.submitCommitteeMemberGrade(grade).subscribe({
+      next: (res) => {
+        this.ownGrade.set(res);
+      }
+    });
+  });
+}
 
   cancelReview() {
     this.isGrading = false;
@@ -309,16 +337,45 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
   }
 
   startEdit(grade: CommitteeMemberGrade) {
-    this.editingGrade.set(grade);
-    this.isGrading = true;
+  if (this.finalGrade()) return;
 
-    this.gradeForm.setValue({
-      contentScore: grade.contentScore,
-      complexityScore: grade.complexityScore,
-      appearanceScore: grade.appearanceScore,
-      presentationScore: grade.presentationScore
+  const dialogRef = this.dialog.open(CommitteeMemberGradeDialogComponent, {
+    width: '600px',
+    data: {
+      ...grade,
+      isEdit: true
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (!result) return;
+
+    const updated = new CommitteeMemberGrade(
+      grade.id,
+      this.thesis.id,
+      result.contentScore,
+      result.complexityScore,
+      result.appearanceScore,
+      result.presentationScore,
+      grade.name,
+      grade.secondName,
+      grade.visibleToOthers
+    );
+
+    this.gradingService.changeGrade(updated).subscribe({
+      next: (res) => {
+       
+        if (this.ownGrade()?.id === grade.id) {
+          this.ownGrade.set(res);
+        } else {
+          this.committeeMemberGrades.update(list =>
+            list?.map(g => g.id === grade.id ? res : g) ?? null
+          );
+        }
+      }
     });
-  }
+  });
+}
 
   cancelEdit() {
     this.isGrading = false;
