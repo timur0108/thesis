@@ -19,10 +19,11 @@ import { SupervisorFormService } from '../thesis/supervisor-thesis-view/supervis
 import { SupervisorForm } from '../thesis/supervisor-thesis-view/supervisor-form';
 import { MatDialog } from '@angular/material/dialog';
 import { AddThesisDialogComponent } from '../add-thesis-dialog/add-thesis-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-supervisor-committee-thesis-view',
-  imports: [AddThesisDialogComponent, ThesisOverviewComponent, MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatTabsModule,
+  imports: [MatIconModule, AddThesisDialogComponent, ThesisOverviewComponent, MatTableModule, CommonModule, MatCardModule, MatButtonModule, FormsModule, MatTooltipModule, CommonModule, MatTabsModule,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule],

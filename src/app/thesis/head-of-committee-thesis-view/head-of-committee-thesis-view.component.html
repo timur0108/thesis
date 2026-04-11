@@ -182,9 +182,11 @@
     </div>
   </div>
 }
-  <mat-card-header>
+  @if (committeeMemberGrades() && committeeMemberGrades()!.length > 0 || ownGrade()) {
+      <mat-card-header>
     <mat-card-title class="mb-3">Submitted Evaluations</mat-card-title>
   </mat-card-header>
+  }
 
   <mat-card-content>
 
@@ -312,7 +314,7 @@
       <input type="number" formControlName="presentationScore" placeholder="Presentation">
     </div>
 
-    <div class="mt-2">
+    <div class="mt-2 d-flex flex-row gap-3">
       <button mat-raised-button (click)="submitReview()">Submit</button>
       <button mat-raised-button (click)="cancelReview()">Cancel</button>
     </div>
@@ -350,10 +352,24 @@
           <div class="edit-form" [formGroup]="gradeForm">
 
     <div class="scores-row">
+      <div class="inline-item">
+      <span>Content</span>
       <input type="number" formControlName="contentScore">
-      <input type="number" formControlName="complexityScore">
-      <input type="number" formControlName="appearanceScore">
-      <input type="number" formControlName="presentationScore">
+    </div>
+      <div class="inline-item">
+    <span>Complexity</span>
+    <input type="number" formControlName="complexityScore">
+  </div>
+
+  <div class="inline-item">
+    <span>Appearance</span>
+    <input type="number" formControlName="appearanceScore">
+  </div>
+
+  <div class="inline-item">
+    <span>Presentation</span>
+    <input type="number" formControlName="presentationScore">
+  </div>
     </div>
 
     <div class="edit-actions">

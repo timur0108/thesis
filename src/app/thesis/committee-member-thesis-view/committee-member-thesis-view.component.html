@@ -204,22 +204,44 @@
   }
 }
   @if (!ownGrade() && isGrading) {
-  <div class="committee-card" [formGroup]="gradeForm">
+  <div class="committee-card new-evaluation" [formGroup]="gradeForm">
 
     <div class="card-header">
-      <span class="name">New Evaluation</span>
+      <div class="member-info">
+        <mat-icon>edit</mat-icon>
+        <span class="name">New Evaluation</span>
+      </div>
     </div>
 
-    <div class="scores-row">
-      <input type="number" formControlName="contentScore" placeholder="Content">
-      <input type="number" formControlName="complexityScore" placeholder="Complexity">
-      <input type="number" formControlName="appearanceScore" placeholder="Appearance">
-      <input type="number" formControlName="presentationScore" placeholder="Presentation">
+    <div class="form-grid">
+      <div class="form-item">
+        <label>Content</label>
+        <input type="number" formControlName="contentScore">
+      </div>
+
+      <div class="form-item">
+        <label>Complexity</label>
+        <input type="number" formControlName="complexityScore">
+      </div>
+
+      <div class="form-item">
+        <label>Appearance</label>
+        <input type="number" formControlName="appearanceScore">
+      </div>
+
+      <div class="form-item">
+        <label>Presentation</label>
+        <input type="number" formControlName="presentationScore">
+      </div>
     </div>
 
-    <div class="mt-2">
-      <button mat-raised-button (click)="submitReview()">Submit</button>
-      <button mat-raised-button (click)="cancelReview()">Cancel</button>
+    <div class="form-actions">
+      <button mat-raised-button color="primary" (click)="submitReview()">
+        Submit
+      </button>
+      <button mat-button (click)="cancelReview()">
+        Cancel
+      </button>
     </div>
 
   </div>
