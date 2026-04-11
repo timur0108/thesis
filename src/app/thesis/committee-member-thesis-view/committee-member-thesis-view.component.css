@@ -611,3 +611,63 @@ button[mat-raised-button]:hover {
   justify-content: flex-end;
   gap: 8px;
 }
+
+.form-grid-horizontal {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.form-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-label);
+  letter-spacing: 0.05em;
+}
+
+/* keep your pill styles, just slightly refine */
+.pill-group {
+  display: flex;
+  gap: 6px;
+}
+
+.pill {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f1f3f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.pill.active {
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+
+.form-col {
+  position: relative;
+}
+
+.form-col:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: var(--border);
+}

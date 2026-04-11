@@ -8,7 +8,8 @@
 
     <!-- ── Supervisor Form ── -->
     <mat-tab label="Supervisor Form">
-      <div class="tab-content" *ngIf="supervisorForm() as form">
+      @if (supervisorForm()) {
+          <div class="tab-content" *ngIf="supervisorForm() as form">
         <mat-card class="grade-card" appearance="outlined">
 
           <mat-card-header>
@@ -55,6 +56,20 @@
           </mat-card-content>
         </mat-card>
       </div>
+      } @else {
+          <div class="supervisor-container">
+
+       <div class="empty-state">
+      <mat-icon>assignment_late</mat-icon>
+      <h2>No Supervisor Form Yet</h2>
+      <p>
+        The supervisor has not submitted the evaluation form for this thesis.
+      </p>
+    </div>
+
+    </div>
+      }
+      
     </mat-tab>
 
     <!-- ── Reviewer Evaluation ── -->
@@ -214,26 +229,70 @@
     </div>
 
     <div class="form-grid">
-      <div class="form-item">
-        <label>Content</label>
-        <input type="number" formControlName="contentScore">
-      </div>
 
-      <div class="form-item">
-        <label>Complexity</label>
-        <input type="number" formControlName="complexityScore">
-      </div>
+  <div class="form-grid-horizontal">
 
-      <div class="form-item">
-        <label>Appearance</label>
-        <input type="number" formControlName="appearanceScore">
-      </div>
-
-      <div class="form-item">
-        <label>Presentation</label>
-        <input type="number" formControlName="presentationScore">
-      </div>
+  <div class="form-col">
+    <div class="label">Content</div>
+    <div class="pill-group">
+      @for (score of [1,2,3,4,5]; track score) {
+        <div 
+          class="pill"
+          [class.active]="gradeForm.value.contentScore === score"
+          (click)="gradeForm.patchValue({ contentScore: score })">
+          {{ score }}
+        </div>
+      }
     </div>
+  </div>
+
+  <div class="form-col">
+    <div class="label">Complexity</div>
+    <div class="pill-group">
+      @for (score of [1,2,3,4,5]; track score) {
+        <div 
+          class="pill"
+          [class.active]="gradeForm.value.complexityScore === score"
+          (click)="gradeForm.patchValue({ complexityScore: score })">
+          {{ score }}
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="form-col">
+    <div class="label">Appearance</div>
+    <div class="pill-group">
+      @for (score of [1,2,3,4,5]; track score) {
+        <div 
+          class="pill"
+          [class.active]="gradeForm.value.appearanceScore === score"
+          (click)="gradeForm.patchValue({ appearanceScore: score })">
+          {{ score }}
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="form-col">
+    <div class="label">Presentation</div>
+    <div class="pill-group">
+      @for (score of [1,2,3,4,5]; track score) {
+        <div 
+          class="pill"
+          [class.active]="gradeForm.value.presentationScore === score"
+          (click)="gradeForm.patchValue({ presentationScore: score })">
+          {{ score }}
+        </div>
+      }
+    </div>
+  </div>
+
+</div>
+
+  <!-- repeat for others -->
+
+</div>
 
     <div class="form-actions">
       <button mat-raised-button color="primary" (click)="submitReview()">

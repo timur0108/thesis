@@ -18,6 +18,8 @@ import { SupervisorForm } from '../supervisor-thesis-view/supervisor-form';
 import { SupervisorFormService } from '../supervisor-thesis-view/supervisor-form-service';
 import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { CommitteeMemberGradeDialogComponent } from '../../committee-member-grade-dialog/committee-member-grade-dialog.component';
 
 @Component({
   selector: 'app-committee-member-thesis-view',
@@ -36,7 +38,7 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
   private gradingService: GradingService = inject(GradingService);
   private supervisorFormService: SupervisorFormService = inject(SupervisorFormService);
   gradeForm!: FormGroup;
-  
+  private dialog = inject(MatDialog);
   displayedColumns: string[] = ['role', 'content', 'complexity', 'appearance', 'presentation']
   isGrading = false;
   dataForReviewer!: (ReviewerGrade | CommitteeMemberGrade)[];
@@ -50,8 +52,40 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
   }
 
   startReview() {
-    this.isGrading = true;
-  }
+  const isEdit = !!this.ownGrade();
+
+  const dialogRef = this.dialog.open(CommitteeMemberGradeDialogComponent, {
+    width: '600px',
+    data: {
+      ...this.ownGrade(),
+      isEdit
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (!result) return;
+
+    const grade = new CommitteeMemberGrade(
+      this.ownGrade()?.id ?? 0,
+      this.thesis.id,
+      result.contentScore,
+      result.complexityScore,
+      result.appearanceScore,
+      result.presentationScore,
+      "asd",
+      "asd",
+      false
+    );
+
+    const request = isEdit
+      ? this.gradingService.changeGrade(grade)
+      : this.gradingService.submitCommitteeMemberGrade(grade);
+
+    request.subscribe(res => {
+      this.ownGrade.set(res);
+    });
+  });
+}
 
   submitReview() {
     const formValue = this.gradeForm.getRawValue();
@@ -92,7 +126,10 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
     })
 
     this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
-      next: (res) => this.supervisorForm.set(res)
+      next: (res) => {
+        this.supervisorForm.set(res);
+        console.log(this.supervisorForm())
+      }
     })
   }
 
@@ -104,7 +141,7 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
   }
 
   cahngeGrade() {
-    this.isGrading = true;
+    this.startReview();
   }
 
   cancelChangeGrade() {
