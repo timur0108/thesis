@@ -55,6 +55,10 @@
 
       </app-supervisor-committee-thesis-view>
     </ng-container>
+  } @else if (thesis()!.roles.includes('CO-SUPERVISOR')) {
+    <ng-container>
+      <app-co-supervisor-thesis-view [thesis]="thesis()!"></app-co-supervisor-thesis-view>
+    </ng-container>
   }
 
 

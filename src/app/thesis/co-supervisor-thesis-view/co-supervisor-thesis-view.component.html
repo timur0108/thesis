@@ -1,0 +1,231 @@
+<mat-tab-group animationDuration="100ms">
+    <mat-tab label="Overview">
+        <app-thesis-overview [thesis]="thesis"></app-thesis-overview>
+    </mat-tab>
+
+    <mat-tab label="Supervisor Form">
+        @if (supervisorForm()) {
+             <div class="tab-content" *ngIf="supervisorForm() as form">
+        <mat-card class="grade-card" appearance="outlined">
+
+          <mat-card-header>
+            <mat-card-title>Supervisor Form</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="grade-content">
+
+            <div class="top-section">
+              <div class="text-block">
+                <h3>Context of Research</h3>
+                <p>{{ form.contextOfResearch }}</p>
+              </div>
+              <div class="text-block">
+                <h3>Student Contribution</h3>
+                <p>{{ form.studentContribution }}</p>
+              </div>
+              <div class="text-block">
+                <h3>Strengths of Thesis</h3>
+                <p>{{ form.strengthOfThesis }}</p>
+              </div>
+              <div class="text-block">
+                <h3>Limitations of Thesis</h3>
+                <p>{{ form.limitationOfThesis }}</p>
+              </div>
+            </div>
+
+            <div class="scores-section">
+              <h3>Supervisor Feedback</h3>
+              <div class="score-card">
+                <div class="score-header">
+                  <span class="score-title">Cooperation</span>
+                </div>
+                <p class="reasoning">{{ form.cooperation }}</p>
+              </div>
+              <div class="score-card">
+                <div class="score-header">
+                  <span class="score-title">Additional Comments</span>
+                </div>
+                <p class="reasoning">{{ form.additionalComments }}</p>
+              </div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+        } @else {
+            <div class="supervisor-container">
+
+                <div class="empty-state">
+                <mat-icon>assignment_late</mat-icon>
+                <h2>No Supervisor Form Yet</h2>
+                <p>
+                    The supervisor has not submitted the evaluation form for this thesis.
+                </p>
+                </div>
+
+            </div>
+        }
+    </mat-tab>
+
+    <mat-tab label="Reviewer Evaluation">
+        @if (reviewerGrade()) {
+            <div class="tab-content">
+        <mat-card class="grade-card" appearance="outlined">
+
+          <mat-card-header>
+            <mat-card-title>Reviewer Evaluation</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="grade-content">
+
+            <div class="top-section">
+              <div class="text-block">
+                <h3>Evaluation Summary</h3>
+                <p>{{ reviewerGrade()!.evaluationSummary }}</p>
+              </div>
+              <div class="text-block">
+                <h3>Questions</h3>
+                <p>{{ reviewerGrade()!.questions }}</p>
+              </div>
+            </div>
+
+            <div class="scores-section">
+              <h3>Scores</h3>
+              <div class="score-card">
+                <div class="score-header">
+                  <span class="score-title">Content</span>
+                  <span class="score-value" [ngClass]="{
+                    'low':    reviewerGrade()!.contentScore <= 2,
+                    'medium': reviewerGrade()!.contentScore > 2 && reviewerGrade()!.contentScore < 5,
+                    'high':   reviewerGrade()!.contentScore === 5
+                  }">{{ reviewerGrade()!.contentScore }}/5</span>
+                </div>
+                <p class="reasoning">{{ reviewerGrade()!.contentReasoning }}</p>
+              </div>
+              <div class="score-card">
+                <div class="score-header">
+                  <span class="score-title">Complexity</span>
+                  <span class="score-value" [ngClass]="{
+                    'low':    reviewerGrade()!.complexityScore <= 2,
+                    'medium': reviewerGrade()!.complexityScore > 2 && reviewerGrade()!.complexityScore < 5,
+                    'high':   reviewerGrade()!.complexityScore === 5
+                  }">{{ reviewerGrade()!.complexityScore }}/5</span>
+                </div>
+                <p class="reasoning">{{ reviewerGrade()!.complexityReasoning }}</p>
+              </div>
+              <div class="score-card">
+                <div class="score-header">
+                  <span class="score-title">Appearance</span>
+                  <span class="score-value" [ngClass]="{
+                    'low':    reviewerGrade()!.appearanceScore <= 2,
+                    'medium': reviewerGrade()!.appearanceScore > 2 && reviewerGrade()!.appearanceScore < 5,
+                    'high':   reviewerGrade()!.appearanceScore === 5
+                  }">{{ reviewerGrade()!.appearanceScore }}/5</span>
+                </div>
+                <p class="reasoning">{{ reviewerGrade()!.appearanceReasoning }}</p>
+              </div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+        } @else {
+            <div class="reviewer-container empty-state">
+            <mat-icon>assignment_late</mat-icon>
+            <h2>No Reviewer Evaluation Yet</h2>
+            <p>
+                The reviewer has not submitted the evaluation for this thesis.
+            </p>
+            </div>
+        }
+    </mat-tab>
+
+    <mat-tab label="Committee Evaluations">
+        @if (committeeMemberGrades() && committeeMemberGrades()!.length > 0) {
+            <mat-card class="committee-container grade-card mb-4" appearance="outlined">
+
+  <mat-card-header>
+    <mat-card-title class="mb-3">Submitted Evaluations</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+
+    
+      @for (grade of committeeMemberGrades(); track grade) {
+              <div class="mt-2 ms-4 mb-4 me-4 committee-card">
+
+      <div class="card-header">
+        <div class="member-info">
+          <mat-icon>person</mat-icon>
+          <span class="name">
+            {{ grade.name }} {{ grade.secondName }}
+          </span>
+        </div>
+
+        <span class="final-grade">
+          {{ getFinalGrade(grade) }}
+        </span>
+       
+        
+      </div>
+        
+      <div class="scores-row">
+       
+          <div 
+          class="score-pill"
+          [ngClass]="[
+            
+           
+          ]">
+          Content: {{ grade.contentScore }}
+        </div>
+
+        <div 
+          class="score-pill"
+          [ngClass]="[
+            
+           
+          ]">
+          Complexity: {{ grade.complexityScore }}
+        </div>
+
+        <div 
+          class="score-pill"
+          [ngClass]="[
+           
+           
+          ]">
+          Appearance: {{ grade.appearanceScore }}
+        </div>
+
+        <div 
+          class="score-pill"
+          [ngClass]="[
+           
+         
+          ]">
+          Presentation: {{ grade.presentationScore }}
+        </div>
+        
+        
+      </div>
+
+    </div>
+          
+                 
+         
+        } 
+
+  </mat-card-content>
+  </mat-card>
+        } @else {
+            <div class="empty-state">
+                <mat-icon>groups</mat-icon>
+                <h2>No Evaluations Yet</h2>
+                <p>
+                    Committee members have not submitted any evaluations for this thesis.
+                </p>
+            </div>
+        }
+    </mat-tab>
+</mat-tab-group>
