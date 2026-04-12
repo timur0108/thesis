@@ -31,8 +31,8 @@ export class AddSessionComponent implements OnInit{
   form = this.fb.group({
     startDate: ['', Validators.required],
     endDate: ['', Validators.required],
-    committeeMembers: [[], Validators.required],
-    headOfCommittee: ['', Validators.required]
+    committeeMemberIds: [[], Validators.required],
+    headOfCommitteeId: ['', Validators.required]
   });
 
 

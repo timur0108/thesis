@@ -4,7 +4,7 @@ import { Observable, pipe, tap } from "rxjs";
 import { Router } from "@angular/router";
 import { environment } from "../../environments/environment";
 
-import { Session } from "./session";
+import { Session, SessionCreateDTO, SessionWithThesesDTO } from "./session";
 
 @Injectable({
     providedIn: 'root'
@@ -19,5 +19,11 @@ export class SessionService {
         return this.httpClient.get<Session[]>(this.baseUrl + '/all');
     }
 
-   
+   public createSession(session: SessionCreateDTO): Observable<Session> {
+        return this.httpClient.post<Session>(this.baseUrl, session);
+   }
+
+   public getAllWithTheses(): Observable<SessionWithThesesDTO[]> {
+        return this.httpClient.get<SessionWithThesesDTO[]>(this.baseUrl + '/with-theses/all');
+   }
 }

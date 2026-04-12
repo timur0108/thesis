@@ -19,7 +19,7 @@
     <!-- Committee Members -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Committee Members</mat-label>
-      <mat-select formControlName="committeeMembers" multiple>
+      <mat-select formControlName="committeeMemberIds" multiple>
         <mat-option *ngFor="let u of users() ?? []" [value]="u.id">
           {{ u.name }} {{ u.secondName }}
         </mat-option>
@@ -29,7 +29,7 @@
     <!-- Head -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Head of Committee</mat-label>
-      <mat-select formControlName="headOfCommittee">
+      <mat-select formControlName="headOfCommitteeId">
         <mat-option *ngFor="let u of users() ?? []" [value]="u.id">
           {{ u.name }} {{ u.secondName }}
         </mat-option>
