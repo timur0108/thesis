@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { AddThesisToSessionModalComponent } from './add-thesis-to-session-modal/add-thesis-to-session-modal.component';
 import { HasAuthorityDirective } from '../auth/has-authority.directive';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-sessions',
@@ -31,6 +32,7 @@ import { CommonModule } from '@angular/common';
 export class SessionsComponent implements OnInit{
 
   sessionService = inject(SessionService);
+  authService = inject(AuthService);
 
   sessions = signal<SessionWithThesesDTO[] | null>(null);
 

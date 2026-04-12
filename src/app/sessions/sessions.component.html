@@ -86,6 +86,17 @@
           {{ thesis.titleEstonian }}
         </div>
       </div>
+     @if (authService.getRole() != "ADMIN") {
+  <div class="roles-wrapper">
+    <label class="roles-label">Your roles:</label>
+
+    <div class="roles-list">
+      @for (role of thesis.roles; track role) {
+        <span class="role-chip">{{ role }}</span>
+      }
+    </div>
+  </div>
+}
 
       <!-- CENTER -->
       <div class="meta">
