@@ -11,10 +11,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddSessionComponent } from './add-session/add-session.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-sessions',
-  imports: [MatTableModule,
+  imports: [MatTableModule,MatExpansionModule,
+  MatListModule,
     MatCardModule,
     MatIconModule,
     NgIf,
@@ -57,5 +60,9 @@ export class SessionsComponent implements OnInit{
             });
       }
     });
+  }
+
+  onAddThesis(id: number) {
+    
   }
 }
