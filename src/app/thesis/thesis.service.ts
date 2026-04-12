@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { Thesis } from "./thesis";
+import { NewThesisDTO, Thesis } from "./thesis";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ThesisCreateDTO } from "../add-thesis-dialog/thesis-create-dto";
@@ -36,4 +36,8 @@ export class ThesisService {
     public getAssigned(): Observable<Thesis[]> {
         return this.httpClient.get<Thesis[]>(this.baseUrl + '/all/assigned')
     }
+
+    public addToSession(dto: NewThesisDTO): Observable<void> {
+        return this.httpClient.post<void>(this.baseUrl + '/add-to-session', dto);
+        }
 }

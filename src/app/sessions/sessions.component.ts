@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddSessionComponent } from './add-session/add-session.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { AddThesisToSessionModalComponent } from './add-thesis-to-session-modal/add-thesis-to-session-modal.component';
 
 @Component({
   selector: 'app-sessions',
@@ -62,7 +63,20 @@ export class SessionsComponent implements OnInit{
     });
   }
 
-  onAddThesis(id: number) {
-    
+  onAddThesis(sessionId: number) {
+    const dialogRef = this.dialog.open(AddThesisToSessionModalComponent, {
+      width: '700px',
+      maxWidth: '95vw',
+      data: { sessionId }   // 🔥 pass sessionId here
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // refresh sessions after creating thesis
+        this.sessionService.getAllWithTheses().subscribe(res => {
+          this.sessions.set(res);
+        });
+      }
+    });
   }
 }

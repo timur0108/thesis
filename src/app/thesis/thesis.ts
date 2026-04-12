@@ -23,3 +23,17 @@ export class Thesis {
   supervisor?: User;
   coSupervisors?: User[];
 }
+
+export interface NewThesisDTO {
+  levelOfStudies: string;
+  curriculum: string;
+  languageOfThesis: string;
+  volumeEcts: number;
+  titleEstonian: string;
+  titleEnglish: string;
+  sessionId: number;
+  studentId: number;
+  reviewerId: number;
+  supervisorId: number;
+  coSupervisorIds: number[];
+}

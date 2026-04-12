@@ -1,1 +1,107 @@
-<p>add-thesis-to-session-modal works!</p>
+<h2 mat-dialog-title>Add Thesis</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="form">
+
+  <mat-dialog-content>
+
+    <!-- Titles -->
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Title (English)</mat-label>
+        <input matInput formControlName="titleEnglish">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Title (Estonian)</mat-label>
+        <input matInput formControlName="titleEstonian">
+      </mat-form-field>
+    </div>
+
+    <!-- Basic info -->
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Curriculum</mat-label>
+        <input matInput formControlName="curriculum">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Level</mat-label>
+        <mat-select formControlName="levelOfStudies">
+          <mat-option value="Bachelor">Bachelor</mat-option>
+          <mat-option value="Master">Master</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>ECTS</mat-label>
+        <input matInput type="number" formControlName="volumeEcts">
+      </mat-form-field>
+    </div>
+
+    <!-- Language -->
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Language</mat-label>
+      <mat-select formControlName="languageOfThesis">
+        <mat-option value="English">English</mat-option>
+        <mat-option value="Estonian">Estonian</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Student -->
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Student</mat-label>
+      <mat-select formControlName="studentId">
+        @for (s of students(); track s.id) {
+          <mat-option [value]="s.id">
+            {{ s.name }} {{ s.secondName }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Reviewer -->
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Reviewer</mat-label>
+      <mat-select formControlName="reviewerId">
+        @for (u of users(); track u.id) {
+          <mat-option [value]="u.id">
+            {{ u.name }} {{ u.secondName }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Supervisor -->
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Supervisor</mat-label>
+      <mat-select formControlName="supervisorId">
+        @for (u of users(); track u.id) {
+          <mat-option [value]="u.id">
+            {{ u.name }} {{ u.secondName }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Co-supervisors -->
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Co-supervisors</mat-label>
+      <mat-select formControlName="coSupervisorIds" multiple>
+        @for (u of users(); track u.id) {
+          <mat-option [value]="u.id">
+            {{ u.name }} {{ u.secondName }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit">
+      Create
+    </button>
+  </mat-dialog-actions>
+
+</form>
