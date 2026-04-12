@@ -11,11 +11,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
   selector: 'app-add-thesis-to-session-modal',
-  imports: [MatInputModule, FormsModule, ReactiveFormsModule, MatSelectModule, MatDialogModule],
+  imports: [MatButtonModule, MatInputModule, FormsModule, ReactiveFormsModule, MatSelectModule, MatDialogModule],
   templateUrl: './add-thesis-to-session-modal.component.html',
   styleUrl: './add-thesis-to-session-modal.component.css'
 })

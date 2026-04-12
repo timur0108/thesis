@@ -96,6 +96,17 @@
 
       <!-- RIGHT -->
       <div class="action">
+        <div 
+    class="status-pill"
+    [ngClass]="thesis.finalGradeLetter ? 'graded' : 'not-graded'">
+
+    @if (thesis.finalGradeLetter) {
+      {{ thesis.finalGradeLetter }}
+    } @else {
+      Not graded
+    }
+
+  </div>
         <mat-icon>chevron_right</mat-icon>
       </div>
 
@@ -103,14 +114,12 @@
 
   }
 
-  <button 
-  mat-button
-  color="primary"
-  class="add-thesis-btn"
-  (click)="onAddThesis(session.id); $event.stopPropagation()">
-  <mat-icon>add</mat-icon>
-  Add thesis
-</button>
+  <div class="mt-3" *appHasAuthority="'ADMIN'">
+  <button mat-raised-button color="primary" (click)="onAddThesis(session.id)">
+    <mat-icon>add</mat-icon>
+    Add Thesis
+  </button>
+</div>
 
 
 </div>
@@ -118,7 +127,7 @@
 </div>
 
           }
-
+            
         </div>
 
       </div>
@@ -130,7 +139,7 @@
 </mat-accordion>
 
 <!-- Add button -->
-<div class="mt-3">
+<div class="mt-3" *appHasAuthority="'ADMIN'">
   <button mat-raised-button color="primary" (click)="onAddSession()">
     <mat-icon>add</mat-icon>
     Add Session

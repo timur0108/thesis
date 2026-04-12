@@ -14,11 +14,13 @@ import { AddSessionComponent } from './add-session/add-session.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { AddThesisToSessionModalComponent } from './add-thesis-to-session-modal/add-thesis-to-session-modal.component';
+import { HasAuthorityDirective } from '../auth/has-authority.directive';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sessions',
-  imports: [MatTableModule,MatExpansionModule,
-  MatListModule,
+  imports: [CommonModule, MatTableModule,MatExpansionModule,
+  MatListModule, HasAuthorityDirective,
     MatCardModule,
     MatIconModule,
     NgIf,
