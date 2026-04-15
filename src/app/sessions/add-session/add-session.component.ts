@@ -31,8 +31,10 @@ export class AddSessionComponent implements OnInit{
   form = this.fb.group({
     startDate: ['', Validators.required],
     endDate: ['', Validators.required],
-    committeeMemberIds: [[], Validators.required],
-    headOfCommitteeId: ['', Validators.required]
+
+    committeeMemberIds: this.fb.control<number[]>([], Validators.required),
+
+    headOfCommitteeId: this.fb.control<number | null>(null, Validators.required)
   });
 
 
@@ -40,6 +42,16 @@ export class AddSessionComponent implements OnInit{
     this.userService.getAll().subscribe({
       next: (res) => this.users.set(res)
     })
+
+    this.form.get('headOfCommitteeId')?.valueChanges.subscribe((headId) => {
+    const current = this.form.get('committeeMemberIds')?.value ?? [];
+
+    if (headId && current.includes(headId)) {
+      this.form.get('committeeMemberIds')?.setValue(
+        current.filter((id: number) => id !== headId)
+      );
+    }
+  });
   }
 
   onSave() {
@@ -50,5 +62,13 @@ export class AddSessionComponent implements OnInit{
 
   onCancel() {
     this.dialogRef.close();
+  }
+
+  get headId(): number | null {
+    return this.form.get('headOfCommitteeId')?.value || null;
+  }
+
+  get committeeIds(): number[] {
+    return this.form.get('committeeMemberIds')?.value || [];
   }
 }

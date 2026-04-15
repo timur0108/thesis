@@ -18,23 +18,29 @@
 
     <!-- Committee Members -->
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Committee Members</mat-label>
-      <mat-select formControlName="committeeMemberIds" multiple>
-        <mat-option *ngFor="let u of users() ?? []" [value]="u.id">
-          {{ u.name }} {{ u.secondName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <mat-label>Committee Members</mat-label>
+  <mat-select formControlName="committeeMemberIds" multiple>
+    <mat-option *ngFor="let u of users() ?? []"
+                [value]="u.id"
+                [disabled]="headId === u.id">
+      {{ u.name }} {{ u.secondName }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 
     <!-- Head -->
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Head of Committee</mat-label>
-      <mat-select formControlName="headOfCommitteeId">
-        <mat-option *ngFor="let u of users() ?? []" [value]="u.id">
-          {{ u.name }} {{ u.secondName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <mat-label>Head of Committee</mat-label>
+  <mat-select formControlName="headOfCommitteeId">
+    <mat-option *ngFor="let u of users() ?? []"
+                [value]="u.id"
+                [disabled]="committeeIds.includes(u.id)">
+      {{ u.name }} {{ u.secondName }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 
   </form>
 </mat-dialog-content>
