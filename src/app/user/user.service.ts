@@ -20,4 +20,12 @@ export class UserService {
     getUnsubmittedCommitteeMembers(thesisId: number): Observable<User[]> {
         return this.httpClient.get<User[]>(this.baseURL + "/committee-members/unsubmitted/" + thesisId);
     }
+
+    getCommitteeMembersBySession(sessionId: number): Observable<User[]> {
+        return this.httpClient.get<User[]>(this.baseURL + '/committee-members/for-session/' + sessionId);
+    }
+
+    getHeadOfCommitteeBySession(sessionId: number): Observable<User> {
+        return this.httpClient.get<User>(this.baseURL + '/head-of-committee/for-session/' + sessionId);
+    } 
 }

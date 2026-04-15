@@ -68,7 +68,7 @@
   [value]="u.id"
   [disabled]="
     u.id === form.get('supervisorId')?.value ||
-    form.get('coSupervisorIds')?.value?.includes(u.id)
+    form.get('coSupervisorIds')?.value?.includes(u.id) || isInvalidReviewer(u.id)
   ">
   {{ u.name }} {{ u.secondName }}
 </mat-option>

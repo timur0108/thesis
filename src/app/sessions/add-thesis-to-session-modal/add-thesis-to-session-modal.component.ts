@@ -26,6 +26,9 @@ export class AddThesisToSessionModalComponent implements OnInit{
   userSerivce = inject(UserService);
   studentService = inject(StudentService);
   thesisService = inject(ThesisService);
+  
+  committeeMembers = signal<User[]>([]);
+  headOfCommittee = signal<User | null>(null);
 
   dialogRef = inject(MatDialogRef<AddThesisToSessionModalComponent>);
   data = inject(MAT_DIALOG_DATA);
@@ -49,6 +52,8 @@ export class AddThesisToSessionModalComponent implements OnInit{
   ngOnInit(): void {
     this.userSerivce.getAll().subscribe((res) => this.users.set(res));
     this.studentService.getAll().subscribe((res) => this.students.set(res))
+    this.userSerivce.getCommitteeMembersBySession(this.data.sessionId).subscribe((res) => this.committeeMembers.set(res));
+    this.userSerivce.getHeadOfCommitteeBySession(this.data.sessionId).subscribe((res) => this.headOfCommittee.set(res));
   }
 
   submit() {
@@ -101,5 +106,20 @@ export class AddThesisToSessionModalComponent implements OnInit{
     }
 
     return Object.keys(errors).length ? errors : null;
+  }
+
+  get committeeIds(): Set<number> {
+    return new Set(this.committeeMembers().map(u => u.id));
+  }
+
+  get headId(): number | null {
+    return this.headOfCommittee()?.id ?? null;
+  }
+
+  isInvalidReviewer(userId: number): boolean {
+    return (
+      this.committeeIds.has(userId) ||
+      this.headId === userId
+    );
   }
 }
