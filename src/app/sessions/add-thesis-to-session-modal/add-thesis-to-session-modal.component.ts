@@ -12,11 +12,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-
+import { AbstractControl } from '@angular/forms';
+import { ValidationErrors } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-thesis-to-session-modal',
-  imports: [MatButtonModule, MatInputModule, FormsModule, ReactiveFormsModule, MatSelectModule, MatDialogModule],
+  imports: [CommonModule, MatButtonModule, MatInputModule, FormsModule, ReactiveFormsModule, MatSelectModule, MatDialogModule],
   templateUrl: './add-thesis-to-session-modal.component.html',
   styleUrl: './add-thesis-to-session-modal.component.css'
 })
@@ -29,19 +31,18 @@ export class AddThesisToSessionModalComponent implements OnInit{
   data = inject(MAT_DIALOG_DATA);
 
   form = new FormGroup({
-    titleEnglish: new FormControl('', Validators.required),
-    titleEstonian: new FormControl(''),
-    curriculum: new FormControl('', Validators.required),
-    levelOfStudies: new FormControl('Bachelor'),
-    languageOfThesis: new FormControl('English'),
-    volumeEcts: new FormControl(6),
+  titleEnglish: new FormControl<string>('', Validators.required),
+  titleEstonian: new FormControl<string>(''),
+  curriculum: new FormControl<string>('', Validators.required),
+  levelOfStudies: new FormControl<string>('Bachelor'),
+  languageOfThesis: new FormControl<string>('English'),
+  volumeEcts: new FormControl<number>(6),
 
-    studentId: new FormControl(null, Validators.required),
-    reviewerId: new FormControl(null, Validators.required),
-    supervisorId: new FormControl(null, Validators.required),
-    coSupervisorIds: new FormControl([])
-  });
-
+  studentId: new FormControl<number | null>(null, Validators.required),
+  reviewerId: new FormControl<number | null>(null, Validators.required),
+  supervisorId: new FormControl<number | null>(null, Validators.required),
+  coSupervisorIds: new FormControl<number[]>([])
+}, { validators: this.rolesValidator.bind(this) });
   users = signal<User[] | null>(null);
   students = signal<Student[] | null>(null);
 
@@ -76,5 +77,29 @@ export class AddThesisToSessionModalComponent implements OnInit{
 
   close() {
     this.dialogRef.close(false);
+  }
+
+  rolesValidator(control: AbstractControl): ValidationErrors | null {
+    const group = control as FormGroup;
+
+    const reviewerId = group.get('reviewerId')?.value;
+    const supervisorId = group.get('supervisorId')?.value;
+    const coSupervisorIds = group.get('coSupervisorIds')?.value || [];
+
+    const errors: any = {};
+
+    if (reviewerId && supervisorId && reviewerId === supervisorId) {
+      errors.reviewerSupervisorConflict = true;
+    }
+
+    if (reviewerId && coSupervisorIds.includes(reviewerId)) {
+      errors.reviewerCoSupervisorConflict = true;
+    }
+
+    if (supervisorId && coSupervisorIds.includes(supervisorId)) {
+      errors.supervisorCoSupervisorConflict = true;
+    }
+
+    return Object.keys(errors).length ? errors : null;
   }
 }

@@ -66,6 +66,12 @@
 
           @if (session.theses.length === 0) {
             <p class="empty">No theses in this session</p>
+            <div class="mt-3" *appHasAuthority="'ADMIN'">
+  <button mat-raised-button color="primary" (click)="onAddThesis(session.id)">
+    <mat-icon>add</mat-icon>
+    Add Thesis
+  </button>
+</div>
           } @else {
 
             <div class="thesis-grid">

@@ -63,11 +63,15 @@
     <mat-form-field appearance="outline" class="full">
       <mat-label>Reviewer</mat-label>
       <mat-select formControlName="reviewerId">
-        @for (u of users(); track u.id) {
-          <mat-option [value]="u.id">
-            {{ u.name }} {{ u.secondName }}
-          </mat-option>
-        }
+        <mat-option 
+  *ngFor="let u of users()" 
+  [value]="u.id"
+  [disabled]="
+    u.id === form.get('supervisorId')?.value ||
+    form.get('coSupervisorIds')?.value?.includes(u.id)
+  ">
+  {{ u.name }} {{ u.secondName }}
+</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -75,11 +79,15 @@
     <mat-form-field appearance="outline" class="full me-2">
       <mat-label>Supervisor</mat-label>
       <mat-select formControlName="supervisorId">
-        @for (u of users(); track u.id) {
-          <mat-option [value]="u.id">
-            {{ u.name }} {{ u.secondName }}
-          </mat-option>
-        }
+        <mat-option 
+  *ngFor="let u of users()" 
+  [value]="u.id"
+  [disabled]="
+    u.id === form.get('reviewerId')?.value ||
+    form.get('coSupervisorIds')?.value?.includes(u.id)
+  ">
+  {{ u.name }} {{ u.secondName }}
+</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -87,11 +95,15 @@
     <mat-form-field appearance="outline" class="full">
       <mat-label>Co-supervisors</mat-label>
       <mat-select formControlName="coSupervisorIds" multiple>
-        @for (u of users(); track u.id) {
-          <mat-option [value]="u.id">
-            {{ u.name }} {{ u.secondName }}
-          </mat-option>
-        }
+        <mat-option 
+  *ngFor="let u of users()" 
+  [value]="u.id"
+  [disabled]="
+    u.id === form.get('reviewerId')?.value ||
+    u.id === form.get('supervisorId')?.value
+  ">
+  {{ u.name }} {{ u.secondName }}
+</mat-option>
       </mat-select>
     </mat-form-field>
 
