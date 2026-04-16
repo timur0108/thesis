@@ -12,7 +12,6 @@
     <h1 class="thesis-title-en">{{ thesis()!.titleEnglish }}</h1>
     <p class="thesis-title-et">{{ thesis()!.titleEstonian }}</p>
 
-        <!-- Grade Block -->
   <div class="grade-block">
   <span class="grade-label">Final Grade</span>
   <span class="grade-value" [ngClass]="{'muted': !thesis()!.finalGradeLetter}">
@@ -24,7 +23,7 @@
 </div>
 
     <div class="roles-row" *ngIf="thesis()!.roles && thesis()!.roles.length > 0">
-      <span class="role-chip" *ngFor="let role of thesis()!.roles">{{ role }}</span>
+      <span class="role-chip" *ngFor="let role of thesis()!.roles">{{ role.replaceAll('_', ' ') }}</span>
     </div>
   </div>
 
@@ -32,21 +31,23 @@
       <ng-container>
       <app-reviewer-thesis-view [thesis]="thesis()!"></app-reviewer-thesis-view>
     </ng-container>
-  } @else if (thesis()!.roles.includes('SUPERVISOR')) {
-    <ng-container>
-      <app-supervisor-thesis-view [thesis]="thesis()!"></app-supervisor-thesis-view>
-    </ng-container>
-  } @else if (thesis()!.roles.includes('COMMITTEE_MEMBER')) {
-        <ng-container>
-      <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
-    </ng-container>
-  } @else if (thesis()!.roles.includes('HEAD_OF_COMMITTEE')) {
+  }@else if (thesis()!.roles.includes('HEAD_OF_COMMITTEE')) {
       <ng-container>
       <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
+    </ng-container>
+  }
+   @else if (thesis()!.roles.includes('SUPERVISOR')) {
+    <ng-container>
+      <app-supervisor-thesis-view [thesis]="thesis()!"></app-supervisor-thesis-view>
     </ng-container>
   } @else if (thesis()!.roles.includes('CO-SUPERVISOR')) {
     <ng-container>
       <app-co-supervisor-thesis-view [thesis]="thesis()!"></app-co-supervisor-thesis-view>
+    </ng-container>
+  } 
+  @else if (thesis()!.roles.includes('COMMITTEE_MEMBER')) {
+        <ng-container>
+      <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
     </ng-container>
   } @else if (authService.getRole() === 'ADMIN') {
     <ng-container>
@@ -54,10 +55,6 @@
     </ng-container>
   }
 
-
-
-
-    
 </ng-container>
 
 <ng-template #loading>

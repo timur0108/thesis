@@ -28,6 +28,7 @@ import { UserService } from '../../user/user.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FinalGradeConfirmationModalComponent } from '../../final-grade-confirmation-modal/final-grade-confirmation-modal.component';
 import { CommitteeMemberGradeDialogComponent } from '../../committee-member-grade-dialog/committee-member-grade-dialog.component';
+import { AddThesisDialogComponent } from '../../add-thesis-dialog/add-thesis-dialog.component';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
@@ -60,6 +61,39 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
       this.hideGrades();
     }
   }
+
+  openSUpervisorFormModal() {
+    this.onAddThesis();
+  }
+
+  onAddThesis() {
+      const dialogRef = this.dialog.open(AddThesisDialogComponent, {
+        width: '50vw',
+        height: '80vh',
+        maxWidth: '100vw',
+        disableClose: false,
+        data: { thesisId: this.thesis.id }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+          this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
+        next: (res) => {
+          this.supervisorForm.set(res);
+          console.log(this.supervisorForm())
+        }
+        })
+        
+      this.gradingService.getAllCommitteeMemberGrades(this.thesis.id).subscribe({
+        next: (res) => this.committeeMemberGrades.set(res)
+      })
+  
+      this.gradingService.getReviewerGrade(this.thesis.id).subscribe({
+        next: (res) => this.reviewerGrade.set(res)
+      })
+        }
+      });
+    }
 
   ngOnInit(): void {
     this.gradingService.getReviewerGrade(this.thesis.id).subscribe({
@@ -247,12 +281,17 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
     const members = this.committeeMemberGrades();
     const own = this.ownGrade();
 
-    if (!members || members.length === 0 || !own) {
+    const isSupervisor =
+    this.thesis.roles.includes('SUPERVISOR') ||
+    this.thesis.roles.includes('CO_SUPERVISOR');
+
+    if (!members || members.length === 0 || (!own && !isSupervisor)) {
       console.error('Cannot submit final grade: missing grades.');
       return;
     }
 
-    const allGrades = [...members, own];
+    const allGrades = isSupervisor ? members : [...members, own];
+
 
     if (!this.canSubmitFinalGrade()) {
       console.error('Cannot submit final grade: grades conflict.');
@@ -261,19 +300,19 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
 
     const reference = allGrades[0];
     const totalPoints =
-      reference.contentScore +
-      reference.complexityScore +
-      reference.appearanceScore +
-      reference.presentationScore;
+      reference!.contentScore +
+      reference!.complexityScore +
+      reference!.appearanceScore +
+      reference!.presentationScore;
 
-    const letterGrade = this.getFinalGrade(reference);
+    const letterGrade = this.getFinalGrade(reference!);
 
     const finalGrade = {
       thesisId: this.thesis.id,
-      contentScore: reference.contentScore,
-      complexityScore: reference.complexityScore,
-      appearanceScore: reference.appearanceScore,
-      presentationScore: reference.presentationScore,
+      contentScore: reference!.contentScore,
+      complexityScore: reference!.complexityScore,
+      appearanceScore: reference!.appearanceScore,
+      presentationScore: reference!.presentationScore,
       totalScore: totalPoints,
       letterGrade: letterGrade
     };
@@ -294,19 +333,26 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
     const members = this.committeeMemberGrades();
     const own = this.ownGrade();
 
-    if (!members || members.length === 0 || !own) {
+    const isSupervisor =
+    this.thesis.roles.includes('SUPERVISOR') ||
+    this.thesis.roles.includes('CO_SUPERVISOR');
+
+    if (!members || members.length === 0) {
       return false;
     }
 
-    const allGrades = [...members, own];
+    if (!isSupervisor && !own) {
+      return false;
+    }
 
+    const allGrades = isSupervisor ? members : [...members, own];
     const reference = allGrades[0];
 
     return allGrades.every(g =>
-      g.contentScore === reference.contentScore &&
-      g.complexityScore === reference.complexityScore &&
-      g.appearanceScore === reference.appearanceScore &&
-      g.presentationScore === reference.presentationScore
+      g!.contentScore === reference!.contentScore &&
+      g!.complexityScore === reference!.complexityScore &&
+      g!.appearanceScore === reference!.appearanceScore &&
+      g!.presentationScore === reference!.presentationScore
     );
   }
 
