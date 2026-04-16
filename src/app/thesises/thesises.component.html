@@ -55,7 +55,8 @@
       }
     </div>
   </mat-tab>
-  <mat-tab label="{{'As Supervisor (' + asSupervisor()?.length + ')'}}">
+  @if (authService.getRole() != 'ADMIN') {
+    <mat-tab label="{{'As Supervisor (' + asSupervisor()?.length + ')'}}">
     <div class="reviews-grid">
       @if (filteredList() && filteredList()!.length > 0) {
         @for (thesis of filteredList(); track thesis.id) {
@@ -72,7 +73,9 @@
       
     </div>
   </mat-tab>
-  <mat-tab label="{{'As Reviewer (' + asReviewer()?.length + ')'}}">
+  }
+  @if (authService.getRole() != 'ADMIN') {
+    <mat-tab label="{{'As Reviewer (' + asReviewer()?.length + ')'}}">
     <div class="reviews-grid">
       @if (filteredList() && filteredList()!.length > 0) {
         @for (thesis of filteredList(); track thesis.id) {
@@ -88,7 +91,9 @@
   
     </div>
   </mat-tab>
-  <mat-tab label="{{'As Committee (' + asCommittee()?.length + ')'}}">
+  }
+  @if (authService.getRole() != 'ADMIN') {
+      <mat-tab label="{{'As Committee (' + asCommittee()?.length + ')'}}">
     <div class="reviews-grid">
       @if (filteredList() && filteredList()!.length > 0) {
         @for (thesis of filteredList(); track thesis.id) {
@@ -104,5 +109,6 @@
       
     </div>
   </mat-tab>
+  }
 </mat-tab-group>
 

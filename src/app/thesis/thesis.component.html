@@ -28,20 +28,15 @@
     </div>
   </div>
 
-
-
-
- 
-
   @if (thesis()!.roles.includes('REVIEWER')) {
       <ng-container>
       <app-reviewer-thesis-view [thesis]="thesis()!"></app-reviewer-thesis-view>
     </ng-container>
-  } @else if (thesis()!.roles.includes('SUPERVISOR') && !thesis()!.roles.includes('COMMITTEE_MEMBER')) {
+  } @else if (thesis()!.roles.includes('SUPERVISOR')) {
     <ng-container>
       <app-supervisor-thesis-view [thesis]="thesis()!"></app-supervisor-thesis-view>
     </ng-container>
-  } @else if (!thesis()!.roles.includes('SUPERVISOR') && thesis()!.roles.includes('COMMITTEE_MEMBER')) {
+  } @else if (thesis()!.roles.includes('COMMITTEE_MEMBER')) {
         <ng-container>
       <app-committee-member-thesis-view [thesis]="thesis()!"></app-committee-member-thesis-view>
     </ng-container>
@@ -49,15 +44,13 @@
       <ng-container>
       <app-head-of-committee-thesis-view [thesis]="thesis()!"></app-head-of-committee-thesis-view>
     </ng-container>
-  } @else if (thesis()!.roles.includes('SUPERVISOR') && thesis()!.roles.includes('COMMITTEE_MEMBER')) {
-    <ng-container>
-      <app-supervisor-committee-thesis-view [thesis]="thesis()!">
-
-      </app-supervisor-committee-thesis-view>
-    </ng-container>
   } @else if (thesis()!.roles.includes('CO-SUPERVISOR')) {
     <ng-container>
       <app-co-supervisor-thesis-view [thesis]="thesis()!"></app-co-supervisor-thesis-view>
+    </ng-container>
+  } @else if (authService.getRole() === 'ADMIN') {
+    <ng-container>
+      <app-admin-thesis-view [thesis]="thesis()!"></app-admin-thesis-view>
     </ng-container>
   }
 

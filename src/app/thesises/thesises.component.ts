@@ -25,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { computed } from '@angular/core';
 import { Session } from '../sessions/session';
 import { SessionService } from '../sessions/sessions.service';
+import { AuthService } from '../auth/auth.service';
 
 
 @Component({
@@ -55,6 +56,7 @@ export class ThesisesComponent implements OnInit{
   private thesisesService: ThesisesService = inject(ThesisesService);
   private thesisService: ThesisService = inject(ThesisService);
   private sessionService: SessionService = inject(SessionService);
+  authService = inject(AuthService);
 
 
   filteredList = computed(() => {
