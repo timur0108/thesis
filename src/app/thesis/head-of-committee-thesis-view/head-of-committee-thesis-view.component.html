@@ -154,7 +154,7 @@
       <mat-card class="committee-container grade-card mb-5" appearance="outlined">
         
     
-  @if (!finalGrade() && unsubmittedCommitteeMembers()!.length == 0 && (ownGrade() || thesis.roles.includes('CO_SUPERVISOR') || thesis.roles.includes('SUPERVISOR'))) {
+  @if (!finalGrade() && unsubmittedCommitteeMembers()!.length == 0 && (ownGrade() || thesis.roles.includes('CO-SUPERVISOR') || thesis.roles.includes('SUPERVISOR'))) {
     <div class="consensus-block">
   <mat-icon>analytics</mat-icon>
     <div>
@@ -219,7 +219,7 @@
         <span class="final-grade">
           {{ getFinalGrade(grade) }}
         </span>
-        @if (!finalGrade() && !thesis.roles.includes('CO_SUPERVISOR') && !thesis.roles.includes('SUPERVISOR')) {
+        @if (!finalGrade() && !thesis.roles.includes('CO-SUPERVISOR') && !thesis.roles.includes('SUPERVISOR')) {
           <button mat-icon-button (click)="startEdit(grade)">
           <mat-icon>edit</mat-icon>
         </button>
@@ -325,7 +325,7 @@
 
   </div>
 }
-  @if (!ownGrade() && !isGrading && !thesis.roles.includes('SUPERVISOR') && !thesis.roles.includes('CO_SUPERVISOR')) {
+  @if (!ownGrade() && !isGrading && !thesis.roles.includes('SUPERVISOR') && !thesis.roles.includes('CO-SUPERVISOR')) {
   <button mat-raised-button (click)="startReview()">Start Review</button>
 }
 
@@ -450,7 +450,7 @@
   <span>
     @if (unsubmittedCommitteeMembers()!.length > 0) {
       Cannot submit final grade until all committee members submit their grades
-    } @else if (!ownGrade() && !thesis.roles.includes('SUPERVISOR') && !thesis.roles.includes('CO_SUPERVISOR')) {
+    } @else if (!ownGrade() && !thesis.roles.includes('SUPERVISOR') && !thesis.roles.includes('CO-SUPERVISOR')) {
       Cannot submit final grade until you submit your evaluation
     } @else {
       Cannot submit final grade until all committee members reach consensus on all grade aspects

@@ -110,3 +110,28 @@ mat-icon {
 .roles {
   margin-top: 12px;
 }
+.role-supervisor.mdc-evolution-chip {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+}
+
+.role-co-supervisor.mdc-evolution-chip {
+  background-color: #e6f4ea;
+  color: #188038;
+}
+
+.role-reviewer.mdc-evolution-chip {
+  background-color: #f3e8ff;
+  color: #9333ea;
+}
+
+.role-head.mdc-evolution-chip {
+  background-color: #fdecea;
+  color: #d93025;
+  font-weight: 600;
+}
+
+.role-member.mdc-evolution-chip {
+  background-color: #f1f3f4;
+  color: #5f6368;
+}

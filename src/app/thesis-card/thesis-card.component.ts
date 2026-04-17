@@ -16,4 +16,21 @@ import { MatDivider } from '@angular/material/divider';
 })
 export class ThesisCardComponent {
   @Input() thesis!: Thesis;
+
+  getRoleClass(role: string): string {
+    switch (role) {
+      case 'SUPERVISOR':
+        return 'role-supervisor';
+      case 'CO-SUPERVISOR':
+        return 'role-co-supervisor';
+      case 'REVIEWER':
+        return 'role-reviewer';
+      case 'HEAD_OF_COMMITTEE':
+        return 'role-head';
+      case 'COMMITTEE_MEMBER':
+        return 'role-member';
+      default:
+        return '';
+    }
+  }
 }

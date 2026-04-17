@@ -49,9 +49,24 @@
             <p>You currently don’t have any theses to review.</p>
           </div>
       } @else {
-        @for (thesis of filteredList(); track thesis.id) {
+        <div class="sessions-container">
+  @for (group of groupedBySession(); track group.sessionId) {
+    <div class="session-group">
+
+      <div class="session-header">
+        <h3>{{ 'Session: ' + getSessionLabel(group.sessionId) }}</h3>
+        <span class="count">{{ group.theses.length }} theses</span>
+      </div>
+
+      <div class="reviews-grid">
+        @for (thesis of group.theses; track thesis.id) {
           <app-thesis-card [thesis]="thesis"></app-thesis-card>
         }
+      </div>
+
+    </div>
+  }
+</div>
       }
     </div>
   </mat-tab>
@@ -59,9 +74,24 @@
     <mat-tab label="{{'As Supervisor (' + asSupervisor()?.length + ')'}}">
     <div class="reviews-grid">
       @if (filteredList() && filteredList()!.length > 0) {
-        @for (thesis of filteredList(); track thesis.id) {
+        <div class="sessions-container">
+  @for (group of groupedBySession(); track group.sessionId) {
+    <div class="session-group">
+
+      <div class="session-header">
+        <h3>{{ getSessionLabel(group.sessionId) }}</h3>
+        <span class="count">{{ group.theses.length }} theses</span>
+      </div>
+
+      <div class="reviews-grid">
+        @for (thesis of group.theses; track thesis.id) {
           <app-thesis-card [thesis]="thesis"></app-thesis-card>
-        }    
+        }
+      </div>
+
+    </div>
+  }
+</div>  
       } @else {
         
         <div class="empty-state">
@@ -78,9 +108,24 @@
     <mat-tab label="{{'As Reviewer (' + asReviewer()?.length + ')'}}">
     <div class="reviews-grid">
       @if (filteredList() && filteredList()!.length > 0) {
-        @for (thesis of filteredList(); track thesis.id) {
+      <div class="sessions-container">
+  @for (group of groupedBySession(); track group.sessionId) {
+    <div class="session-group">
+
+      <div class="session-header">
+        <h3>{{ getSessionLabel(group.sessionId) }}</h3>
+        <span class="count">{{ group.theses.length }} theses</span>
+      </div>
+
+      <div class="reviews-grid">
+        @for (thesis of group.theses; track thesis.id) {
           <app-thesis-card [thesis]="thesis"></app-thesis-card>
         }
+      </div>
+
+    </div>
+  }
+</div>
       } @else {
         <div class="empty-state">
           <mat-icon>folder_open</mat-icon>
@@ -96,9 +141,24 @@
       <mat-tab label="{{'As Committee (' + asCommittee()?.length + ')'}}">
     <div class="reviews-grid">
       @if (filteredList() && filteredList()!.length > 0) {
-        @for (thesis of filteredList(); track thesis.id) {
+      <div class="sessions-container">
+  @for (group of groupedBySession(); track group.sessionId) {
+    <div class="session-group">
+
+      <div class="session-header">
+        <h3>{{ getSessionLabel(group.sessionId) }}</h3>
+        <span class="count">{{ group.theses.length }} theses</span>
+      </div>
+
+      <div class="reviews-grid">
+        @for (thesis of group.theses; track thesis.id) {
           <app-thesis-card [thesis]="thesis"></app-thesis-card>
         }
+      </div>
+
+    </div>
+  }
+</div>
       } @else {
         <div class="empty-state">
           <mat-icon>folder_open</mat-icon>

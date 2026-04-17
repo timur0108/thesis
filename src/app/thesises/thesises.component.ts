@@ -58,6 +58,35 @@ export class ThesisesComponent implements OnInit{
   private sessionService: SessionService = inject(SessionService);
   authService = inject(AuthService);
 
+  groupedBySession = computed(() => {
+    const list = this.filteredList();
+
+    const map = new Map<number | null, Thesis[]>();
+
+    for (const thesis of list) {
+      const key = thesis.sessionId ?? null;
+
+      if (!map.has(key)) {
+        map.set(key, []);
+      }
+
+      map.get(key)!.push(thesis);
+    }
+
+    return Array.from(map.entries()).map(([sessionId, theses]) => ({
+      sessionId,
+      theses
+    }));
+  });
+
+  getSessionLabel(sessionId: number | null): string {
+    if (!sessionId) return 'No Session';
+
+    const session = this.sessions()?.find(s => s.id === sessionId);
+    return session
+      ? `${session.startDate} → ${session.endDate}`
+      : 'Unknown Session';
+  }
 
   filteredList = computed(() => {
     let list: Thesis[] = [];

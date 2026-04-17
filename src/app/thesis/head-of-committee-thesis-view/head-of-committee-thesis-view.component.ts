@@ -283,7 +283,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
 
     const isSupervisor =
     this.thesis.roles.includes('SUPERVISOR') ||
-    this.thesis.roles.includes('CO_SUPERVISOR');
+    this.thesis.roles.includes('CO-SUPERVISOR');
 
     if (!members || members.length === 0 || (!own && !isSupervisor)) {
       console.error('Cannot submit final grade: missing grades.');
@@ -335,7 +335,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
 
     const isSupervisor =
     this.thesis.roles.includes('SUPERVISOR') ||
-    this.thesis.roles.includes('CO_SUPERVISOR');
+    this.thesis.roles.includes('CO-SUPERVISOR');
 
     if (!members || members.length === 0) {
       return false;

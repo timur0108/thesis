@@ -65,7 +65,7 @@
   <div class="roles" *ngIf="thesis.roles?.length">
   
     <mat-chip-set>
-      <mat-chip *ngFor="let role of thesis.roles">
+      <mat-chip *ngFor="let role of thesis.roles" [ngClass]="getRoleClass(role)">
         {{ role.replaceAll('_', ' ') }}
       </mat-chip>
     </mat-chip-set>
