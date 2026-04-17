@@ -98,7 +98,7 @@
 
     <div class="roles-list">
       @for (role of thesis.roles; track role) {
-        <span class="role-chip">{{ role }}</span>
+        <span class="role-chip">{{ role.replaceAll('_', ' ') }}</span>
       }
     </div>
   </div>
