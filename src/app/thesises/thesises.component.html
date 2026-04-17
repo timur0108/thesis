@@ -3,7 +3,7 @@
   <p>Manage and grade theses assigned to you</p>
 </div>
 
-<div class="filters">
+<div class="filters d-flex flex-row align-items-center">
   <mat-form-field appearance="outline">
     <mat-label>Search</mat-label>
     <input [value]="searchTerm()"  matInput (input)="onSearch($event)" placeholder="Search by title or student">
@@ -54,9 +54,15 @@
     <div class="session-group">
 
       <div class="session-header">
-        <h3>{{ 'Session: ' + getSessionLabel(group.sessionId) }}</h3>
-        <span class="count">{{ group.theses.length }} theses</span>
-      </div>
+  <div class="session-title">
+    
+    <span class="session-dates">
+      {{ getSessionLabel(group.sessionId) }}
+    </span>
+  </div>
+
+  <span class="count">{{ group.theses.length }} theses</span>
+</div>
 
       <div class="reviews-grid">
         @for (thesis of group.theses; track thesis.id) {
@@ -79,9 +85,15 @@
     <div class="session-group">
 
       <div class="session-header">
-        <h3>{{ getSessionLabel(group.sessionId) }}</h3>
-        <span class="count">{{ group.theses.length }} theses</span>
-      </div>
+  <div class="session-title">
+   
+    <span class="session-dates">
+      {{ getSessionLabel(group.sessionId) }}
+    </span>
+  </div>
+
+  <span class="count">{{ group.theses.length }} theses</span>
+</div>
 
       <div class="reviews-grid">
         @for (thesis of group.theses; track thesis.id) {
@@ -113,9 +125,15 @@
     <div class="session-group">
 
       <div class="session-header">
-        <h3>{{ getSessionLabel(group.sessionId) }}</h3>
-        <span class="count">{{ group.theses.length }} theses</span>
-      </div>
+  <div class="session-title">
+    
+    <span class="session-dates">
+      {{ getSessionLabel(group.sessionId) }}
+    </span>
+  </div>
+
+  <span class="count">{{ group.theses.length }} theses</span>
+</div>
 
       <div class="reviews-grid">
         @for (thesis of group.theses; track thesis.id) {
@@ -146,9 +164,15 @@
     <div class="session-group">
 
       <div class="session-header">
-        <h3>{{ getSessionLabel(group.sessionId) }}</h3>
-        <span class="count">{{ group.theses.length }} theses</span>
-      </div>
+  <div class="session-title">
+    
+    <span class="session-dates">
+      {{ getSessionLabel(group.sessionId) }}
+    </span>
+  </div>
+
+  <span class="count">{{ group.theses.length }} theses</span>
+</div>
 
       <div class="reviews-grid">
         @for (thesis of group.theses; track thesis.id) {

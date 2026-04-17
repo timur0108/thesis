@@ -20,6 +20,7 @@ import { ThesisOverviewComponent } from '../../thesis-overview/thesis-overview.c
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { CommitteeMemberGradeDialogComponent } from '../../committee-member-grade-dialog/committee-member-grade-dialog.component';
+import { SnackbarService } from '../../snackbar/snackbar.service';
 
 @Component({
   selector: 'app-committee-member-thesis-view',
@@ -32,6 +33,7 @@ import { CommitteeMemberGradeDialogComponent } from '../../committee-member-grad
 })
 export class CommitteeMemberThesisViewComponent implements OnInit{
   @Input() thesis!: Thesis;
+  private snackbar = inject(SnackbarService);
   reviewerGrade = signal<ReviewerGrade | null>(null);
   ownGrade = signal<CommitteeMemberGrade | null>(null);
   committeeMemberGrades = signal<CommitteeMemberGrade[] | null>(null);
@@ -82,6 +84,7 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
       : this.gradingService.submitCommitteeMemberGrade(grade);
 
     request.subscribe(res => {
+      this.snackbar.showSuccess('Grade submitted');
       this.ownGrade.set(res);
     });
   });
@@ -96,6 +99,7 @@ export class CommitteeMemberThesisViewComponent implements OnInit{
       next: (res) => {
         this.ownGrade.set(res);
         this.isGrading = false;
+        this.snackbar.showSuccess('Grade submitted');
       }
     })
   }

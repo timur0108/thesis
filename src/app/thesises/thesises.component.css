@@ -119,3 +119,98 @@
     transform: translateY(0);
   }
 }
+
+/* Session header container */
+.session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+/* Left side grouping */
+.session-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* "Session" label */
+.session-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #5f6368;
+}
+
+/* Date range (main focus) */
+.session-dates {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+
+  background: linear-gradient(135deg, #e8f0fe, #eef3ff);
+  color: #1a73e8;
+
+  border: 1px solid rgba(26, 115, 232, 0.15);
+}
+
+.session-group {
+  padding: 20px;
+  border-radius: 16px;
+
+  /* stronger contrast */
+  background: #ffffff;
+  border: 1px solid #e6e8f0;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.session-group {
+  position: relative;
+  padding-left: 24px;
+}
+
+.session-group::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 3px;
+
+  background: linear-gradient(
+    180deg,
+    #1a73e8,
+    #7b1fa2
+  );
+
+  opacity: 0.7;
+}
+
+.session-header {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+
+  border-bottom: 1px solid #eef0f6;
+}
+
+.session-header .count {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 999px;
+
+  background: #e8f0fe;
+  color: #1a73e8;
+
+  font-weight: 600;
+}

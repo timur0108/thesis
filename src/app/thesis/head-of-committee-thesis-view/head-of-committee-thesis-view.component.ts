@@ -29,6 +29,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FinalGradeConfirmationModalComponent } from '../../final-grade-confirmation-modal/final-grade-confirmation-modal.component';
 import { CommitteeMemberGradeDialogComponent } from '../../committee-member-grade-dialog/committee-member-grade-dialog.component';
 import { AddThesisDialogComponent } from '../../add-thesis-dialog/add-thesis-dialog.component';
+import { SnackbarService } from '../../snackbar/snackbar.service';
 
 @Component({
   selector: 'app-head-of-committee-thesis-view',
@@ -39,6 +40,7 @@ import { AddThesisDialogComponent } from '../../add-thesis-dialog/add-thesis-dia
 })
 export class HeadOfCommitteeThesisViewComponent implements OnInit{
   @Input() thesis!: Thesis;
+  private snackbar = inject(SnackbarService);
   userService: UserService = inject(UserService);
   gradingService: GradingService = inject(GradingService);
   committeeMemberGrades = signal<CommitteeMemberGrade[] | null>(null);
@@ -92,6 +94,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
         next: (res) => this.reviewerGrade.set(res)
       })
         }
+        this.snackbar.showSuccess('Form submitted')
       });
     }
 
@@ -176,6 +179,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
 
       this.isGrading = false;
       this.editingGrade.set(null);
+      this.snackbar.showSuccess('Grade changed');
     }
   });
 }
@@ -189,6 +193,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
       next: (res) => {
         this.ownGrade.set(res);
         this.isGrading = false;
+        this.snackbar.showSuccess('Grade submitted');
       }
     })
   }
@@ -218,6 +223,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
 
     this.gradingService.submitCommitteeMemberGrade(grade).subscribe({
       next: (res) => {
+        this.snackbar.showSuccess('Grade submitted');
         this.ownGrade.set(res);
       }
     });
@@ -319,6 +325,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
 
     this.gradingService.submitFinalGrade(finalGrade).subscribe({
       next: (res) => {
+        this.snackbar.showSuccess('Final grade submitted')
         this.finalGrade.set(res);
         this.isGrading = false;
         window.location.reload();
@@ -418,6 +425,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
             list?.map(g => g.id === grade.id ? res : g) ?? null
           );
         }
+        this.snackbar.showSuccess('Grade changed')
       }
     });
   });

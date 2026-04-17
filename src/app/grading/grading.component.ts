@@ -13,6 +13,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { Thesis } from '../thesis/thesis';
 import { GradingService } from './grading.service';
 import { HasAuthorityDirective } from '../auth/has-authority.directive';
+import { SnackbarService } from '../snackbar/snackbar.service';
 
 @Component({
   selector: 'app-grading',
@@ -23,7 +24,7 @@ import { HasAuthorityDirective } from '../auth/has-authority.directive';
 export class GradingComponent implements OnInit{
   
   @Input() thesis!: Thesis;
-  
+  private snackbar = inject(SnackbarService);
   readonly dialog = inject(MatDialog);
   private gradingService: GradingService = inject(GradingService);
   gradeSubmitted = output<ReviewerGrade>();
@@ -72,6 +73,7 @@ export class GradingComponent implements OnInit{
 
     this.gradingService.submitReviewerGrade(grade).subscribe({
       next: (data) => {
+        this.snackbar.showSuccess('Evaluation submitted')
         this.gradeSubmitted.emit(data);
       }
     });

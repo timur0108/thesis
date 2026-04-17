@@ -17,10 +17,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { AddThesisDialogComponent } from '../../add-thesis-dialog/add-thesis-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../snackbar/snackbar.service';
 
 @Component({
   selector: 'app-supervisor-thesis-view',
-  imports: [MatDialogModule, MatButtonModule, ThesisOverviewComponent, MatDivider, MatIconModule, CommonModule, MatSpinner, MatTabsModule, MatCardModule],
+  imports: [MatSnackBarModule, MatDialogModule, MatButtonModule, ThesisOverviewComponent, MatDivider, MatIconModule, CommonModule, MatSpinner, MatTabsModule, MatCardModule],
   templateUrl: './supervisor-thesis-view.component.html',
   styleUrl: './supervisor-thesis-view.component.css'
 })
@@ -33,6 +35,7 @@ export class SupervisorThesisViewComponent implements OnInit {
   committeeMemberGrades = signal<CommitteeMemberGrade[] | null>(null);
   reviewerGrade = signal<ReviewerGrade | null>(null);
   private dialog = inject(MatDialog);
+  private snackbar = inject(SnackbarService);
 
   ngOnInit(): void {
     this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
@@ -89,6 +92,7 @@ export class SupervisorThesisViewComponent implements OnInit {
         this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
       next: (res) => {
         this.supervisorForm.set(res);
+        this.snackbar.showSuccess('Supervisor form submitted');
         console.log(this.supervisorForm())
       }
       })
