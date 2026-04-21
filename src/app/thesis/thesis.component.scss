@@ -272,3 +272,11 @@ mat-divider {
   color: var(--text-muted);
   font-style: italic;
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  width: 100%;
+}
