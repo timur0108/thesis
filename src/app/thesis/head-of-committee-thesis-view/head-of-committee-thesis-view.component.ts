@@ -82,6 +82,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
           this.supervisorFormService.getSupervisorForm(this.thesis.id).subscribe({
         next: (res) => {
           this.supervisorForm.set(res);
+          this.snackbar.showSuccess('Form submitted')
           console.log(this.supervisorForm())
         }
         })
@@ -94,7 +95,7 @@ export class HeadOfCommitteeThesisViewComponent implements OnInit{
         next: (res) => this.reviewerGrade.set(res)
       })
         }
-        this.snackbar.showSuccess('Form submitted')
+        
       });
     }
 
